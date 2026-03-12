@@ -1,0 +1,265 @@
+# Configuration for Tree Microhabitat & Species Explorer
+
+# Main application settings
+app:
+  title: "Tree Microhabitat & Species Explorer"
+  subtitle: "Explore relationships between tree microhabitats (TreMs) and associated species"
+  data_file: "data/Tree_TreMs_species spreadsheet.csv"
+  data_version: "1.0"
+  cache_file: "cache/species_cards.rds"
+
+# Habitat filter groups (accordion panels)
+habitat_groups:
+  - id: tree_context
+    title: "Tree Context"
+    icon: "tree"
+    categories:
+      - title: "Tree Species"
+        filters:
+          - id: tree_oak
+            label: "Oak"
+            column: "Tree species"
+            search_term: "oak"
+          - id: tree_beech
+            label: "Beech"
+            column: "Tree species"
+            search_term: "beech"
+          - id: tree_birch
+            label: "Birch"
+            column: "Tree species"
+            search_term: "birch"
+          - id: tree_ash
+            label: "Ash"
+            column: "Tree species"
+            search_term: "ash"
+      
+      - title: "Woodland Type"
+        filters:
+          - id: woodland
+            label: "Woodland"
+            column: "woodland"
+          - id: parkland
+            label: "Parkland"
+            column: "parkland/open grown"
+          - id: tow
+            label: "Trees Outside Woodland"
+            column: "ToW"
+      
+      - title: "Tree Age"
+        filters:
+          - id: ancient
+            label: "Ancient"
+            column: "woodland age"
+            search_term: "ancient"
+          - id: veteran
+            label: "Veteran"
+            column: "Tree age"
+            search_term: "veteran"
+          - id: old
+            label: "Old"
+            column: "woodland age"
+            search_term: "old"
+  
+  - id: tree_parts
+    title: "Tree Parts & Position"
+    icon: "circle-nodes"
+    categories:
+      - title: "Location"
+        filters:
+          - id: trunks
+            label: "Trunks"
+            column: "part of tree"
+            search_term: "trunks"
+          - id: branches
+            label: "Branches"
+            column: "part of tree"
+            search_term: "branches"
+          - id: roots
+            label: "Roots"
+            column: "part of tree"
+            search_term: "roots"
+          - id: stumps
+            label: "Stumps"
+            column: "part of tree"
+            search_term: "stumps"
+          - id: canopy
+            label: "Canopy"
+            column: "part of tree"
+            search_term: "canopy"
+      
+      - title: "Position"
+        filters:
+          - id: standing
+            label: "Standing"
+            column: "standing / fallen"
+            search_term: "standing"
+          - id: fallen
+            label: "Fallen"
+            column: "standing / fallen"
+            search_term: "fallen"
+  
+  - id: condition_decay
+    title: "Condition & Decay"
+    icon: "wind"
+    categories:
+      - title: "Wood State"
+        filters:
+          - id: living
+            label: "Living"
+            column: "Dead wood"
+            search_term: "living"
+          - id: dead
+            label: "Dead"
+            column: "Dead wood"
+            search_term: "dead"
+          - id: decaying
+            label: "Decaying"
+            column: "Dead wood"
+            search_term: "decaying"
+          - id: dying
+            label: "Dying"
+            column: "Dead wood"
+            search_term: "dying"
+      
+      - title: "Decay Types"
+        filters:
+          - id: heart_rot
+            label: "Heart Rot"
+            column: "Heart Rot"
+          - id: red_rot
+            label: "Red Rot"
+            column: "Red-rot"
+          - id: white_rot
+            label: "White Rot"
+            column: "White-rot"
+          - id: wood_mould
+            label: "Wood Mould"
+            column: "Wood mould"
+          - id: root_decay
+            label: "Root Decay"
+            column: "root decay"
+  
+  - id: microhabitats
+    title: "Microhabitats"
+    icon: "house-chimney-crack"
+    categories:
+      - title: "Cavities & Holes"
+        filters:
+          - id: hollow_cavity
+            label: "Hollow Tree Cavity"
+            column: "tree hollows"
+          - id: nest_cavity
+            label: "Nest Cavity"
+            column: "hole with nest"
+          - id: rot_holes
+            label: "Rot Holes"
+            column: "rot holes"
+          - id: concavity
+            label: "Concavity"
+            column: "concavity"
+          - id: tree_hollows
+            label: "Tree Hollows"
+            column: "tree hollows"
+      
+      - title: "Other"
+        filters:
+          - id: borings
+            label: "Borings"
+            column: "Borings"
+          - id: holes
+            label: "Holes"
+            column: "cavity"
+  
+  - id: surface_features
+    title: "Surface Features"
+    icon: "grip-lines"
+    categories:
+      - title: "Bark Features"
+        filters:
+          - id: loose_bark
+            label: "Loose Bark"
+            column: "loose bark"
+          - id: bark_assoc
+            label: "Bark Association"
+            column: "bark association"
+          - id: bark_trem
+            label: "Bark TreM"
+            column: "bark trem"
+      
+      - title: "Damage & Features"
+        filters:
+          - id: injuries
+            label: "Injuries"
+            column: "Injury"
+          - id: physical_damage
+            label: "Physical Damage"
+            column: "Physical damage"
+          - id: crevices
+            label: "Crevices"
+            column: "crevices"
+          - id: dead_canopy
+            label: "Dead Canopy"
+            column: "dead canopy"
+          - id: excrescences
+            label: "Excrescences"
+            column: "excrescences"
+  
+  - id: biological_features
+    title: "Biological Features"
+    icon: "seedling"
+    categories:
+      - title: "Epiphytes"
+        filters:
+          - id: mosses
+            label: "Mosses"
+            column: "Epiphytes"
+            search_term: "mosses"
+          - id: lichens
+            label: "Lichens"
+            column: "Epiphytes"
+            search_term: "lichens"
+          - id: ivy
+            label: "Ivy"
+            column: "Epiphytes"
+            search_term: "ivy"
+          - id: nests
+            label: "Nests"
+            column: "nests"
+          - id: ferns
+            label: "Ferns"
+            column: "Epiphytes"
+            search_term: "ferns"
+      
+      - title: "Fungi"
+        filters:
+          - id: bracket_fungus
+            label: "Bracket Fungus"
+            column: "fungal fruiting body"
+            search_term: "bracket"
+          - id: perennial_fungi
+            label: "Perennial Fungi"
+            column: "perennial fungi"
+          - id: ephemeral_fungi
+            label: "Ephemeral Fungi"
+            column: "ephemeral fungi"
+          - id: fungal_fruiting
+            label: "Fungal Fruiting Bodies"
+            column: "fungal fruiting body"
+      
+      - title: "Other"
+        filters:
+          - id: exudates
+            label: "Exudates"
+            column: "exudates"
+          - id: flowers_nectar
+            label: "Flowers/Nectar"
+            column: "Flowers/nectar?"
+
+# Color theme
+theme:
+  forest_dark: "#2c3e2f"
+  forest_medium: "#4a6741"
+  forest_light: "#7a9d72"
+  bark_brown: "#8b7355"
+  stone_grey: "#5a5a5a"
+  light_grey: "#e8e8e8"
