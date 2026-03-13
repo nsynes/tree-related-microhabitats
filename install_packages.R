@@ -1,4 +1,4 @@
-# Install Required Packages for Tree Microhabitat & Species Explorer
+# Install Required Packages for Tree-related Microhabitat & Species Explorer
 # Run this script once before running the app
 
 # List of required packages
@@ -7,7 +7,8 @@ required_packages <- c(
   "bslib",
   "shinyjs",
   "dplyr",
-  "yaml"
+  "yaml",
+  "digest"
 )
 
 # Function to check and install packages

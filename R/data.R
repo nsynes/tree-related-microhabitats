@@ -1,5 +1,8 @@
-# Data Loading and Processing
-# Functions for loading species data, caching, and habitat computation
+# Data Loading and Processing (Production Mode)
+# This file contains only functions needed for production deployment
+# For cache building, see: build_cache.R
+
+library(digest)
 
 # Helper function to safely extract and convert to character
 safe_extract <- function(row, col_name, default = "") {
@@ -39,42 +42,43 @@ compute_species_habitats <- function(species_row, habitat_mapping) {
   paste(matching_habitats, collapse = ",")
 }
 
-# Load or build cached species data
+# Load cached species data (Production Mode)
+# This function expects a pre-built cache file to exist
+# Use build_cache.R to create the cache locally before deployment
 load_species_data <- function(config, habitat_mapping) {
   cache_file <- config$app$cache_file
-  data_version <- config$app$data_version
   
-  # Check if cache exists and is valid
-  if(file.exists(cache_file)) {
+  # Check if cache exists
+  if(!file.exists(cache_file)) {
+    stop("Cache file not found: ", cache_file, "\n",
+         "Run 'source(\"build_cache.R\")' locally to build cache first.")
+  }
+  
+  # Load cache
+  tryCatch({
     cat("Loading species data from cache...\n")
     cached <- readRDS(cache_file)
     
-    # Verify version matches
-    if(!is.null(cached$version) && cached$version == data_version) {
-      cat("Cache is valid (version", data_version, ")\n")
-      return(cached$data)
-    } else {
-      cat("Cache version mismatch. Rebuilding...\n")
+    # Validate cache structure
+    if(is.null(cached$data)) {
+      stop("Invalid cache file format - missing data")
     }
-  }
-  
-  # Cache doesn't exist or is invalid - build it
-  cat("Building species data and cache...\n")
-  
-  # Load species data from CSV
-  species_data <- read.csv(config$app$data_file, 
-                           stringsAsFactors = FALSE, 
-                           check.names = FALSE)
-  
-  # Add habitat data to each species
-  species_data$habitats <- sapply(1:nrow(species_data), function(i) {
-    compute_species_habitats(species_data[i, ], habitat_mapping)
+    
+    cat("✓ Loaded", nrow(cached$data), "species from cache\n")
+    
+    # Display cache metadata if available
+    if(!is.null(cached$created)) {
+      cat("  Cache created:", format(cached$created), "\n")
+    }
+    if(!is.null(cached$nrows) && !is.null(cached$ncols)) {
+      cat("  Dataset size:", cached$nrows, "rows ×", cached$ncols, "columns\n")
+    }
+    
+    return(cached$data)
+    
+  }, error = function(e) {
+    stop("Failed to load cache file: ", cache_file, "\n",
+         "Error: ", conditionMessage(e), "\n",
+         "Try rebuilding cache with: source('build_cache.R')")
   })
-  
-  # Save to cache
-  dir.create(dirname(cache_file), showWarnings = FALSE, recursive = TRUE)
-  saveRDS(list(version = data_version, data = species_data), cache_file)
-  cat("Cache saved to", cache_file, "\n")
-  
-  return(species_data)
 }

@@ -186,6 +186,77 @@ generate_css <- function(theme) {
       background-color: var(--light-grey);
       border-radius: 4px;
     }
+    
+    .no-filters-message {
+      display: none;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    
+    .empty-state {
+      color: var(--stone-grey);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    .empty-state-icon {
+      font-size: 3em;
+      color: var(--forest-light);
+      margin-bottom: 20px;
+      opacity: 0.6;
+    }
+    
+    .empty-state h3 {
+      color: var(--forest-dark);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    
+    .empty-state p {
+      font-size: 0.95em;
+      line-height: 1.5;
+      opacity: 0.8;
+    }
+    
+    .habitat-details {
+      margin-top: 12px;
+      font-size: 0.85em;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 8px;
+    }
+    
+    .habitat-details summary {
+      cursor: pointer;
+      color: var(--forest-medium);
+      font-weight: 500;
+      padding: 5px 8px;
+      border-radius: 4px;
+      user-select: none;
+      transition: background-color 0.2s;
+      list-style-position: inside;
+    }
+    
+    .habitat-details summary:hover {
+      background-color: var(--light-grey);
+    }
+    
+    .habitat-details summary::-webkit-details-marker {
+      color: var(--forest-light);
+    }
+    
+    .habitat-details[open] summary {
+      margin-bottom: 8px;
+    }
+    
+    .habitat-text {
+      padding: 10px 12px;
+      background-color: #f9f9f9;
+      border-left: 3px solid var(--forest-light);
+      border-radius: 4px;
+      line-height: 1.5;
+      color: var(--stone-grey);
+      font-size: 0.95em;
+    }
   ", theme$forest_dark, theme$forest_medium, theme$forest_light, 
      theme$bark_brown, theme$stone_grey, theme$light_grey)
 }
@@ -211,4 +282,79 @@ generate_group_ui <- function(group) {
       lapply(group$categories, generate_category_ui)
     )
   )
+}
+
+# Helper function to safely extract and convert to character (from R/data.R)
+safe_extract <- function(row, col_name, default = "") {
+  val <- row[[col_name]]
+  if(is.null(val) || length(val) == 0 || is.na(val)) {
+    return(default)
+  }
+  as.character(val)
+}
+
+# Generate HTML for all species cards (for caching)
+generate_species_cards_html <- function(species_data) {
+  cards_html <- sapply(1:nrow(species_data), function(i) {
+    row <- species_data[i, ]
+    
+    sci_name <- safe_extract(row, "Scientific name", "Unknown")
+    common_name <- safe_extract(row, "Common name", "")
+    class_name <- safe_extract(row, "Class", "")
+    family_name <- safe_extract(row, "Family", "")
+    habitat_req <- safe_extract(row, "Habitat requirements", "")
+    habitats <- row$habitats
+    
+    # Build HTML string
+    html_parts <- c(
+      sprintf('<div class="species-card hidden" id="species-%d" data-habitats="%s">', 
+              i, habitats),
+      sprintf('  <div class="species-scientific">%s</div>', sci_name)
+    )
+    
+    # Add common name if present
+    if(common_name != "") {
+      html_parts <- c(html_parts, 
+                     sprintf('  <div class="species-common">%s</div>', common_name))
+    }
+    
+    # Add tags if present
+    if(class_name != "" || family_name != "") {
+      html_parts <- c(html_parts, '  <div class="species-tags">')
+      
+      if(class_name != "") {
+        html_parts <- c(html_parts,
+                       sprintf('    <span class="species-tag">%s</span>', class_name))
+      }
+      
+      if(family_name != "") {
+        html_parts <- c(html_parts,
+                       sprintf('    <span class="species-tag family">%s</span>', family_name))
+      }
+      
+      html_parts <- c(html_parts, '  </div>')
+    }
+    
+    # Add habitat requirements if present
+    if(habitat_req != "" && !is.na(habitat_req)) {
+      # Escape HTML special characters in habitat requirements
+      habitat_req_escaped <- gsub("&", "&amp;", habitat_req)
+      habitat_req_escaped <- gsub("<", "&lt;", habitat_req_escaped)
+      habitat_req_escaped <- gsub(">", "&gt;", habitat_req_escaped)
+      habitat_req_escaped <- gsub('"', "&quot;", habitat_req_escaped)
+      
+      html_parts <- c(html_parts,
+        '  <details class="habitat-details">',
+        '    <summary>Habitat Requirements</summary>',
+        sprintf('    <div class="habitat-text">%s</div>', habitat_req_escaped),
+        '  </details>'
+      )
+    }
+    
+    html_parts <- c(html_parts, '</div>')
+    
+    paste(html_parts, collapse = "\n")
+  })
+  
+  paste(cards_html, collapse = "\n")
 }

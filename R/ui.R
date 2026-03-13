@@ -6,7 +6,7 @@ library(bslib)
 library(shinyjs)
 
 # Build the UI
-build_ui <- function(config, species_data) {
+build_ui <- function(config, species_html) {
   page_fillable(
     useShinyjs(),
     
@@ -42,32 +42,84 @@ build_ui <- function(config, species_data) {
         
         uiOutput("results_info"),
         
-        # Pre-rendered species cards
+        # No filters message (shown when no filters selected)
+        div(id = "no_filters_message", class = "no-filters-message",
+          div(class = "empty-state",
+            icon("filter", class = "empty-state-icon"),
+            h3("Select habitat features to find species"),
+            p("Use the filters on the left to discover species associated with specific tree-related microhabitats.")
+          )
+        ),
+        
+        # Pre-cached species cards HTML
         div(id = "species_container", class = "species-grid",
-          lapply(1:nrow(species_data), function(i) {
-            row <- species_data[i, ]
-            sci_name <- safe_extract(row, "Scientific name", "Unknown")
-            common_name <- safe_extract(row, "Common name", "")
-            class_name <- safe_extract(row, "Class", "")
-            family_name <- safe_extract(row, "Family", "")
-            habitats <- row$habitats
+          HTML(species_html)  # Insert pre-built HTML from cache
+        ),
+        
+        # JavaScript for client-side filtering
+        tags$script(HTML("
+          $(document).ready(function() {
+            // Listen for checkbox changes
+            $('input[type=checkbox]').on('change', filterSpecies);
             
-            tags$div(
-              class = "species-card hidden",
-              id = paste0("species-", i),
-              `data-habitats` = habitats,
-              tags$div(class = "species-scientific", sci_name),
-              if(common_name != "") tags$div(class = "species-common", common_name),
-              if(class_name != "" || family_name != "") {
-                tags$div(
-                  class = "species-tags",
-                  if(class_name != "") tags$span(class = "species-tag", class_name),
-                  if(family_name != "") tags$span(class = "species-tag family", family_name)
-                )
-              }
-            )
-          })
-        )
+            // Initial display - hide cards, show message
+            $('.species-card').addClass('hidden');
+            $('#no_filters_message').show();
+            $('#species_container').hide();
+            updateResultsCount();
+          });
+          
+          function filterSpecies() {
+            // Get selected habitat filters
+            var selectedFilters = [];
+            $('input[type=checkbox]:checked').each(function() {
+              selectedFilters.push($(this).attr('id'));
+            });
+            
+            if (selectedFilters.length === 0) {
+              // No filters selected - show message, hide cards
+              $('#no_filters_message').show();
+              $('#species_container').hide();
+              updateResultsCount();
+              return;
+            }
+            
+            // Hide message, show cards container
+            $('#no_filters_message').hide();
+            $('#species_container').show();
+            
+            // Filter species cards
+            $('.species-card').each(function() {
+              var card = $(this);
+              var cardHabitats = (card.data('habitats') || '').toString().split(',');
+              
+              // Check if card matches ALL selected filters
+              var matches = selectedFilters.every(function(filter) {
+                return cardHabitats.indexOf(filter) !== -1;
+              });
+              card.toggleClass('hidden', !matches);
+            });
+            
+            updateResultsCount();
+          }
+          
+          function updateResultsCount() {
+            var selectedFilters = $('input[type=checkbox]:checked').length;
+            var visibleCount = $('.species-card:not(.hidden)').length;
+            var totalCount = $('.species-card').length;
+            
+            var msg;
+            if (selectedFilters === 0) {
+              // No filters selected
+              msg = 'Select habitat features to view matching species (' + totalCount + ' total species available)';
+            } else {
+              // Filters selected
+              msg = 'Showing ' + visibleCount + ' of ' + totalCount + ' species matching selected habitats';
+            }
+            
+            $('#results_info').html('<div class=\"results-info\">' + msg + '</div>');
+          }
+        "))
       )
     )
   )

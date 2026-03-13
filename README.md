@@ -1,8 +1,8 @@
-# Tree Microhabitat & Species Explorer
+# Tree-related Microhabitat & Species Explorer
 
-An R Shiny web application for exploring relationships between tree microhabitats (TreMs) and associated species.
+An R Shiny web application for exploring relationships between Tree-re;ated microhabitats (TreMs) and associated species.
 
-## Features
+## Features00
 
 - **Interactive habitat filtering** - Select habitat features and instantly see matching species
 - **Fast performance** - Pre-rendered cards with CSS show/hide for instant filtering
@@ -76,15 +76,7 @@ The app will:
 
 ### Updating Data
 
-When you update the species data CSV file:
-
-1. Increment the `data_version` in `config.yaml`:
-   ```yaml
-   app:
-     data_version: "1.1"  # Increment this
-   ```
-
-2. Restart the app - it will rebuild the cache automatically
+When you update the species data CSV file, this should be automatically detected when restarting the app as we use a content hash for the CSV file.
 
 ### Modifying Filters
 

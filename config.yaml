@@ -1,11 +1,10 @@
-# Configuration for Tree Microhabitat & Species Explorer
+# Configuration for Tree-related Microhabitat & Species Explorer
 
 # Main application settings
 app:
-  title: "Tree Microhabitat & Species Explorer"
-  subtitle: "Explore relationships between tree microhabitats (TreMs) and associated species"
+  title: "Tree-related Microhabitat & Species Explorer"
+  subtitle: "Explore relationships between Tree-related Microhabitats (TreMs) and associated species"
   data_file: "data/Tree_TreMs_species spreadsheet.csv"
-  data_version: "1.0"
   cache_file: "cache/species_cards.rds"
 
 # Habitat filter groups (accordion panels)
