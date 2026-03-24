@@ -1,0 +1,117 @@
+import { create } from 'zustand';
+
+/**
+ * Zustand store for hierarchical habitat filtering
+ * 
+ * Hierarchy:
+ * Level 1: Woodland Type (required, OR within level)
+ * Level 2: Tree Characteristics (required, OR within level)
+ * Level 3: Microhabitats (optional, OR within level)
+ * 
+ * Logic: (Level1_A OR Level1_B) AND (Level2_A OR Level2_B) AND (Level3_A OR Level3_B OR ALL if none selected)
+ */
+
+const useFilterStore = create((set, get) => ({
+  // State - track filters by hierarchy level
+  level1Filters: new Set(), // Woodland Type
+  level2Filters: new Set(), // Tree Characteristics (species, age, condition)
+  level3Filters: new Set(), // Microhabitats (optional)
+  
+  species: [],
+  filteredSpecies: [],
+  
+  // Actions
+  toggleFilter: (filterId, level) => {
+    const { level1Filters, level2Filters, level3Filters, filterSpecies } = get();
+    
+    let newFilters;
+    if (level === 1) {
+      newFilters = new Set(level1Filters);
+      if (newFilters.has(filterId)) {
+        newFilters.delete(filterId);
+      } else {
+        newFilters.add(filterId);
+      }
+      set({ level1Filters: newFilters });
+    } else if (level === 2) {
+      newFilters = new Set(level2Filters);
+      if (newFilters.has(filterId)) {
+        newFilters.delete(filterId);
+      } else {
+        newFilters.add(filterId);
+      }
+      set({ level2Filters: newFilters });
+    } else if (level === 3) {
+      newFilters = new Set(level3Filters);
+      if (newFilters.has(filterId)) {
+        newFilters.delete(filterId);
+      } else {
+        newFilters.add(filterId);
+      }
+      set({ level3Filters: newFilters });
+    }
+    
+    filterSpecies();
+  },
+  
+  clearFilters: () => {
+    set({ 
+      level1Filters: new Set(), 
+      level2Filters: new Set(), 
+      level3Filters: new Set(), 
+      filteredSpecies: [] 
+    });
+  },
+  
+  setSpecies: (speciesData) => {
+    set({ species: speciesData, filteredSpecies: [] });
+  },
+  
+  filterSpecies: () => {
+    const { level1Filters, level2Filters, level3Filters, species } = get();
+    
+    // No filters at all - show nothing
+    if (level1Filters.size === 0 && level2Filters.size === 0) {
+      set({ filteredSpecies: [] });
+      return;
+    }
+    
+    // Filter species using hierarchical AND/OR logic
+    const filtered = species.filter(s => {
+      // Level 1: Woodland Type (OR within level)
+      // If Level 1 filters selected, species must match at least one
+      const matchesLevel1 = level1Filters.size === 0 || 
+        s.habitats.some(habitat => level1Filters.has(habitat));
+      
+      if (!matchesLevel1) return false;
+      
+      // Level 2: Tree Characteristics (OR within level)
+      // If Level 2 filters selected, species must match at least one
+      const matchesLevel2 = level2Filters.size === 0 || 
+        s.habitats.some(habitat => level2Filters.has(habitat));
+      
+      if (!matchesLevel2) return false;
+      
+      // Level 3: Microhabitats (OR within level, optional)
+      // If Level 3 filters selected, species must match at least one
+      // If NO Level 3 filters selected, all species pass (show all microhabitats)
+      const matchesLevel3 = level3Filters.size === 0 || 
+        s.habitats.some(habitat => level3Filters.has(habitat));
+      
+      if (!matchesLevel3) return false;
+      
+      // Species passed all levels
+      return true;
+    });
+    
+    set({ filteredSpecies: filtered });
+  },
+  
+  // Helper to get total selected filters count
+  getTotalFiltersCount: () => {
+    const { level1Filters, level2Filters, level3Filters } = get();
+    return level1Filters.size + level2Filters.size + level3Filters.size;
+  }
+}));
+
+export default useFilterStore;

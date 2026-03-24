@@ -1,0 +1,569 @@
+/**
+ * Tree Microhabitat Explorer - Theme Styles
+ * Forest-inspired color palette and global styles
+ */
+
+:root {
+  /* Color Theme */
+  --forest-dark: #2c3e2f;
+  --forest-medium: #4a6741;
+  --forest-light: #7a9d72;
+  --bark-brown: #8b7355;
+  --stone-grey: #5a5a5a;
+  --light-grey: #e8e8e8;
+  --white: #ffffff;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+}
+
+/* Global Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  line-height: 1.6;
+  color: var(--stone-grey);
+  background-color: var(--light-grey);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Layout */
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Main Title */
+.main-title {
+  background: linear-gradient(135deg, var(--forest-dark) 0%, var(--forest-medium) 100%);
+  color: var(--white);
+  padding: var(--spacing-md) var(--spacing-lg);
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-title h1 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Two Column Layout */
+.app-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  max-width: 1800px;
+  margin: 0 auto;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  min-height: 0;
+}
+
+@media (max-width: 1024px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Panel Styles */
+.panel {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.panel-title {
+  background-color: var(--forest-medium);
+  color: var(--white);
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.clear-filters-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.clear-filters-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Active Filters Summary */
+.active-filters-summary {
+  background-color: rgba(122, 157, 114, 0.08);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--light-grey);
+}
+
+.active-filters-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--forest-dark);
+  margin-bottom: var(--spacing-sm);
+}
+
+.filter-summary-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+.filter-summary-row:last-child {
+  margin-bottom: 0;
+}
+
+.filter-summary-label {
+  font-weight: 600;
+  color: var(--forest-medium);
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  flex: 1;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 2px var(--spacing-sm);
+  background-color: var(--forest-light);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.filter-chip:hover {
+  background-color: var(--forest-medium);
+  transform: translateY(-1px);
+}
+
+.chip-remove {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.filter-chip:hover .chip-remove {
+  opacity: 1;
+  color: #ff6b6b;
+}
+
+.filter-summary-all {
+  font-weight: 600;
+  color: var(--bark-brown);
+  font-style: italic;
+  padding-top: 2px;
+}
+
+.filter-chips-more {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--spacing-sm);
+  background-color: rgba(122, 157, 114, 0.2);
+  color: var(--forest-dark);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Filter Panel */
+.filter-panel {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.filter-groups {
+  padding: var(--spacing-lg);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Hierarchy Levels */
+.hierarchy-level {
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
+  border-bottom: 3px solid var(--light-grey);
+}
+
+.hierarchy-level:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.hierarchy-level-title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--forest-dark);
+  margin-bottom: var(--spacing-sm);
+}
+
+.hierarchy-level-description {
+  font-size: var(--font-size-sm);
+  color: var(--stone-grey);
+  margin-bottom: var(--spacing-md);
+  font-style: italic;
+}
+
+/* Level 1: Simple row layout */
+.filter-options-row {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+/* Microhabitat Groups (Level 3) */
+.microhabitat-groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.filter-group {
+  margin-bottom: 0;
+}
+
+.filter-group-title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--forest-medium);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--forest-light);
+}
+
+.filter-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.filter-category {
+  margin-bottom: 0;
+}
+
+.filter-category-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--bark-brown);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.filter-checkbox input[type="checkbox"] {
+  margin-right: var(--spacing-sm);
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--forest-medium);
+  flex-shrink: 0;
+}
+
+.filter-checkbox span {
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--font-size-sm);
+}
+
+/* Results Info */
+.results-info {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--forest-light);
+  color: var(--white);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Species Panel Container */
+.panel:has(.species-grid) {
+  overflow: hidden;
+}
+
+.panel:has(.species-grid) > .results-info {
+  flex-shrink: 0;
+}
+
+/* Species Grid */
+.species-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  min-width: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .species-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Species Card */
+.species-card {
+  background: var(--white);
+  border: 1px solid var(--light-grey);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.species-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.species-card.hidden {
+  display: none;
+}
+
+.species-scientific {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--forest-dark);
+  font-style: italic;
+  margin-bottom: var(--spacing-xs);
+}
+
+.species-common {
+  font-size: var(--font-size-base);
+  color: var(--stone-grey);
+  margin-bottom: var(--spacing-sm);
+}
+
+.species-tags {
+  display: flex;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+  margin-top: var(--spacing-sm);
+}
+
+.species-tag {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--forest-light);
+  color: var(--white);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.species-tag.family {
+  background-color: var(--bark-brown);
+}
+
+/* Species Info Rows */
+.species-info-row {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+.species-info-label {
+  font-weight: 600;
+  color: var(--forest-medium);
+}
+
+.species-info-value {
+  color: var(--stone-grey);
+}
+
+/* Habitat Requirements Expander */
+.species-habitat-requirements {
+  margin-top: var(--spacing-sm);
+  border-top: 1px solid var(--light-grey);
+  padding-top: var(--spacing-sm);
+}
+
+.habitat-requirements-toggle {
+  width: 100%;
+  padding: var(--spacing-xs) 0;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--forest-medium);
+  transition: color 0.2s;
+}
+
+.habitat-requirements-toggle:hover {
+  color: var(--forest-dark);
+}
+
+.toggle-icon {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.habitat-requirements-content {
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background-color: rgba(122, 157, 114, 0.05);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  color: var(--stone-grey);
+  line-height: 1.5;
+}
+
+/* Empty State */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--stone-grey);
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.3;
+}
+
+.empty-state-text {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-sm);
+}
+
+.empty-state-hint {
+  font-size: var(--font-size-sm);
+  opacity: 0.7;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--light-grey);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--forest-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--forest-medium);
+}
+
+/* Loading Spinner */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-xl);
+  font-size: var(--font-size-lg);
+  color: var(--forest-medium);
+}
+
+/* Utility Classes */
+.hidden {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--spacing-sm); }
+.mt-2 { margin-top: var(--spacing-md); }
+.mt-3 { margin-top: var(--spacing-lg); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--spacing-sm); }
+.mb-2 { margin-bottom: var(--spacing-md); }
+.mb-3 { margin-bottom: var(--spacing-lg); }

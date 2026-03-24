@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lower Trunk - Microhabitat Detail</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .breadcrumb {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin: 5px 0;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 40px auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+        }
+
+        .photo-viewer {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .photo-container {
+            width: 100%;
+            height: 700px;
+            background: #2c3e50;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3em;
+            background: linear-gradient(135deg, #5D4E37 0%, #8B7355 100%);
+        }
+
+        .hotspot {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .hotspot:hover {
+            background: rgba(102, 126, 234, 0.6);
+            transform: scale(1.2) !important;
+            animation: none;
+        }
+
+        .hotspot-label {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .hotspot:hover .hotspot-label {
+            opacity: 1;
+        }
+
+        #hotspot-1 { top: 20%; left: 25%; }
+        #hotspot-2 { top: 35%; left: 60%; }
+        #hotspot-3 { top: 55%; left: 30%; }
+        #hotspot-4 { top: 70%; left: 65%; }
+        #hotspot-5 { top: 45%; left: 75%; }
+
+        .microhabitats-list {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            max-height: 800px;
+            overflow-y: auto;
+        }
+
+        .microhabitats-list h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .microhabitats-list > p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .habitat-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .habitat-item:hover {
+            background: #e3f2fd;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .habitat-item.selected {
+            background: #e8eaf6;
+            border-color: #667eea;
+        }
+
+        .habitat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .habitat-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .habitat-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+
+        .habitat-indicator.present {
+            background: #4caf50;
+            color: white;
+        }
+
+        .habitat-description {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .habitat-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #e0e0e0;
+            color: #555;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+
+        .tag.high { background: #ffebee; color: #c62828; }
+        .tag.medium { background: #fff3e0; color: #ef6c00; }
+        .tag.low { background: #e8f5e9; color: #2e7d32; }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .info-panel {
+            background: #e8eaf6;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info-panel strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <button class="back-btn" onclick="location.href='mockup-tree-overview.html'">← Back to Tree Zones</button>
+            <div>
+                <div class="breadcrumb">Oak → Lower Trunk</div>
+                <h1>Lower Trunk Microhabitats</h1>
+            </div>
+            <div></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="photo-viewer">
+            <div class="photo-container">
+                <div class="photo-placeholder">[Close-up Photo of Oak Lower Trunk]</div>
+                
+                <div class="hotspot" id="hotspot-1" onclick="showDetail('loose-bark')">
+                    <div class="hotspot-label">Loose Bark</div>
+                </div>
+                
+                <div class="hotspot" id="hotspot-2" onclick="showDetail('rot-hole')">
+                    <div class="hotspot-label">Rot Hole</div>
+                </div>
+                
+                <div class="hotspot" id="hotspot-3" onclick="showDetail('crevice')">
+                    <div class="hotspot-label">Deep Crevice</div>
+                </div>
+                
+                <div class="hotspot" id="hotspot-4" onclick="showDetail('woodpecker')">
+                    <div class="hotspot-label">Woodpecker Hole</div>
+                </div>
+                
+                <div class="hotspot" id="hotspot-5" onclick="showDetail('bracket-fungus')">
+                    <div class="hotspot-label">Bracket Fungus</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="microhabitats-list">
+            <h2>Identify Microhabitats</h2>
+            <p>Click on highlighted spots on the photo or select from the list below</p>
+
+            <div class="info-panel">
+                <strong>📸 Interactive Photo</strong>
+                Click the pulsing circles on the trunk photo to learn about and mark different microhabitat features.
+            </div>
+
+            <div class="habitat-item" onclick="location.href='mockup-microhabitat.html?habitat=loose-bark'">
+                <div class="habitat-header">
+                    <div class="habitat-name">Loose Bark</div>
+                    <div class="habitat-indicator">●</div>
+                </div>
+                <div class="habitat-description">
+                    Bark plates lifting away from trunk, providing shelter for invertebrates and roosting bats
+                </div>
+                <div class="habitat-tags">
+                    <span class="tag high">High value</span>
+                    <span class="tag">Invertebrates</span>
+                    <span class="tag">Bats</span>
+                </div>
+            </div>
+
+            <div class="habitat-item selected" onclick="location.href='mockup-microhabitat.html?habitat=rot-hole'">
+                <div class="habitat-header">
+                    <div class="habitat-name">Rot Hole</div>
+                    <div class="habitat-indicator present">✓</div>
+                </div>
+                <div class="habitat-description">
+                    Cavity caused by decay, providing nesting sites for birds and roosting for bats
+                </div>
+                <div class="habitat-tags">
+                    <span class="tag high">High value</span>
+                    <span class="tag">Birds</span>
+                    <span class="tag">Bats</span>
+                    <span class="tag">Insects</span>
+                </div>
+            </div>
+
+            <div class="habitat-item" onclick="location.href='mockup-microhabitat.html?habitat=crevice'">
+                <div class="habitat-header">
+                    <div class="habitat-name">Deep Bark Crevice</div>
+                    <div class="habitat-indicator">●</div>
+                </div>
+                <div class="habitat-description">
+                    Deep fissures in bark providing shelter and hibernation sites for invertebrates
+                </div>
+                <div class="habitat-tags">
+                    <span class="tag medium">Medium value</span>
+                    <span class="tag">Spiders</span>
+                    <span class="tag">Beetles</span>
+                </div>
+            </div>
+
+            <div class="habitat-item" onclick="location.href='mockup-microhabitat.html?habitat=woodpecker'">
+                <div class="habitat-header">
+                    <div class="habitat-name">Woodpecker Hole</div>
+                    <div class="habitat-indicator">●</div>
+                </div>
+                <div class="habitat-description">
+                    Excavated cavity created by woodpeckers, later used by other cavity-nesting species
+                </div>
+                <div class="habitat-tags">
+                    <span class="tag high">High value</span>
+                    <span class="tag">Birds</span>
+                    <span class="tag">Dormice</span>
+                </div>
+            </div>
+
+            <div class="habitat-item" onclick="location.href='mockup-microhabitat.html?habitat=bracket-fungus'">
+                <div class="habitat-header">
+                    <div class="habitat-name">Bracket Fungus</div>
+                    <div class="habitat-indicator">●</div>
+                </div>
+                <div class="habitat-description">
+                    Fungal fruiting bodies indicating heart rot and decay, supporting specialist invertebrates
+                </div>
+                <div class="habitat-tags">
+                    <span class="tag medium">Medium value</span>
+                    <span class="tag">Fungi</span>
+                    <span class="tag">Beetles</span>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary">Save Progress</button>
+                <button class="btn btn-primary">Complete Survey →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showDetail(habitat) {
+            location.href = `mockup-microhabitat.html?habitat=${habitat}`;
+        }
+    </script>
+</body>
+</html>

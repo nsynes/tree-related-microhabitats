@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Microhabitats - Species Selection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .species-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .species-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .species-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        .species-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .oak { background: linear-gradient(135deg, #5D4E37 0%, #8B7355 100%); }
+        .birch { background: linear-gradient(135deg, #F5F5DC 0%, #D3D3D3 100%); color: #333 !important; }
+        .beech { background: linear-gradient(135deg, #A9A9A9 0%, #696969 100%); }
+        .ash { background: linear-gradient(135deg, #696969 0%, #2F4F4F 100%); }
+
+        .species-info {
+            padding: 25px;
+        }
+
+        .species-name {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .species-latin {
+            font-size: 1em;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .species-description {
+            font-size: 0.95em;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .cta {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .cta h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .cta p {
+            color: #666;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌳 Tree-Related Microhabitats Explorer</h1>
+            <p class="subtitle">Discover and identify microhabitats on British trees</p>
+        </header>
+
+        <div class="species-grid">
+            <div class="species-card" onclick="location.href='mockup-tree-overview.html?species=oak'">
+                <div class="species-image oak">
+                    [Oak Tree Photo]
+                </div>
+                <div class="species-info">
+                    <div class="species-name">Oak</div>
+                    <div class="species-latin">Quercus robur</div>
+                    <div class="species-description">
+                        Ancient oaks host exceptional biodiversity with distinctive lobed leaves, 
+                        thick furrowed bark, and abundant microhabitats.
+                    </div>
+                </div>
+            </div>
+
+            <div class="species-card" onclick="location.href='mockup-tree-overview.html?species=birch'">
+                <div class="species-image birch">
+                    [Birch Tree Photo]
+                </div>
+                <div class="species-info">
+                    <div class="species-name">Birch</div>
+                    <div class="species-latin">Betula pendula</div>
+                    <div class="species-description">
+                        Graceful trees with distinctive white bark that peels in papery layers, 
+                        supporting specialist fungi and invertebrates.
+                    </div>
+                </div>
+            </div>
+
+            <div class="species-card" onclick="location.href='mockup-tree-overview.html?species=beech'">
+                <div class="species-image beech">
+                    [Beech Tree Photo]
+                </div>
+                <div class="species-info">
+                    <div class="species-name">Beech</div>
+                    <div class="species-latin">Fagus sylvatica</div>
+                    <div class="species-description">
+                        Majestic trees with smooth silver-gray bark, creating dense shade 
+                        and featuring rot holes and bracket fungi.
+                    </div>
+                </div>
+            </div>
+
+            <div class="species-card" onclick="location.href='mockup-tree-overview.html?species=ash'">
+                <div class="species-image ash">
+                    [Ash Tree Photo]
+                </div>
+                <div class="species-info">
+                    <div class="species-name">Ash</div>
+                    <div class="species-latin">Fraxinus excelsior</div>
+                    <div class="species-description">
+                        Tall trees with compound leaves and gray, fissured bark hosting 
+                        diverse lichens and wildlife habitats.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta">
+            <h2>How It Works</h2>
+            <p>
+                Select a tree species above to explore its zones and microhabitats. 
+                Click on different tree parts to identify specific features like loose bark, 
+                crevices, woodpecker holes, and more!
+            </p>
+        </div>
+    </div>
+</body>
+</html>

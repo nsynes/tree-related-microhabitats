@@ -1,0 +1,92 @@
+column_name,category_row1,category_row2
+Scientific name,SpeciesDetails,Name
+Common name,SpeciesDetails,Name
+Full Name,SpeciesDetails,
+Class,SpeciesDetails,Taxa
+Order,SpeciesDetails,Taxa
+Family,SpeciesDetails,Taxa
+STATUS_ALL,SpeciesDetails,Status
+PriorityList,SpeciesDetails,Status
+D4/D5,SpeciesDetails,Status
+IUCNStatus,SpeciesDetails,Status
+ExtinctionTarget,SpeciesDetails,Status
+Distribution,SpeciesDetails,Status
+Habitat requirements,SpeciesDetails,Ecology
+Key requirements,SpeciesDetails,Ecology
+Functional group,SpeciesDetails,Ecology
+sensitivity (lichens),SpeciesDetails,Ecology
+Woodland type,HabitatDetails,ALLHABITAT
+uses open grown,HabitatDetails,WoodlandType
+woodland,HabitatDetails,WoodlandType
+parkland/open grown,HabitatDetails,WoodlandType
+ToW,HabitatDetails,WoodlandType
+Orchard,HabitatDetails,WoodlandType
+Closed / Edge,HabitatDetails,WoodlandType
+woodland age,HabitatDetails,WoodlandType
+Conifer,HabitatDetails,Tree type
+Broadleaved,HabitatDetails,Tree type
+Tree species,HabitatDetails,Tree type
+unspecified age,HabitatDetails,Tree age
+ancient/veteran,HabitatDetails,Tree age
+Mature,HabitatDetails,Tree age
+Young,HabitatDetails,Tree age
+tree part,HabitatDetails,tree part
+tree condition,HabitatDetails,tree condition
+tree condition.1,HabitatDetails,tree condition
+CAVITY PARENT,Microhabitats,ALL CAVITY
+WoodpeckerNesthole,Microhabitats,cavity
+TrunkRotHole,Microhabitats,cavity
+Trunk-basedRothole,Microhabitats,cavity
+HollowTrunk,Microhabitats,cavity
+ChimneyTrunk,Microhabitats,cavity
+HollowBranch,Microhabitats,cavity
+other rot holes,Microhabitats,cavity
+DECAYPARENT,Microhabitats,cavity
+HeartRot,Microhabitats,cavity
+RedRot,Microhabitats,cavity
+WhiteRot,Microhabitats,cavity
+WoodMould,Microhabitats,cavity
+RootButtressConcavity,Microhabitats,cavity
+Bark-lined concavity,Microhabitats,cavity
+InsectBorehole,Microhabitats,cavity
+Dendrotelm,Microhabitats,cavity
+WoodpeckerForaging,Microhabitats,cavity
+INJURYPARENT,Microhabitats,ALL INJURY
+BarkPocketShelter,Microhabitats,Injury
+BarkLoss,Microhabitats,Injury
+FireScar,Microhabitats,Injury
+Crevice,Microhabitats,Injury
+ForkSplit,Microhabitats,Injury
+LimbBreakage,Microhabitats,Injury
+CROWNPARENT,Microhabitats,ALLCROWNDEAD
+DeadBranchesSun,Microhabitats,CrownDeadwood
+DeadBranchesShade,Microhabitats,CrownDeadwood
+EXCRESPARENT,Microhabitats,Excrescences
+Galls,Microhabitats,Excrescences
+BurrCanker,Microhabitats,Excrescences
+EpicormicShoots,Microhabitats,Excrescences
+FUNGALPARENT,Microhabitats,FungalFruiting
+PerennialPolypore,Microhabitats,FungalFruiting
+AnnualPolypore,Microhabitats,FungalFruiting
+Slimemould,Microhabitats,FungalFruiting
+CrustoseFungi,,
+EPIPARENT,Microhabitats,EpixylicStructure
+VertebrateNest,Microhabitats,Epixylic
+InvertebrateNest,Microhabitats,Epixylic
+Ivy,Microhabitats,Epixylic
+Lichen,Microhabitats,Epixylic
+Moss,Microhabitats,Epixylic
+Mistletoe,Microhabitats,Epixylic
+Microsoil,Microhabitats,Epixylic
+SAPRUNPARENT,Microhabitats,Saprun
+SapRun,Microhabitats,SapRun
+Resinosis,Microhabitats,SapRun
+Flowers,EXTRA,
+LightLevels,EXTRA,
+Humidity,EXTRA,
+Layer,EXTRA,
+sheltered,EXTRA,
+Scrub,EXTRA,
+Pantheon,EXTRA,
+OakEcol,EXTRA,
+WoodlandBAP,EXTRA,
