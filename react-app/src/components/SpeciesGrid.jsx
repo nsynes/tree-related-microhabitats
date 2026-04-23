@@ -21,13 +21,7 @@ function SpeciesGrid({ config }) {
       <div className="results-info">{resultsMessage}</div>
       
       <div className="species-grid">
-        {totalFilters === 0 ? (
-          <div className="empty-state">
-            <div className="empty-state-icon">🌳</div>
-            <div className="empty-state-text">Select habitat features to view species</div>
-            <div className="empty-state-hint">Start by selecting a woodland type, then choose tree characteristics to see matching species</div>
-          </div>
-        ) : filteredSpecies.length === 0 ? (
+        {filteredSpecies.length === 0 ? (
           <div className="empty-state">
             <div className="empty-state-icon">🔍</div>
             <div className="empty-state-text">No species match the selected filters</div>

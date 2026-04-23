@@ -58,21 +58,21 @@ const useFilterStore = create((set, get) => ({
     set({ 
       level1Filters: new Set(), 
       level2Filters: new Set(), 
-      level3Filters: new Set(), 
-      filteredSpecies: [] 
+      level3Filters: new Set() 
     });
+    get().filterSpecies(); // Reapply filtering (will show all species when no filters)
   },
   
   setSpecies: (speciesData) => {
-    set({ species: speciesData, filteredSpecies: [] });
+    set({ species: speciesData, filteredSpecies: speciesData });
   },
   
   filterSpecies: () => {
     const { level1Filters, level2Filters, level3Filters, species } = get();
     
-    // No filters at all - show nothing
-    if (level1Filters.size === 0 && level2Filters.size === 0) {
-      set({ filteredSpecies: [] });
+    // No filters at all - show all species
+    if (level1Filters.size === 0 && level2Filters.size === 0 && level3Filters.size === 0) {
+      set({ filteredSpecies: species });
       return;
     }
     
@@ -111,6 +111,69 @@ const useFilterStore = create((set, get) => ({
   getTotalFiltersCount: () => {
     const { level1Filters, level2Filters, level3Filters } = get();
     return level1Filters.size + level2Filters.size + level3Filters.size;
+  },
+  
+  // Group-level helpers for Level 3 microhabitats
+  
+  // Extract all filter IDs from a group in the config
+  getGroupFilterIds: (groupId, config) => {
+    const level3 = config.filterHierarchy.find(level => level.level === 3);
+    if (!level3 || !level3.groups) return [];
+    
+    const group = level3.groups.find(g => g.id === groupId);
+    if (!group || !group.categories) return [];
+    
+    // Extract all filter IDs from all categories in the group
+    const filterIds = [];
+    for (const category of group.categories) {
+      for (const filter of category.filters) {
+        filterIds.push(filter.id);
+      }
+    }
+    return filterIds;
+  },
+  
+  // Check if all filters in a group are selected
+  isGroupSelected: (groupId, config) => {
+    const { level3Filters, getGroupFilterIds } = get();
+    const filterIds = getGroupFilterIds(groupId, config);
+    if (filterIds.length === 0) return false;
+    return filterIds.every(id => level3Filters.has(id));
+  },
+  
+  // Check if some (but not all) filters in a group are selected
+  isGroupIndeterminate: (groupId, config) => {
+    const { level3Filters, getGroupFilterIds } = get();
+    const filterIds = getGroupFilterIds(groupId, config);
+    if (filterIds.length === 0) return false;
+    
+    const selectedCount = filterIds.filter(id => level3Filters.has(id)).length;
+    return selectedCount > 0 && selectedCount < filterIds.length;
+  },
+  
+  // Toggle all filters in a group
+  toggleGroup: (groupId, config) => {
+    const { level3Filters, getGroupFilterIds, filterSpecies } = get();
+    const filterIds = getGroupFilterIds(groupId, config);
+    
+    if (filterIds.length === 0) return;
+    
+    const newFilters = new Set(level3Filters);
+    
+    // If all filters are selected, deselect all
+    // Otherwise, select all
+    const allSelected = filterIds.every(id => level3Filters.has(id));
+    
+    if (allSelected) {
+      // Deselect all filters in the group
+      filterIds.forEach(id => newFilters.delete(id));
+    } else {
+      // Select all filters in the group
+      filterIds.forEach(id => newFilters.add(id));
+    }
+    
+    set({ level3Filters: newFilters });
+    filterSpecies();
   }
 }));
 

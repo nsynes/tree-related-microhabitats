@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "process-data": "node scripts/process-data.js",
-    "dev": "npm run process-data && vite",
-    "build": "npm run process-data && vite build",
+    "dev": "vite",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {

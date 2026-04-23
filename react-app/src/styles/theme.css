@@ -68,6 +68,21 @@ body {
   overflow: hidden;
 }
 
+/* Mobile: Enable scrolling on touchscreens */
+@media (max-width: 1024px) {
+  html, body {
+    overflow: auto;
+    height: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  #root {
+    overflow: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
 /* Main Title */
 .main-title {
   background: linear-gradient(135deg, var(--forest-dark) 0%, var(--forest-medium) 100%);
@@ -75,12 +90,53 @@ body {
   padding: var(--spacing-md) var(--spacing-lg);
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .main-title h1 {
   font-size: var(--font-size-xl);
   font-weight: 600;
   margin: 0;
+}
+
+/* Header Icons */
+.header-icons {
+  position: absolute;
+  top: 50%;
+  right: 2rem;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 0.75rem;
+}
+
+.icon-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.icon-btn:focus {
+  outline: 2px solid var(--forest-light);
+  outline-offset: 2px;
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
 }
 
 /* Two Column Layout */
@@ -100,6 +156,9 @@ body {
 @media (max-width: 1024px) {
   .app-layout {
     grid-template-columns: 1fr;
+    overflow: visible;
+    height: auto;
+    min-height: auto;
   }
 }
 
@@ -114,6 +173,18 @@ body {
   flex-direction: column;
   max-height: 100%;
   overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .panel {
+    max-height: none;
+    overflow: visible;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .panel:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .panel-title {
@@ -149,6 +220,7 @@ body {
   background-color: rgba(122, 157, 114, 0.08);
   padding: var(--spacing-md) var(--spacing-lg);
   border-bottom: 1px solid var(--light-grey);
+  flex-shrink: 0;
 }
 
 .active-filters-title {
@@ -180,8 +252,51 @@ body {
 .filter-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-xs);
-  flex: 1;
+  gap: 6px;
+  align-items: center;
+}
+
+.logic-operator {
+  color: var(--stone-grey);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0 4px;
+  opacity: 0.6;
+  user-select: none;
+}
+
+.logic-separator {
+  text-align: center;
+  color: var(--forest-medium);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 8px 0;
+  margin: 4px 0;
+  opacity: 0.8;
+  letter-spacing: 1px;
+  user-select: none;
+  position: relative;
+}
+
+.logic-separator::before,
+.logic-separator::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 30px);
+  height: 1px;
+  background: var(--forest-light);
+  opacity: 0.3;
+}
+
+.logic-separator::before {
+  left: 0;
+}
+
+.logic-separator::after {
+  right: 0;
 }
 
 .filter-chip {
@@ -238,14 +353,25 @@ body {
 
 /* Filter Panel */
 .filter-panel {
-  flex: 1;
-  overflow-y: auto;
+  overflow: hidden;
+}
+
+.filter-panel > .panel-title {
+  flex-shrink: 0;
 }
 
 .filter-groups {
   padding: var(--spacing-lg);
   flex: 1;
   min-width: 0;
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .filter-groups {
+    overflow-y: visible;
+    max-height: none;
+  }
 }
 
 /* Hierarchy Levels */
@@ -283,9 +409,15 @@ body {
 
 /* Microhabitat Groups (Level 3) */
 .microhabitat-groups {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   gap: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .microhabitat-groups {
+    grid-template-columns: 1fr; /* Single column on mobile to prevent overflow */
+  }
 }
 
 .filter-group {
@@ -301,10 +433,24 @@ body {
   border-bottom: 1px solid var(--forest-light);
 }
 
+.filter-group-description {
+  font-size: var(--font-size-sm);
+  color: var(--bark-brown);
+  font-style: italic;
+  margin: calc(-1 * var(--spacing-sm)) 0 var(--spacing-md) 0;
+  line-height: 1.4;
+}
+
 .filter-categories {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Responsive grid - fits more subcategories per row */
   gap: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .filter-categories {
+    grid-template-columns: 1fr; /* Stack vertically on mobile */
+  }
 }
 
 .filter-category {
@@ -321,9 +467,21 @@ body {
 }
 
 .filter-options {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Multi-column layout for filter options */
   gap: var(--spacing-xs);
+  column-gap: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+  .filter-options {
+    grid-template-columns: 1fr; /* Single column for better mobile UX */
+  }
+}
+
+/* For smaller categories with few filters, use single column */
+.filter-category:has(.filter-options:nth-child(-n+3)) .filter-options {
+  grid-template-columns: 1fr;
 }
 
 .filter-checkbox {
@@ -369,12 +527,21 @@ body {
 /* Species Grid */
 .species-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: var(--spacing-md);
   padding: var(--spacing-lg);
   min-width: 0;
   overflow-y: auto;
   flex: 1;
+  align-items: start; /* Prevent cards from stretching vertically */
+  grid-auto-rows: min-content; /* Cards only take height they need */
+}
+
+@media (max-width: 1024px) {
+  .species-grid {
+    overflow-y: visible;
+    max-height: none;
+  }
 }
 
 @media (max-width: 768px) {
@@ -391,6 +558,9 @@ body {
   padding: var(--spacing-md);
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  height: fit-content;
 }
 
 .species-card:hover {
@@ -452,6 +622,8 @@ body {
 
 .species-info-value {
   color: var(--stone-grey);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Habitat Requirements Expander */

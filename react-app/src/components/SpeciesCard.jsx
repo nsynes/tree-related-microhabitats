@@ -1,4 +1,5 @@
 import { memo, useState } from 'react';
+import { isValidData } from '../utils/dataHelpers';
 
 function SpeciesCard({ species }) {
   const [expanded, setExpanded] = useState(false);
@@ -7,31 +8,58 @@ function SpeciesCard({ species }) {
     <div className="species-card">
       <div className="species-scientific">{species.scientificName}</div>
       
-      {species.commonName && (
+      {isValidData(species.commonName) && (
         <div className="species-common">{species.commonName}</div>
       )}
       
-      {(species.class || species.family) && (
+      {(isValidData(species.class) || isValidData(species.order) || isValidData(species.family)) && (
         <div className="species-tags">
-          {species.class && (
+          {isValidData(species.class) && (
             <span className="species-tag">{species.class}</span>
           )}
-          {species.family && (
+          {isValidData(species.order) && (
+            <span className="species-tag">{species.order}</span>
+          )}
+          {isValidData(species.family) && (
             <span className="species-tag family">{species.family}</span>
           )}
         </div>
       )}
 
-      {/* NE Red List Status */}
-      {species.neRedList && (
+      {/* Priority List Status */}
+      {species.priorityList && (
         <div className="species-info-row">
-          <span className="species-info-label">Red List:</span>
-          <span className="species-info-value">{species.neRedList}</span>
+          <span className="species-info-label">Priority List:</span>
+          <span className="species-info-value">Yes</span>
+        </div>
+      )}
+
+      {/* D4/D5 Lists */}
+      {species.d4d5 && (
+        <div className="species-info-row">
+          <span className="species-info-label">D4/D5:</span>
+          <span className="species-info-value">Yes</span>
+        </div>
+      )}
+
+      {/* IUCN Status */}
+      {isValidData(species.iucnStatus) && (
+        <div className="species-info-row">
+          <span className="species-info-label">IUCN Status:</span>
+          <span className="species-info-value">{species.iucnStatus}</span>
+        </div>
+      )}
+
+      {/* Rarity/Extinction Target */}
+      {isValidData(species.rarity) && (
+        <div className="species-info-row">
+          <span className="species-info-label">Rarity:</span>
+          <span className="species-info-value">{species.rarity}</span>
         </div>
       )}
 
       {/* Distribution */}
-      {species.distribution && (
+      {isValidData(species.distribution) && (
         <div className="species-info-row">
           <span className="species-info-label">Distribution:</span>
           <span className="species-info-value">{species.distribution}</span>
@@ -39,7 +67,7 @@ function SpeciesCard({ species }) {
       )}
 
       {/* Habitat Requirements (collapsible) */}
-      {species.habitatRequirements && (
+      {isValidData(species.habitatRequirements) && (
         <div className="species-habitat-requirements">
           <button 
             className="habitat-requirements-toggle"

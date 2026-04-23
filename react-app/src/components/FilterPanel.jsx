@@ -1,7 +1,18 @@
+import React from 'react';
 import useFilterStore from '../store/useFilterStore';
 
 function FilterPanel({ config }) {
-  const { level1Filters, level2Filters, level3Filters, toggleFilter, clearFilters, getTotalFiltersCount } = useFilterStore();
+  const { 
+    level1Filters, 
+    level2Filters, 
+    level3Filters, 
+    toggleFilter, 
+    toggleGroup,
+    isGroupSelected,
+    isGroupIndeterminate,
+    clearFilters, 
+    getTotalFiltersCount 
+  } = useFilterStore();
 
   const totalFilters = getTotalFiltersCount();
 
@@ -33,29 +44,6 @@ function FilterPanel({ config }) {
     return filterId;
   };
 
-  // Get category name for Level 2 filters
-  const getFilterCategory = (filterId) => {
-    const level2 = config.filterHierarchy.find(l => l.level === 2);
-    if (level2?.categories) {
-      for (const category of level2.categories) {
-        if (category.filters.find(f => f.id === filterId)) {
-          return category.title;
-        }
-      }
-    }
-    return null;
-  };
-
-  // Group level2 filters by category
-  const groupedLevel2 = {};
-  level2Filters.forEach(filterId => {
-    const category = getFilterCategory(filterId);
-    if (!groupedLevel2[category]) {
-      groupedLevel2[category] = [];
-    }
-    groupedLevel2[category].push(filterId);
-  });
-
   return (
     <div className="panel filter-panel">
       <div className="panel-title">
@@ -70,21 +58,20 @@ function FilterPanel({ config }) {
         )}
       </div>
 
-      {/* Active Filters Summary */}
-      {totalFilters > 0 && (
-        <div className="active-filters-summary">
-          <div className="active-filters-title">📍 Active Filters:</div>
-          
-          {/* Level 1: Woodland Type */}
-          <div className="filter-summary-row">
-            <span className="filter-summary-label">Woodland Type:</span>
-            {level1Filters.size === 0 ? (
-              <span className="filter-summary-all">ALL</span>
-            ) : (
-              <div className="filter-chips">
-                {Array.from(level1Filters).map(filterId => (
+      {/* Active Filters Summary - Always visible */}
+      <div className="active-filters-summary">
+        <div className="active-filters-title">📍 Active Filters:</div>
+        
+        {/* Level 1: Woodland Type */}
+        <div className="filter-summary-row">
+          <span className="filter-summary-label">Woodland Type:</span>
+          {level1Filters.size === 0 ? (
+            <span className="filter-summary-all">ALL</span>
+          ) : (
+            <div className="filter-chips">
+              {Array.from(level1Filters).map((filterId, index, array) => (
+                <React.Fragment key={filterId}>
                   <button
-                    key={filterId}
                     className="filter-chip"
                     onClick={() => toggleFilter(filterId, 1)}
                     title="Click to remove"
@@ -92,21 +79,24 @@ function FilterPanel({ config }) {
                     {getFilterLabel(filterId)}
                     <span className="chip-remove">×</span>
                   </button>
-                ))}
-              </div>
-            )}
-          </div>
+                  {index < array.length - 1 && <span className="logic-operator">OR</span>}
+                </React.Fragment>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="logic-separator">AND</div>
 
-          {/* Level 2: Tree Characteristics (combined, not by subcategory) */}
-          <div className="filter-summary-row">
-            <span className="filter-summary-label">Tree Characteristics:</span>
-            {level2Filters.size === 0 ? (
-              <span className="filter-summary-all">ALL</span>
-            ) : (
-              <div className="filter-chips">
-                {Array.from(level2Filters).map(filterId => (
+        {/* Level 2: Tree Characteristics (combined, not by subcategory) */}
+        <div className="filter-summary-row">
+          <span className="filter-summary-label">Tree Characteristics:</span>
+          {level2Filters.size === 0 ? (
+            <span className="filter-summary-all">ALL</span>
+          ) : (
+            <div className="filter-chips">
+              {Array.from(level2Filters).map((filterId, index, array) => (
+                <React.Fragment key={filterId}>
                   <button
-                    key={filterId}
                     className="filter-chip"
                     onClick={() => toggleFilter(filterId, 2)}
                     title="Click to remove"
@@ -114,21 +104,24 @@ function FilterPanel({ config }) {
                     {getFilterLabel(filterId)}
                     <span className="chip-remove">×</span>
                   </button>
-                ))}
-              </div>
-            )}
-          </div>
+                  {index < array.length - 1 && <span className="logic-operator">OR</span>}
+                </React.Fragment>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="logic-separator">AND</div>
 
-          {/* Level 3: Microhabitats */}
-          <div className="filter-summary-row">
-            <span className="filter-summary-label">Microhabitats:</span>
-            {level3Filters.size === 0 ? (
-              <span className="filter-summary-all">ALL</span>
-            ) : (
-              <div className="filter-chips">
-                {Array.from(level3Filters).slice(0, 8).map(filterId => (
+        {/* Level 3: Microhabitats */}
+        <div className="filter-summary-row">
+          <span className="filter-summary-label">Microhabitats:</span>
+          {level3Filters.size === 0 ? (
+            <span className="filter-summary-all">ALL</span>
+          ) : (
+            <div className="filter-chips">
+              {Array.from(level3Filters).slice(0, 8).map((filterId, index, array) => (
+                <React.Fragment key={filterId}>
                   <button
-                    key={filterId}
                     className="filter-chip"
                     onClick={() => toggleFilter(filterId, 3)}
                     title="Click to remove"
@@ -136,17 +129,21 @@ function FilterPanel({ config }) {
                     {getFilterLabel(filterId)}
                     <span className="chip-remove">×</span>
                   </button>
-                ))}
-                {level3Filters.size > 8 && (
+                  {index < array.length - 1 && <span className="logic-operator">OR</span>}
+                </React.Fragment>
+              ))}
+              {level3Filters.size > 8 && (
+                <>
+                  <span className="logic-operator">OR</span>
                   <span className="filter-chips-more" title={`And ${level3Filters.size - 8} more...`}>
                     +{level3Filters.size - 8} more
                   </span>
-                )}
-              </div>
-            )}
-          </div>
+                </>
+              )}
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
       <div className="filter-groups">
         {config.filterHierarchy.map(hierarchyLevel => (
@@ -198,7 +195,23 @@ function FilterPanel({ config }) {
               <div className="microhabitat-groups">
                 {hierarchyLevel.groups.map(group => (
                   <div key={group.id} className="filter-group">
-                    <h3 className="filter-group-title">{group.title}</h3>
+                    {/* Group-level "select all" checkbox */}
+                    <label className="filter-group-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={isGroupSelected(group.id, config)}
+                        ref={(el) => {
+                          if (el) el.indeterminate = isGroupIndeterminate(group.id, config);
+                        }}
+                        onChange={() => toggleGroup(group.id, config)}
+                      />
+                      <h3 className="filter-group-title">{group.title}</h3>
+                    </label>
+
+                    {group.description && (
+                      <p className="filter-group-description">{group.description}</p>
+                    )}
+
                     <div className="filter-categories">
                       {group.categories.map((category, catIndex) => (
                         <div key={catIndex} className="filter-category">
