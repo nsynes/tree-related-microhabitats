@@ -65,6 +65,9 @@ yarn-error.log*
 # Local notes / inherited chat transcripts (not part of repo)
 old-chat-history/
 
+# LibreOffice / OpenOffice lock files
+.~lock.*#
+
 # Testing
 coverage/
 .nyc_output/

@@ -49,20 +49,11 @@ check_prerequisites() {
 # Process data
 process_data() {
     echo "📊 Processing data (Excel → JSON)..."
-    
-    if [ ! -f "data/SpeciesTreMsPaper_v1_18Mar.xlsx" ]; then
-        echo -e "${RED}❌ Excel file not found: data/SpeciesTreMsPaper_v1_18Mar.xlsx${NC}"
-        exit 1
-    fi
-    
+
+    # process-data.py reads the species data file from data/column-mapping.json
+    # and validates its existence itself; set -e propagates a non-zero exit.
     python scripts/process-data.py
-    
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}✓ Data processing complete${NC}"
-    else
-        echo -e "${RED}❌ Data processing failed${NC}"
-        exit 1
-    fi
+    echo -e "${GREEN}✓ Data processing complete${NC}"
     echo ""
 }
 

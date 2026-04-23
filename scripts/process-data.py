@@ -161,21 +161,23 @@ def main():
     
     # Paths
     config_input = Path('data/column-mapping.json')
-    excel_input = Path('data/SpeciesTreMsPaper_v1_9April.xlsx')
     output_dir = Path('react-app/src/data')
     config_output = output_dir / 'config.json'
     species_output = output_dir / 'species.json'
-    
+
     # Ensure output directory exists
     output_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Load column mapping configuration
     print(f"\n📖 Reading {config_input}...")
     with open(config_input, 'r', encoding='utf-8') as f:
         column_config = json.load(f)
-    
+
     hierarchy = column_config['hierarchy']
     species_metadata_cols = column_config['speciesMetadataColumns']
+    excel_input = Path(column_config['pipeline']['speciesDataFile'])
+    if not excel_input.exists():
+        raise SystemExit(f"✗ Species data file not found: {excel_input}")
     
     # Dynamically extract column whitelist from hierarchy
     print("\n🔍 Extracting column whitelist from hierarchy...")

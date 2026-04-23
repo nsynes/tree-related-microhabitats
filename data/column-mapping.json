@@ -1,5 +1,8 @@
 {
   "description": "Tree-Related Microhabitats - Filter Hierarchy Configuration",
+  "pipeline": {
+    "speciesDataFile": "data/SpeciesTreMsPaper_v1_9April.xlsx"
+  },
   "hierarchy": {
     "level1": {
       "id": "woodland_type",
