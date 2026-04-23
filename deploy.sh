@@ -99,9 +99,12 @@ deploy_infrastructure() {
         --stack-name "$STACK_NAME" \
         --region "$REGION" 2>&1 || true)
     
+    # Capture output so we can distinguish "no infrastructure changes" (fine —
+    # content-only updates are expected) from a real failure (not fine).
+    set +e
     if [[ $STACK_EXISTS == *"does not exist"* ]]; then
         echo "Creating new stack..."
-        sam deploy \
+        SAM_OUTPUT=$(sam deploy \
             --stack-name "$STACK_NAME" \
             --region "$REGION" \
             --capabilities CAPABILITY_IAM \
@@ -109,22 +112,29 @@ deploy_infrastructure() {
                 BucketName="$STACK_NAME" \
                 UseCustomDomain=true \
             --no-confirm-changeset \
-            --resolve-s3
+            --resolve-s3 2>&1)
+        SAM_EXIT=$?
     else
         echo "Updating existing stack..."
-        sam deploy \
+        SAM_OUTPUT=$(sam deploy \
             --stack-name "$STACK_NAME" \
             --region "$REGION" \
             --capabilities CAPABILITY_IAM \
             --no-confirm-changeset \
-            --resolve-s3
+            --resolve-s3 2>&1)
+        SAM_EXIT=$?
     fi
-    
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}✓ Infrastructure deployed${NC}"
-    else
+    set -e
+
+    echo "$SAM_OUTPUT"
+
+    if [[ "$SAM_OUTPUT" == *"No changes to deploy"* ]]; then
+        echo -e "${YELLOW}ℹ Stack already up to date — continuing to content upload${NC}"
+    elif [ $SAM_EXIT -ne 0 ]; then
         echo -e "${RED}❌ Infrastructure deployment failed${NC}"
         exit 1
+    else
+        echo -e "${GREEN}✓ Infrastructure deployed${NC}"
     fi
     echo ""
 }
@@ -167,6 +177,42 @@ upload_to_s3() {
         echo -e "${RED}❌ File upload failed${NC}"
         exit 1
     fi
+    echo ""
+}
+
+# Invalidate CloudFront cache so index.html picks up the new deploy
+invalidate_cloudfront() {
+    echo "♻️  Invalidating CloudFront cache..."
+
+    CF_DOMAIN=$(aws cloudformation describe-stacks \
+        --stack-name "$STACK_NAME" \
+        --region "$REGION" \
+        --query 'Stacks[0].Outputs[?OutputKey==`CloudFrontURL`].OutputValue' \
+        --output text 2>/dev/null || echo "")
+
+    if [ -z "$CF_DOMAIN" ]; then
+        echo -e "${YELLOW}⚠ No CloudFront distribution in stack outputs — skipping invalidation${NC}"
+        echo ""
+        return
+    fi
+
+    DIST_ID=$(aws cloudfront list-distributions \
+        --query "DistributionList.Items[?DomainName=='$CF_DOMAIN'].Id" \
+        --output text)
+
+    if [ -z "$DIST_ID" ]; then
+        echo -e "${YELLOW}⚠ Could not resolve distribution ID for $CF_DOMAIN — skipping invalidation${NC}"
+        echo ""
+        return
+    fi
+
+    aws cloudfront create-invalidation \
+        --distribution-id "$DIST_ID" \
+        --paths "/index.html" "/" \
+        --query 'Invalidation.Id' \
+        --output text
+
+    echo -e "${GREEN}✓ Invalidation submitted (propagation typically 1-3 min)${NC}"
     echo ""
 }
 
@@ -273,6 +319,7 @@ main() {
     
     deploy_infrastructure
     upload_to_s3
+    invalidate_cloudfront
     show_info
 }
 
