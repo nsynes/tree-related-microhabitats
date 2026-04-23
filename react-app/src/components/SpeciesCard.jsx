@@ -1,7 +1,11 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { isValidData } from '../utils/dataHelpers';
 
 function SpeciesCard({ species, onClick }) {
+  const [photoFailed, setPhotoFailed] = useState(false);
+  const photoUrl = species.photo?.smallUrl || species.photo?.url;
+  const showPhoto = photoUrl && !photoFailed;
+
   const handleClick = () => onClick(species);
   const handleKey = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -18,6 +22,26 @@ function SpeciesCard({ species, onClick }) {
       onClick={handleClick}
       onKeyDown={handleKey}
     >
+      {showPhoto ? (
+        <div className="species-card-photo">
+          <img
+            src={photoUrl}
+            alt=""
+            loading="lazy"
+            onError={() => setPhotoFailed(true)}
+          />
+        </div>
+      ) : (
+        <div className="species-card-photo species-card-photo--empty" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="4" width="18" height="16" rx="2" />
+            <circle cx="8.5" cy="9.5" r="1.3" fill="currentColor" stroke="none" />
+            <path d="M21 16l-5-5-8 8" />
+          </svg>
+          <span>No photo available</span>
+        </div>
+      )}
+
       <div className="species-scientific">{species.scientificName}</div>
 
       {isValidData(species.commonName) && (

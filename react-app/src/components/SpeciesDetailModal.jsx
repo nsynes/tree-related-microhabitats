@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Modal from './Modal';
 import { isValidData, groupHabitatsByLevel } from '../utils/dataHelpers';
 
@@ -9,6 +9,36 @@ function DetailRow({ label, value }) {
       <span className="species-detail-label">{label}</span>
       <span className="species-detail-value">{value}</span>
     </div>
+  );
+}
+
+function SpeciesPhoto({ photo }) {
+  const [failed, setFailed] = useState(false);
+  const src = photo?.largeUrl || photo?.url;
+  if (!src || failed) return null;
+  const taxonUrl = photo.taxonId
+    ? `https://www.inaturalist.org/taxa/${photo.taxonId}`
+    : null;
+  return (
+    <figure className="species-detail-photo">
+      <img
+        src={src}
+        alt=""
+        loading="lazy"
+        onError={() => setFailed(true)}
+      />
+      <figcaption className="species-detail-photo-credit">
+        <span>{photo.attribution}</span>
+        {taxonUrl && (
+          <>
+            {' · '}
+            <a href={taxonUrl} target="_blank" rel="noopener noreferrer">
+              View on iNaturalist
+            </a>
+          </>
+        )}
+      </figcaption>
+    </figure>
   );
 }
 
@@ -33,6 +63,8 @@ function SpeciesDetailModal({ config, species, onClose }) {
   return (
     <Modal isOpen={true} onClose={onClose} title={species.scientificName}>
       <div className="species-detail">
+        {species.photo && <SpeciesPhoto photo={species.photo} />}
+
         {isValidData(species.commonName) && (
           <p className="species-detail-common">{species.commonName}</p>
         )}

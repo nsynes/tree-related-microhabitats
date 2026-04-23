@@ -99,21 +99,21 @@ def extract_habitats(row: pd.Series, hierarchy: Dict[str, Any]) -> List[str]:
 def process_species(df: pd.DataFrame, hierarchy: Dict[str, Any]) -> List[Dict[str, Any]]:
     """
     Process species data into JSON format.
-    
+
     Args:
         df: Dataframe with species data
         hierarchy: Hierarchy dict from config
-    
+
     Returns:
         List of species dicts
     """
     species_list = []
-    
+
     for idx, row in df.iterrows():
         # Skip rows with no scientific name
         if pd.isna(row.get('Scientific name')) or row.get('Scientific name') == '':
             continue
-            
+
         species = {
             'id': len(species_list) + 1,
             'scientificName': str(row.get('Scientific name', '')),
@@ -129,10 +129,67 @@ def process_species(df: pd.DataFrame, hierarchy: Dict[str, Any]) -> List[Dict[st
             'habitatRequirements': str(row.get('Habitat requirements', '')) if pd.notna(row.get('Habitat requirements')) else '',
             'habitats': extract_habitats(row, hierarchy)
         }
-        
+
         species_list.append(species)
-    
+
     return species_list
+
+
+def load_photo_cache(path: Path) -> Dict[str, Any]:
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding='utf-8'))
+
+
+def attach_photos(species_list: List[Dict[str, Any]], photo_cache: Dict[str, Any]) -> Dict[str, int]:
+    """
+    Attach photo info from the iNaturalist cache to each species that has a
+    usable entry. A usable entry has a photo URL and a CC license code (any
+    variant — we filter out 'all rights reserved' which iNat returns as
+    license_code=None).
+
+    Returns a small stats dict for logging.
+    """
+    stats = {'with_photo': 0, 'all_rights_reserved': 0, 'no_photo': 0, 'not_found': 0, 'missing': 0}
+    for species in species_list:
+        name = species['scientificName']
+        entry = photo_cache.get(name)
+        if entry is None:
+            species['photo'] = None
+            stats['missing'] += 1
+            continue
+        if entry.get('not_found'):
+            species['photo'] = None
+            stats['not_found'] += 1
+            continue
+        if entry.get('no_photo'):
+            species['photo'] = None
+            stats['no_photo'] += 1
+            continue
+        if not entry.get('photo_medium_url'):
+            species['photo'] = None
+            stats['no_photo'] += 1
+            continue
+        license_code = entry.get('license_code')
+        if not license_code:
+            # iNat returns None for 'all rights reserved' — unusable
+            species['photo'] = None
+            stats['all_rights_reserved'] += 1
+            continue
+        medium_url = entry['photo_medium_url']
+        # iNat serves every photo at /photos/<id>/<size>.jpg — API only returns
+        # square and medium, but the small/large/original variants exist and
+        # we derive them here.
+        species['photo'] = {
+            'url': medium_url,
+            'smallUrl': medium_url.replace('/medium.', '/small.'),
+            'largeUrl': medium_url.replace('/medium.', '/large.'),
+            'attribution': entry.get('attribution', ''),
+            'licenseCode': license_code,
+            'taxonId': entry.get('taxon_id'),
+        }
+        stats['with_photo'] += 1
+    return stats
 
 
 def count_filters(hierarchy: Dict[str, Any]) -> tuple:
@@ -239,11 +296,27 @@ def main():
     print("\n🦋 Processing species data...")
     species_data = process_species(df, hierarchy)
     print(f"   ✓ Processed {len(species_data)} species")
-    
+
     # Calculate stats
     avg_habitats = sum(len(s['habitats']) for s in species_data) / len(species_data) if species_data else 0
     print(f"   ✓ Average {avg_habitats:.1f} habitats per species")
-    
+
+    # Merge iNaturalist photo cache if present (optional — script is usable without it)
+    photo_cache_path = Path('data/inaturalist-photos.json')
+    photo_cache = load_photo_cache(photo_cache_path)
+    if photo_cache:
+        print(f"\n📷 Merging photo metadata from {photo_cache_path}...")
+        photo_stats = attach_photos(species_data, photo_cache)
+        print(f"   ✓ With photo:           {photo_stats['with_photo']}")
+        print(f"   ✓ All rights reserved:  {photo_stats['all_rights_reserved']}")
+        print(f"   ✓ On iNat, no photo:    {photo_stats['no_photo']}")
+        print(f"   ✓ Not on iNat:          {photo_stats['not_found']}")
+        print(f"   ✓ Not yet fetched:      {photo_stats['missing']}")
+    else:
+        print(f"\n📷 No photo cache at {photo_cache_path} — skipping.")
+        for s in species_data:
+            s['photo'] = None
+
     # Save species data
     with open(species_output, 'w', encoding='utf-8') as f:
         json.dump(species_data, f, indent=2, ensure_ascii=False)
