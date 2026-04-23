@@ -1,48 +1,23 @@
 import React from 'react';
 import useFilterStore from '../store/useFilterStore';
+import { getFilterLabel as resolveFilterLabel } from '../utils/dataHelpers';
 
 function FilterPanel({ config }) {
-  const { 
-    level1Filters, 
-    level2Filters, 
-    level3Filters, 
-    toggleFilter, 
+  const {
+    level1Filters,
+    level2Filters,
+    level3Filters,
+    toggleFilter,
     toggleGroup,
     isGroupSelected,
     isGroupIndeterminate,
-    clearFilters, 
-    getTotalFiltersCount 
+    clearFilters,
+    getTotalFiltersCount
   } = useFilterStore();
 
   const totalFilters = getTotalFiltersCount();
 
-  // Helper to get filter label from ID
-  const getFilterLabel = (filterId) => {
-    for (const level of config.filterHierarchy) {
-      // Level 1: filters directly
-      if (level.filters) {
-        const filter = level.filters.find(f => f.id === filterId);
-        if (filter) return filter.label;
-      }
-      // Level 2: categories → filters
-      if (level.categories) {
-        for (const category of level.categories) {
-          const filter = category.filters.find(f => f.id === filterId);
-          if (filter) return filter.label;
-        }
-      }
-      // Level 3: groups → categories → filters
-      if (level.groups) {
-        for (const group of level.groups) {
-          for (const category of group.categories) {
-            const filter = category.filters.find(f => f.id === filterId);
-            if (filter) return filter.label;
-          }
-        }
-      }
-    }
-    return filterId;
-  };
+  const getFilterLabel = (filterId) => resolveFilterLabel(config, filterId);
 
   return (
     <div className="panel filter-panel">

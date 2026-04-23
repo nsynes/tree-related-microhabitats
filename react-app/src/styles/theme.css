@@ -516,12 +516,52 @@ body {
 }
 
 /* Species Panel Container */
-.panel:has(.species-grid) {
+.panel:has(.species-grid),
+.panel:has(.species-list) {
   overflow: hidden;
 }
 
-.panel:has(.species-grid) > .results-info {
+.panel:has(.species-grid) > .results-info,
+.panel:has(.species-list) > .results-info {
   flex-shrink: 0;
+}
+
+/* View toggle in species panel header */
+.view-toggle {
+  display: inline-flex;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+
+.view-toggle-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.75);
+  width: 32px;
+  height: 32px;
+  border-radius: calc(var(--radius-sm) - 2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.view-toggle-btn:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.view-toggle-btn.active {
+  color: var(--forest-dark);
+  background: white;
+}
+
+.view-toggle-btn:focus-visible {
+  outline: 2px solid var(--forest-light);
+  outline-offset: 2px;
 }
 
 /* Species Grid */
@@ -568,8 +608,78 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.species-card:focus-visible {
+  outline: 2px solid var(--forest-medium);
+  outline-offset: 2px;
+}
+
 .species-card.hidden {
   display: none;
+}
+
+/* Species List View */
+.species-list {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md) var(--spacing-lg);
+  overflow-y: auto;
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .species-list {
+    overflow-y: visible;
+  }
+}
+
+.species-list-row {
+  display: grid;
+  grid-template-columns: minmax(200px, 2fr) minmax(140px, 1.8fr) minmax(80px, 0.8fr);
+  gap: var(--spacing-md);
+  align-items: baseline;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--white);
+  border: none;
+  border-bottom: 1px solid var(--light-grey);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: background-color 0.15s;
+  width: 100%;
+}
+
+.species-list-row:hover {
+  background: rgba(122, 157, 114, 0.08);
+}
+
+.species-list-row:focus-visible {
+  outline: 2px solid var(--forest-medium);
+  outline-offset: -2px;
+}
+
+.species-list-name {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--forest-dark);
+}
+
+.species-list-common {
+  color: var(--stone-grey);
+}
+
+.species-list-class {
+  font-size: var(--font-size-sm);
+  color: var(--bark-brown);
+}
+
+@media (max-width: 768px) {
+  .species-list-row {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-md);
+  }
 }
 
 .species-scientific {
@@ -626,46 +736,102 @@ body {
   overflow-wrap: break-word;
 }
 
-/* Habitat Requirements Expander */
-.species-habitat-requirements {
-  margin-top: var(--spacing-sm);
-  border-top: 1px solid var(--light-grey);
-  padding-top: var(--spacing-sm);
+/* Species Detail Modal */
+.species-detail-common {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: 1.1rem;
+  color: var(--stone-grey);
 }
 
-.habitat-requirements-toggle {
-  width: 100%;
+.species-detail-section {
+  margin-top: var(--spacing-lg);
+}
+
+.species-detail-section:first-child {
+  margin-top: 0;
+}
+
+.species-detail-section h3 {
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--forest-dark);
+  font-size: 1.1rem;
+  padding-bottom: var(--spacing-xs);
+  border-bottom: 1px solid var(--forest-light);
+}
+
+.species-detail-row {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.35fr) 1fr;
+  gap: var(--spacing-sm);
   padding: var(--spacing-xs) 0;
-  background: none;
-  border: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
   font-size: var(--font-size-sm);
+}
+
+.species-detail-label {
   font-weight: 600;
   color: var(--forest-medium);
-  transition: color 0.2s;
 }
 
-.habitat-requirements-toggle:hover {
-  color: var(--forest-dark);
+.species-detail-value {
+  color: var(--stone-grey);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
-.toggle-icon {
-  font-size: var(--font-size-lg);
-  font-weight: 700;
-  line-height: 1;
+.species-detail-prose {
+  margin: 0;
+  color: var(--stone-grey);
+  line-height: 1.6;
 }
 
-.habitat-requirements-content {
+.species-detail-habitat-level {
+  margin-top: var(--spacing-md);
+}
+
+.species-detail-habitat-level:first-child {
+  margin-top: 0;
+}
+
+.species-detail-habitat-heading {
+  font-weight: 600;
+  color: var(--forest-medium);
+  margin-bottom: var(--spacing-xs);
+}
+
+.species-detail-habitat-group {
   margin-top: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  background-color: rgba(122, 157, 114, 0.05);
-  border-radius: var(--radius-sm);
+}
+
+.species-detail-habitat-subheading {
   font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--bark-brown);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.species-detail-habitat-list {
+  margin: 0 0 var(--spacing-sm) 0;
+  padding-left: 1.25rem;
   color: var(--stone-grey);
   line-height: 1.5;
+}
+
+.species-detail-habitat-list li {
+  margin-bottom: 2px;
+}
+
+.species-detail-habitat-context {
+  color: var(--bark-brown);
+  font-size: 0.9em;
+}
+
+@media (max-width: 600px) {
+  .species-detail-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
 }
 
 /* Empty State */
