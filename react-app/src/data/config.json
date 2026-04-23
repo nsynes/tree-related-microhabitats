@@ -1,51 +1,86 @@
 {
   "app": {
-    "title": "Tree-related Microhabitat & Species Explorer",
-    "subtitle": "Explore relationships between Tree-related Microhabitats (TreMs) and associated species",
-    "dataFile": "../data/Tree_TreMs_species spreadsheet.csv"
+    "title": "Tree-Related Microhabitats Species Explorer"
   },
   "filterHierarchy": [
     {
       "level": 1,
       "id": "woodland_type",
       "title": "1. Woodland Type",
-      "description": "Select the woodland context (select one or more)",
+      "description": "Filter by habitat type",
       "filters": [
-        { "id": "woodland", "label": "Woodland", "column": "woodland" },
-        { "id": "parkland", "label": "Parkland", "column": "parkland/open grown" },
-        { "id": "tow", "label": "Trees Outside Woodland", "column": "ToW" }
+        {
+          "id": "open_grown",
+          "label": "Open Grown Trees",
+          "column": "uses open grown"
+        },
+        {
+          "id": "closed_canopy",
+          "label": "Closed Canopy Woodland",
+          "column": "woodland"
+        },
+        {
+          "id": "parkland",
+          "label": "Wood Pasture/Parkland",
+          "column": "parkland/open grown"
+        },
+        {
+          "id": "tow",
+          "label": "Trees Outside Woodland",
+          "column": "ToW"
+        },
+        {
+          "id": "orchard",
+          "label": "Orchard",
+          "column": "Orchard"
+        }
       ]
     },
     {
       "level": 2,
       "id": "tree_characteristics",
       "title": "2. Tree Characteristics",
-      "description": "Select tree species, age, and condition (select one or more from each)",
+      "description": "Filter by tree type and age",
       "categories": [
         {
-          "title": "Tree Species",
+          "title": "Tree Type",
           "filters": [
-            { "id": "tree_oak", "label": "Oak", "column": "Tree species", "searchTerm": "oak" },
-            { "id": "tree_beech", "label": "Beech", "column": "Tree species", "searchTerm": "beech" },
-            { "id": "tree_birch", "label": "Birch", "column": "Tree species", "searchTerm": "birch" },
-            { "id": "tree_ash", "label": "Ash", "column": "Tree species", "searchTerm": "ash" }
+            {
+              "id": "conifer",
+              "label": "Conifer",
+              "column": "Conifer"
+            },
+            {
+              "id": "broadleaved",
+              "label": "Broadleaved",
+              "column": "Broadleaved"
+            }
           ]
         },
         {
           "title": "Tree Age",
           "filters": [
-            { "id": "ancient", "label": "Ancient", "column": "woodland age", "searchTerm": "ancient" },
-            { "id": "veteran", "label": "Veteran", "column": "Tree age", "searchTerm": "veteran" },
-            { "id": "old", "label": "Old", "column": "woodland age", "searchTerm": "old" }
-          ]
-        },
-        {
-          "title": "Wood State",
-          "filters": [
-            { "id": "living", "label": "Living", "column": "Dead wood", "searchTerm": "living" },
-            { "id": "dead", "label": "Dead", "column": "Dead wood", "searchTerm": "dead" },
-            { "id": "decaying", "label": "Decaying", "column": "Dead wood", "searchTerm": "decaying" },
-            { "id": "dying", "label": "Dying", "column": "Dead wood", "searchTerm": "dying" }
+            {
+              "id": "need_avt",
+              "label": "Requires Ancient/Veteran Trees",
+              "column": "NEED AVT",
+              "isAndFilter": true
+            },
+            {
+              "id": "ancient",
+              "label": "Ancient/Veteran",
+              "column": "ancient/veteran"
+            },
+            {
+              "id": "mature",
+              "label": "Mature",
+              "column": "Mature"
+            },
+            {
+              "id": "young",
+              "label": "Young",
+              "column": "Young"
+            }
           ]
         }
       ]
@@ -53,131 +88,389 @@
     {
       "level": 3,
       "id": "microhabitats",
-      "title": "3. Microhabitats (Optional)",
-      "description": "Optionally filter by specific microhabitat features. If none selected, all microhabitats are shown.",
+      "title": "3. Microhabitats",
+      "description": "Filter by tree-related microhabitats",
       "groups": [
         {
-          "id": "tree_parts",
-          "title": "Tree Parts & Position",
+          "id": "cavity",
+          "title": "Cavity",
+          "description": "[Placeholder] Cavities — holes, hollows, and concavities in living or dead wood — provide shelter, nesting sites, and breeding habitat for a wide range of vertebrates (birds, bats, small mammals) and saproxylic invertebrates. Final taxa descriptions to be provided by client.",
           "categories": [
             {
-              "title": "Location",
+              "title": "Nest Holes",
               "filters": [
-                { "id": "trunks", "label": "Trunks", "column": "part of tree", "searchTerm": "trunks" },
-                { "id": "branches", "label": "Branches", "column": "part of tree", "searchTerm": "branches" },
-                { "id": "roots", "label": "Roots", "column": "part of tree", "searchTerm": "roots" },
-                { "id": "stumps", "label": "Stumps", "column": "part of tree", "searchTerm": "stumps" },
-                { "id": "canopy", "label": "Canopy", "column": "part of tree", "searchTerm": "canopy" }
+                {
+                  "id": "woodpecker_nest",
+                  "label": "Woodpecker Nesthole",
+                  "column": "WoodpeckerNesthole"
+                },
+                {
+                  "id": "other_nest_hole",
+                  "label": "Other Nest Hole",
+                  "column": "OtherNestHole"
+                }
               ]
             },
             {
-              "title": "Position",
+              "title": "Rot Holes",
               "filters": [
-                { "id": "standing", "label": "Standing", "column": "standing / fallen", "searchTerm": "standing" },
-                { "id": "fallen", "label": "Fallen", "column": "standing / fallen", "searchTerm": "fallen" }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "decay_types",
-          "title": "Decay Types",
-          "categories": [
-            {
-              "title": "Decay",
-              "filters": [
-                { "id": "heart_rot", "label": "Heart Rot", "column": "Heart Rot" },
-                { "id": "red_rot", "label": "Red Rot", "column": "Red-rot" },
-                { "id": "white_rot", "label": "White Rot", "column": "White-rot" },
-                { "id": "wood_mould", "label": "Wood Mould", "column": "Wood mould" },
-                { "id": "root_decay", "label": "Root Decay", "column": "root decay" }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "cavities_holes",
-          "title": "Cavities & Holes",
-          "categories": [
-            {
-              "title": "Cavities",
-              "filters": [
-                { "id": "hollow_cavity", "label": "Hollow Tree Cavity", "column": "tree hollows" },
-                { "id": "nest_cavity", "label": "Nest Cavity", "column": "hole with nest" },
-                { "id": "rot_holes", "label": "Rot Holes", "column": "rot holes" },
-                { "id": "concavity", "label": "Concavity", "column": "concavity" },
-                { "id": "tree_hollows", "label": "Tree Hollows", "column": "tree hollows" },
-                { "id": "borings", "label": "Borings", "column": "Borings" },
-                { "id": "holes", "label": "Holes", "column": "cavity" }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "surface_features",
-          "title": "Surface Features",
-          "categories": [
-            {
-              "title": "Bark Features",
-              "filters": [
-                { "id": "loose_bark", "label": "Loose Bark", "column": "loose bark" },
-                { "id": "bark_assoc", "label": "Bark Association", "column": "bark association" },
-                { "id": "bark_trem", "label": "Bark TreM", "column": "bark trem" }
+                {
+                  "id": "trunk_rot",
+                  "label": "Trunk Rot Hole",
+                  "column": "TrunkRotHole"
+                },
+                {
+                  "id": "trunk_base_rot",
+                  "label": "Trunk-base Rot Hole",
+                  "column": "Trunk-baseRotHole"
+                },
+                {
+                  "id": "chimney_trunk_rot",
+                  "label": "Chimney Trunk Rot Hole",
+                  "column": "ChimneyTrunkRotHole"
+                },
+                {
+                  "id": "hollow_branch",
+                  "label": "Hollow Branch",
+                  "column": "HollowBranch"
+                },
+                {
+                  "id": "semi_open_rot",
+                  "label": "Semi-open Rot Hole",
+                  "column": "SemiOpenRotHole"
+                }
               ]
             },
             {
-              "title": "Damage & Features",
+              "title": "Concavities",
               "filters": [
-                { "id": "injuries", "label": "Injuries", "column": "Injury" },
-                { "id": "physical_damage", "label": "Physical Damage", "column": "Physical damage" },
-                { "id": "crevices", "label": "Crevices", "column": "crevices" },
-                { "id": "dead_canopy", "label": "Dead Canopy", "column": "dead canopy" },
-                { "id": "excrescences", "label": "Excrescences", "column": "excrescences" }
+                {
+                  "id": "root_buttress",
+                  "label": "Root Buttress Concavity",
+                  "column": "RootButtressConcavity"
+                },
+                {
+                  "id": "bark_lined",
+                  "label": "Bark-lined Concavity",
+                  "column": "Bark-lined concavity"
+                },
+                {
+                  "id": "insect_borehole",
+                  "label": "Insect Borehole",
+                  "column": "InsectBorehole"
+                },
+                {
+                  "id": "dendrotelm",
+                  "label": "Dendrotelm",
+                  "column": "Dendrotelm"
+                },
+                {
+                  "id": "woodpecker_foraging",
+                  "label": "Woodpecker Foraging",
+                  "column": "WoodpeckerForaging"
+                }
+              ]
+            },
+            {
+              "title": "Wood Decay (Heartwood)",
+              "filters": [
+                {
+                  "id": "any_decay",
+                  "label": "Any",
+                  "column": "Any"
+                },
+                {
+                  "id": "red_rot",
+                  "label": "Red Rot",
+                  "column": "RedRot"
+                },
+                {
+                  "id": "white_rot",
+                  "label": "White Rot",
+                  "column": "WhiteRot"
+                },
+                {
+                  "id": "wood_mould",
+                  "label": "Wood Mould",
+                  "column": "WoodMould"
+                }
               ]
             }
           ]
         },
         {
-          "id": "biological_features",
-          "title": "Biological Features",
+          "id": "injury",
+          "title": "Injuries & Exposed Wood",
+          "description": "[Placeholder] Wounds exposing sapwood or heartwood create substrate for wood-decay fungi, saproxylic beetles and flies, and cryptogamic communities. Final taxa descriptions to be provided by client.",
           "categories": [
+            {
+              "title": "Wood Decay (Sapwood)",
+              "filters": [
+                {
+                  "id": "bark_sapwood",
+                  "label": "Bark Sapwood",
+                  "column": "BarkSapwood"
+                }
+              ]
+            },
+            {
+              "title": "Exposed Sapwood",
+              "filters": [
+                {
+                  "id": "bark_pocket",
+                  "label": "Bark Pocket/Shelter",
+                  "column": "BarkPocketShelter"
+                },
+                {
+                  "id": "bark_loss",
+                  "label": "Bark Loss",
+                  "column": "BarkLoss"
+                },
+                {
+                  "id": "fire_scar",
+                  "label": "Fire Scar",
+                  "column": "FireScar"
+                }
+              ]
+            },
+            {
+              "title": "Exposed Heartwood",
+              "filters": [
+                {
+                  "id": "crevice",
+                  "label": "Crack/Crevice",
+                  "column": "Crevice"
+                },
+                {
+                  "id": "fork_split",
+                  "label": "Fork Split",
+                  "column": "ForkSplit"
+                },
+                {
+                  "id": "limb_breakage",
+                  "label": "Limb Breakage",
+                  "column": "LimbBreakage"
+                },
+                {
+                  "id": "stem_breakage",
+                  "label": "Stem Breakage",
+                  "column": "StemBreakage"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "crown_deadwood",
+          "title": "Crown Deadwood",
+          "description": "[Placeholder] Dead branches in the crown — sun-exposed or shaded — support specialised saproxylic invertebrates, fungi and lichens with different micro-climatic requirements. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "Dead Branches",
+              "filters": [
+                {
+                  "id": "remnant_broken_limb",
+                  "label": "Remnant Broken Limb",
+                  "column": "RemnantBrokenLimb"
+                },
+                {
+                  "id": "dead_branches_sun",
+                  "label": "Dead Branches (Sun-exposed)",
+                  "column": "DeadBranchesSun"
+                },
+                {
+                  "id": "dead_branches_shade",
+                  "label": "Dead Branches (Shaded)",
+                  "column": "DeadBranchesShade"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "excrescences",
+          "title": "Excrescences",
+          "description": "[Placeholder] Burrs, cankers and twig tangles create tight, structurally complex wood that supports specialist gall-associated insects, fungi and epiphytic communities. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "Burrs & Cankers",
+              "filters": [
+                {
+                  "id": "burr",
+                  "label": "Burr",
+                  "column": "Burr"
+                },
+                {
+                  "id": "canker",
+                  "label": "Canker",
+                  "column": "Canker"
+                }
+              ]
+            },
+            {
+              "title": "Twig Tangles",
+              "filters": [
+                {
+                  "id": "epicormic",
+                  "label": "Epicormic Shoots",
+                  "column": "EpicormicShoots"
+                },
+                {
+                  "id": "witches_broom",
+                  "label": "Witches Broom",
+                  "column": "WitchesBroom"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fungal_fruiting",
+          "title": "Fungal Fruiting Bodies",
+          "description": "[Placeholder] Perennial and ephemeral fungal fruiting bodies host a distinctive fauna of fungivorous beetles, flies and other invertebrates, as well as mycophagous vertebrates. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "All Fungal Features",
+              "filters": [
+                {
+                  "id": "fungal_parent",
+                  "label": "Any Fungal Fruiting Bodies",
+                  "column": "FUNGALPARENT"
+                }
+              ]
+            },
+            {
+              "title": "Perennial Fungi",
+              "filters": [
+                {
+                  "id": "perennial_polypore",
+                  "label": "Perennial Polypore",
+                  "column": "PerennialPolypore"
+                }
+              ]
+            },
+            {
+              "title": "Ephemeral Fungi",
+              "filters": [
+                {
+                  "id": "annual_polypore",
+                  "label": "Annual Polypore",
+                  "column": "AnnualPolypore"
+                },
+                {
+                  "id": "pulpy_agaric",
+                  "label": "Pulpy Agaric",
+                  "column": "PulpyAgaric"
+                },
+                {
+                  "id": "pyrenomycetoid",
+                  "label": "Pyrenomycetoid",
+                  "column": "Pyrenomycetoid"
+                },
+                {
+                  "id": "crustose_fungi",
+                  "label": "Crustose Fungi",
+                  "column": "CrustoseFungi"
+                },
+                {
+                  "id": "slime_mould",
+                  "label": "Slime Mould",
+                  "column": "Slimemould"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "epixylic",
+          "title": "Epixylic Structures",
+          "description": "[Placeholder] Nests, climbing plants, epiphytes (ivy, lichens, mosses, mistletoe) and accumulated microsoil build up communities that support invertebrates, breeding birds, and cryptogamic specialists. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "Nests",
+              "filters": [
+                {
+                  "id": "vertebrate_nest",
+                  "label": "Vertebrate Nest",
+                  "column": "VertebrateNest"
+                },
+                {
+                  "id": "invertebrate_nest",
+                  "label": "Invertebrate Nest",
+                  "column": "InvertebrateNest"
+                }
+              ]
+            },
             {
               "title": "Epiphytes",
               "filters": [
-                { "id": "mosses", "label": "Mosses", "column": "Epiphytes", "searchTerm": "mosses" },
-                { "id": "lichens", "label": "Lichens", "column": "Epiphytes", "searchTerm": "lichens" },
-                { "id": "ivy", "label": "Ivy", "column": "Epiphytes", "searchTerm": "ivy" },
-                { "id": "nests", "label": "Nests", "column": "nests" },
-                { "id": "ferns", "label": "Ferns", "column": "Epiphytes", "searchTerm": "ferns" }
+                {
+                  "id": "ivy",
+                  "label": "Ivy",
+                  "column": "Ivy"
+                },
+                {
+                  "id": "ferns",
+                  "label": "Ferns",
+                  "column": "Ferns"
+                },
+                {
+                  "id": "lichen",
+                  "label": "Lichen",
+                  "column": "Lichen"
+                },
+                {
+                  "id": "moss",
+                  "label": "Moss",
+                  "column": "Moss"
+                },
+                {
+                  "id": "mistletoe",
+                  "label": "Mistletoe",
+                  "column": "Mistletoe"
+                }
               ]
             },
             {
-              "title": "Fungi",
+              "title": "Microsoil",
               "filters": [
-                { "id": "bracket_fungus", "label": "Bracket Fungus", "column": "fungal fruiting body", "searchTerm": "bracket" },
-                { "id": "perennial_fungi", "label": "Perennial Fungi", "column": "perennial fungi" },
-                { "id": "ephemeral_fungi", "label": "Ephemeral Fungi", "column": "ephemeral fungi" },
-                { "id": "fungal_fruiting", "label": "Fungal Fruiting Bodies", "column": "fungal fruiting body" }
+                {
+                  "id": "microsoil",
+                  "label": "Microsoil",
+                  "column": "Microsoil"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "exudates",
+          "title": "Exudates",
+          "description": "[Placeholder] Sap runs and resin flows provide nutrient-rich, short-lived microhabitats for attracted invertebrates (especially Diptera and Coleoptera) and microbial communities. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "Sap Runs",
+              "filters": [
+                {
+                  "id": "sap_run",
+                  "label": "Sap Run",
+                  "column": "SapRun"
+                }
               ]
             },
             {
-              "title": "Other",
+              "title": "Resin",
               "filters": [
-                { "id": "exudates", "label": "Exudates", "column": "exudates" },
-                { "id": "flowers_nectar", "label": "Flowers/Nectar", "column": "Flowers/nectar?" }
+                {
+                  "id": "resinosis",
+                  "label": "Resinosis",
+                  "column": "Resinosis"
+                }
               ]
             }
           ]
         }
       ]
     }
-  ],
-  "theme": {
-    "forestDark": "#2c3e2f",
-    "forestMedium": "#4a6741",
-    "forestLight": "#7a9d72",
-    "barkBrown": "#8b7355",
-    "stoneGrey": "#5a5a5a",
-    "lightGrey": "#e8e8e8"
-  }
+  ]
 }

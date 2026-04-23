@@ -1,0 +1,250 @@
+{
+  "description": "Tree-Related Microhabitats - Filter Hierarchy Configuration",
+  "hierarchy": {
+    "level1": {
+      "id": "woodland_type",
+      "title": "1. Woodland Type",
+      "description": "Filter by habitat type",
+      "filters": [
+        {"id": "open_grown", "label": "Open Grown Trees", "column": "uses open grown"},
+        {"id": "closed_canopy", "label": "Closed Canopy Woodland", "column": "woodland"},
+        {"id": "parkland", "label": "Wood Pasture/Parkland", "column": "parkland/open grown"},
+        {"id": "tow", "label": "Trees Outside Woodland", "column": "ToW"},
+        {"id": "orchard", "label": "Orchard", "column": "Orchard"}
+      ]
+    },
+    
+    "level2": {
+      "id": "tree_characteristics",
+      "title": "2. Tree Characteristics",
+      "description": "Filter by tree type and age",
+      "categories": [
+        {
+          "title": "Tree Type",
+          "filters": [
+            {"id": "conifer", "label": "Conifer", "column": "Conifer"},
+            {"id": "broadleaved", "label": "Broadleaved", "column": "Broadleaved"}
+          ]
+        },
+        {
+          "title": "Tree Age",
+          "filters": [
+            {"id": "need_avt", "label": "Requires Ancient/Veteran Trees", "column": "NEED AVT", "isAndFilter": true},
+            {"id": "ancient", "label": "Ancient/Veteran", "column": "ancient/veteran"},
+            {"id": "mature", "label": "Mature", "column": "Mature"},
+            {"id": "young", "label": "Young", "column": "Young"}
+          ]
+        }
+      ]
+    },
+    
+    "level3": {
+      "id": "microhabitats",
+      "title": "3. Microhabitats",
+      "description": "Filter by tree-related microhabitats",
+      "groups": [
+        {
+          "id": "cavity",
+          "title": "Cavity",
+          "description": "[Placeholder] Cavities — holes, hollows, and concavities in living or dead wood — provide shelter, nesting sites, and breeding habitat for a wide range of vertebrates (birds, bats, small mammals) and saproxylic invertebrates. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "Nest Holes",
+              "filters": [
+                {"id": "woodpecker_nest", "label": "Woodpecker Nesthole", "column": "WoodpeckerNesthole"},
+                {"id": "other_nest_hole", "label": "Other Nest Hole", "column": "OtherNestHole"}
+              ]
+            },
+            {
+              "title": "Rot Holes",
+              "filters": [
+                {"id": "trunk_rot", "label": "Trunk Rot Hole", "column": "TrunkRotHole"},
+                {"id": "trunk_base_rot", "label": "Trunk-base Rot Hole", "column": "Trunk-baseRotHole"},
+                {"id": "chimney_trunk_rot", "label": "Chimney Trunk Rot Hole", "column": "ChimneyTrunkRotHole"},
+                {"id": "hollow_branch", "label": "Hollow Branch", "column": "HollowBranch"},
+                {"id": "semi_open_rot", "label": "Semi-open Rot Hole", "column": "SemiOpenRotHole"}
+              ]
+            },
+            {
+              "title": "Concavities",
+              "filters": [
+                {"id": "root_buttress", "label": "Root Buttress Concavity", "column": "RootButtressConcavity"},
+                {"id": "bark_lined", "label": "Bark-lined Concavity", "column": "Bark-lined concavity"},
+                {"id": "insect_borehole", "label": "Insect Borehole", "column": "InsectBorehole"},
+                {"id": "dendrotelm", "label": "Dendrotelm", "column": "Dendrotelm"},
+                {"id": "woodpecker_foraging", "label": "Woodpecker Foraging", "column": "WoodpeckerForaging"}
+              ]
+            },
+            {
+              "title": "Wood Decay (Heartwood)",
+              "filters": [
+                {"id": "any_decay", "label": "Any", "column": "Any"},
+                {"id": "red_rot", "label": "Red Rot", "column": "RedRot"},
+                {"id": "white_rot", "label": "White Rot", "column": "WhiteRot"},
+                {"id": "wood_mould", "label": "Wood Mould", "column": "WoodMould"}
+              ]
+            }
+          ]
+        },
+        {
+          "id": "injury",
+          "title": "Injuries & Exposed Wood",
+          "description": "[Placeholder] Wounds exposing sapwood or heartwood create substrate for wood-decay fungi, saproxylic beetles and flies, and cryptogamic communities. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "Wood Decay (Sapwood)",
+              "filters": [
+                {"id": "bark_sapwood", "label": "Bark Sapwood", "column": "BarkSapwood"}
+              ]
+            },
+            {
+              "title": "Exposed Sapwood",
+              "filters": [
+                {"id": "bark_pocket", "label": "Bark Pocket/Shelter", "column": "BarkPocketShelter"},
+                {"id": "bark_loss", "label": "Bark Loss", "column": "BarkLoss"},
+                {"id": "fire_scar", "label": "Fire Scar", "column": "FireScar"}
+              ]
+            },
+            {
+              "title": "Exposed Heartwood",
+              "filters": [
+                {"id": "crevice", "label": "Crack/Crevice", "column": "Crevice"},
+                {"id": "fork_split", "label": "Fork Split", "column": "ForkSplit"},
+                {"id": "limb_breakage", "label": "Limb Breakage", "column": "LimbBreakage"},
+                {"id": "stem_breakage", "label": "Stem Breakage", "column": "StemBreakage"}
+              ]
+            }
+          ]
+        },
+        {
+          "id": "crown_deadwood",
+          "title": "Crown Deadwood",
+          "description": "[Placeholder] Dead branches in the crown — sun-exposed or shaded — support specialised saproxylic invertebrates, fungi and lichens with different micro-climatic requirements. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "Dead Branches",
+              "filters": [
+                {"id": "remnant_broken_limb", "label": "Remnant Broken Limb", "column": "RemnantBrokenLimb"},
+                {"id": "dead_branches_sun", "label": "Dead Branches (Sun-exposed)", "column": "DeadBranchesSun"},
+                {"id": "dead_branches_shade", "label": "Dead Branches (Shaded)", "column": "DeadBranchesShade"}
+              ]
+            }
+          ]
+        },
+        {
+          "id": "excrescences",
+          "title": "Excrescences",
+          "description": "[Placeholder] Burrs, cankers and twig tangles create tight, structurally complex wood that supports specialist gall-associated insects, fungi and epiphytic communities. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "Burrs & Cankers",
+              "filters": [
+                {"id": "burr", "label": "Burr", "column": "Burr"},
+                {"id": "canker", "label": "Canker", "column": "Canker"}
+              ]
+            },
+            {
+              "title": "Twig Tangles",
+              "filters": [
+                {"id": "epicormic", "label": "Epicormic Shoots", "column": "EpicormicShoots"},
+                {"id": "witches_broom", "label": "Witches Broom", "column": "WitchesBroom"}
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fungal_fruiting",
+          "title": "Fungal Fruiting Bodies",
+          "description": "[Placeholder] Perennial and ephemeral fungal fruiting bodies host a distinctive fauna of fungivorous beetles, flies and other invertebrates, as well as mycophagous vertebrates. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "All Fungal Features",
+              "filters": [
+                {"id": "fungal_parent", "label": "Any Fungal Fruiting Bodies", "column": "FUNGALPARENT"}
+              ]
+            },
+            {
+              "title": "Perennial Fungi",
+              "filters": [
+                {"id": "perennial_polypore", "label": "Perennial Polypore", "column": "PerennialPolypore"}
+              ]
+            },
+            {
+              "title": "Ephemeral Fungi",
+              "filters": [
+                {"id": "annual_polypore", "label": "Annual Polypore", "column": "AnnualPolypore"},
+                {"id": "pulpy_agaric", "label": "Pulpy Agaric", "column": "PulpyAgaric"},
+                {"id": "pyrenomycetoid", "label": "Pyrenomycetoid", "column": "Pyrenomycetoid"},
+                {"id": "crustose_fungi", "label": "Crustose Fungi", "column": "CrustoseFungi"},
+                {"id": "slime_mould", "label": "Slime Mould", "column": "Slimemould"}
+              ]
+            }
+          ]
+        },
+        {
+          "id": "epixylic",
+          "title": "Epixylic Structures",
+          "description": "[Placeholder] Nests, climbing plants, epiphytes (ivy, lichens, mosses, mistletoe) and accumulated microsoil build up communities that support invertebrates, breeding birds, and cryptogamic specialists. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "Nests",
+              "filters": [
+                {"id": "vertebrate_nest", "label": "Vertebrate Nest", "column": "VertebrateNest"},
+                {"id": "invertebrate_nest", "label": "Invertebrate Nest", "column": "InvertebrateNest"}
+              ]
+            },
+            {
+              "title": "Epiphytes",
+              "filters": [
+                {"id": "ivy", "label": "Ivy", "column": "Ivy"},
+                {"id": "ferns", "label": "Ferns", "column": "Ferns"},
+                {"id": "lichen", "label": "Lichen", "column": "Lichen"},
+                {"id": "moss", "label": "Moss", "column": "Moss"},
+                {"id": "mistletoe", "label": "Mistletoe", "column": "Mistletoe"}
+              ]
+            },
+            {
+              "title": "Microsoil",
+              "filters": [
+                {"id": "microsoil", "label": "Microsoil", "column": "Microsoil"}
+              ]
+            }
+          ]
+        },
+        {
+          "id": "exudates",
+          "title": "Exudates",
+          "description": "[Placeholder] Sap runs and resin flows provide nutrient-rich, short-lived microhabitats for attracted invertebrates (especially Diptera and Coleoptera) and microbial communities. Final taxa descriptions to be provided by client.",
+          "categories": [
+            {
+              "title": "Sap Runs",
+              "filters": [
+                {"id": "sap_run", "label": "Sap Run", "column": "SapRun"}
+              ]
+            },
+            {
+              "title": "Resin",
+              "filters": [
+                {"id": "resinosis", "label": "Resinosis", "column": "Resinosis"}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  
+  "speciesMetadataColumns": [
+    "Scientific name",
+    "Common name",
+    "Class",
+    "Order",
+    "Family",
+    "PriorityEngland",
+    "D4/D5",
+    "IUCNStatus",
+    "ThreatenedAction",
+    "Distribution",
+    "Habitat requirements"
+  ]
+}
