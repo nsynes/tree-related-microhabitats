@@ -9,8 +9,10 @@ function FilterPanel({ config }) {
     level3Filters,
     toggleFilter,
     toggleGroup,
+    clearGroup,
     isGroupSelected,
     isGroupIndeterminate,
+    countGroupSelected,
     clearFilters,
     getTotalFiltersCount
   } = useFilterStore();
@@ -87,36 +89,39 @@ function FilterPanel({ config }) {
         </div>
         <div className="logic-separator">AND</div>
 
-        {/* Level 3: Microhabitats */}
+        {/* Level 3: Microhabitats — summarised one chip per group */}
         <div className="filter-summary-row">
           <span className="filter-summary-label">Microhabitats:</span>
           {level3Filters.size === 0 ? (
             <span className="filter-summary-all">ALL</span>
-          ) : (
-            <div className="filter-chips">
-              {Array.from(level3Filters).slice(0, 8).map((filterId, index, array) => (
-                <React.Fragment key={filterId}>
-                  <button
-                    className="filter-chip"
-                    onClick={() => toggleFilter(filterId, 3)}
-                    title="Click to remove"
-                  >
-                    {getFilterLabel(filterId)}
-                    <span className="chip-remove">×</span>
-                  </button>
-                  {index < array.length - 1 && <span className="logic-operator">OR</span>}
-                </React.Fragment>
-              ))}
-              {level3Filters.size > 8 && (
-                <>
-                  <span className="logic-operator">OR</span>
-                  <span className="filter-chips-more" title={`And ${level3Filters.size - 8} more...`}>
-                    +{level3Filters.size - 8} more
-                  </span>
-                </>
-              )}
-            </div>
-          )}
+          ) : (() => {
+            const level3 = config.filterHierarchy.find(l => l.level === 3);
+            const chips = [];
+            for (const group of level3?.groups || []) {
+              const count = countGroupSelected(group.id, config);
+              if (count === 0) continue;
+              const full = isGroupSelected(group.id, config);
+              chips.push({ id: group.id, label: group.title, count, full });
+            }
+            return (
+              <div className="filter-chips">
+                {chips.map((chip, index) => (
+                  <React.Fragment key={chip.id}>
+                    <button
+                      className={`filter-chip${chip.full ? ' filter-chip--group' : ''}`}
+                      onClick={() => clearGroup(chip.id, config)}
+                      title={chip.full ? 'Click to remove whole group' : `Click to remove all ${chip.count} filters in ${chip.label}`}
+                    >
+                      {chip.label}
+                      {!chip.full && <span className="chip-count">({chip.count})</span>}
+                      <span className="chip-remove">×</span>
+                    </button>
+                    {index < chips.length - 1 && <span className="logic-operator">OR</span>}
+                  </React.Fragment>
+                ))}
+              </div>
+            );
+          })()}
         </div>
       </div>
 
@@ -168,13 +173,15 @@ function FilterPanel({ config }) {
             {/* Level 3: Groups with categories and filters */}
             {hierarchyLevel.level === 3 && (
               <div className="microhabitat-groups">
-                {hierarchyLevel.groups.map(group => (
+                {hierarchyLevel.groups.map(group => {
+                  const groupFullySelected = isGroupSelected(group.id, config);
+                  return (
                   <div key={group.id} className="filter-group">
                     {/* Group-level "select all" checkbox */}
                     <label className="filter-group-checkbox">
                       <input
                         type="checkbox"
-                        checked={isGroupSelected(group.id, config)}
+                        checked={groupFullySelected}
                         ref={(el) => {
                           if (el) el.indeterminate = isGroupIndeterminate(group.id, config);
                         }}
@@ -193,7 +200,10 @@ function FilterPanel({ config }) {
                           <div className="filter-category-title">{category.title}</div>
                           <div className="filter-options">
                             {category.filters.map(filter => (
-                              <label key={filter.id} className="filter-checkbox">
+                              <label
+                                key={filter.id}
+                                className={`filter-checkbox${groupFullySelected ? ' in-group' : ''}`}
+                              >
                                 <input
                                   type="checkbox"
                                   checked={level3Filters.has(filter.id)}
@@ -207,7 +217,8 @@ function FilterPanel({ config }) {
                       ))}
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>

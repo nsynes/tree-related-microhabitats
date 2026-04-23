@@ -155,15 +155,15 @@ const useFilterStore = create((set, get) => ({
   toggleGroup: (groupId, config) => {
     const { level3Filters, getGroupFilterIds, filterSpecies } = get();
     const filterIds = getGroupFilterIds(groupId, config);
-    
+
     if (filterIds.length === 0) return;
-    
+
     const newFilters = new Set(level3Filters);
-    
+
     // If all filters are selected, deselect all
     // Otherwise, select all
     const allSelected = filterIds.every(id => level3Filters.has(id));
-    
+
     if (allSelected) {
       // Deselect all filters in the group
       filterIds.forEach(id => newFilters.delete(id));
@@ -171,9 +171,28 @@ const useFilterStore = create((set, get) => ({
       // Select all filters in the group
       filterIds.forEach(id => newFilters.add(id));
     }
-    
+
     set({ level3Filters: newFilters });
     filterSpecies();
+  },
+
+  // Remove every level 3 filter that belongs to a group (partial or full)
+  clearGroup: (groupId, config) => {
+    const { level3Filters, getGroupFilterIds, filterSpecies } = get();
+    const filterIds = getGroupFilterIds(groupId, config);
+    if (filterIds.length === 0) return;
+
+    const newFilters = new Set(level3Filters);
+    filterIds.forEach(id => newFilters.delete(id));
+    set({ level3Filters: newFilters });
+    filterSpecies();
+  },
+
+  // Count how many filters in a group are currently selected
+  countGroupSelected: (groupId, config) => {
+    const { level3Filters, getGroupFilterIds } = get();
+    const filterIds = getGroupFilterIds(groupId, config);
+    return filterIds.filter(id => level3Filters.has(id)).length;
   }
 }));
 
