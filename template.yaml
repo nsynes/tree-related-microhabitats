@@ -1,0 +1,192 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Tree-Related Microhabitats Species Explorer - Static Website Deployment
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: Name for the S3 bucket (must be globally unique)
+    Default: tree-microhabitats-explorer
+  
+  DomainName:
+    Type: String
+    Description: Custom domain name (e.g., trems.nicksynes.com)
+    Default: trems.nicksynes.com
+  
+  HostedZoneName:
+    Type: String
+    Description: Route53 hosted zone name (e.g., nicksynes.com)
+    Default: nicksynes.com
+  
+  HostedZoneId:
+    Type: String
+    Description: Route53 hosted zone ID for DNS validation
+    Default: Z14H3DU71RMKI4
+  
+  UseCustomDomain:
+    Type: String
+    Description: Use custom domain with CloudFront and ACM certificate
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+
+Conditions:
+  UseCustomDomain: !Equals [!Ref UseCustomDomain, 'true']
+
+Resources:
+  # S3 Bucket for hosting the static website
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html  # SPA routing fallback
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - HEAD
+            AllowedOrigins:
+              - '*'
+            MaxAge: 3600
+      Tags:
+        - Key: Project
+          Value: TreeMicrohabitatsExplorer
+        - Key: Environment
+          Value: Production
+
+  # Bucket Policy to allow public read access
+  WebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref WebsiteBucket
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: '*'
+            Action: s3:GetObject
+            Resource: !Sub '${WebsiteBucket.Arn}/*'
+
+  # ACM Certificate for custom domain (must be in us-east-1 for CloudFront)
+  Certificate:
+    Type: AWS::CertificateManager::Certificate
+    Condition: UseCustomDomain
+    Properties:
+      DomainName: !Ref DomainName
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: !Ref DomainName
+          HostedZoneId: !Ref HostedZoneId
+      Tags:
+        - Key: Project
+          Value: TreeMicrohabitatsExplorer
+        - Key: Environment
+          Value: Production
+
+  # CloudFront Distribution with custom domain
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Condition: UseCustomDomain
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Comment: !Sub 'CDN for ${DomainName}'
+        DefaultRootObject: index.html
+        Aliases:
+          - !Ref DomainName
+        Origins:
+          - Id: S3Origin
+            DomainName: !GetAtt WebsiteBucket.RegionalDomainName
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: http-only
+        DefaultCacheBehavior:
+          TargetOriginId: S3Origin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          CachedMethods:
+            - GET
+            - HEAD
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+          Compress: true
+          MinTTL: 0
+          DefaultTTL: 86400    # 1 day
+          MaxTTL: 31536000     # 1 year
+        CustomErrorResponses:
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+        PriceClass: PriceClass_100  # Use only North America and Europe edge locations
+        ViewerCertificate:
+          AcmCertificateArn: !Ref Certificate
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+      Tags:
+        - Key: Project
+          Value: TreeMicrohabitatsExplorer
+        - Key: Environment
+          Value: Production
+
+  # Route53 DNS Record (uses existing hosted zone)
+  DNSRecord:
+    Type: AWS::Route53::RecordSet
+    Condition: UseCustomDomain
+    Properties:
+      HostedZoneName: !Sub '${HostedZoneName}.'
+      Name: !Ref DomainName
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt CloudFrontDistribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2  # CloudFront hosted zone ID (constant)
+        EvaluateTargetHealth: false
+
+Outputs:
+  WebsiteURL:
+    Description: URL for the static website
+    Value: !GetAtt WebsiteBucket.WebsiteURL
+    Export:
+      Name: !Sub '${AWS::StackName}-WebsiteURL'
+
+  BucketName:
+    Description: Name of the S3 bucket
+    Value: !Ref WebsiteBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-BucketName'
+
+  CustomDomainURL:
+    Condition: UseCustomDomain
+    Description: Custom domain URL
+    Value: !Sub 'https://${DomainName}'
+    Export:
+      Name: !Sub '${AWS::StackName}-CustomDomainURL'
+
+  CloudFrontURL:
+    Condition: UseCustomDomain
+    Description: CloudFront distribution URL
+    Value: !GetAtt CloudFrontDistribution.DomainName
+    Export:
+      Name: !Sub '${AWS::StackName}-CloudFrontURL'
+
+  DeployCommand:
+    Description: Command to deploy the built application
+    Value: !Sub 'aws s3 sync react-app/dist/ s3://${WebsiteBucket}/ --delete'
