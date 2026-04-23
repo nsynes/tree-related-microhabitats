@@ -1,71 +1,79 @@
-# R Shiny App .gitignore
+# Node.js / React / Vite
+node_modules/
+dist/
+build/
+*.local
 
-# Cache files
-cache/
-*.rds
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# R history and workspace
-.Rhistory
-.RData
-.Rproj.user
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
 
-# R session data
-.Rapp.history
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
 
-# Example code in package build process
-*-Ex.R
-
-# Output files from R CMD build
-/*.tar.gz
-
-# Output files from R CMD check
-/*.Rcheck/
-
-# RStudio files
-.Rproj.user/
-*.Rproj
-
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
-# knitr and R markdown default cache directories
-*_cache/
-/cache/
-
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
-
-# R Environment Variables
-.Renviron
-
-# pkgdown site
-docs/
-
-# translation temp files
-po/*~
-
-# RStudio Connect folder
-rsconnect/
+# AWS SAM
+.aws-sam/
+samconfig.toml
 
 # MacOS
 .DS_Store
+.AppleDouble
+.LSOverride
 
 # Windows
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+$RECYCLE.BIN/
 
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
 # Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Old files
+# R
+.RData
+.Rhistory
+.Rproj.user/
+*.Rproj
+
+# Local notes / inherited chat transcripts (not part of repo)
 old-chat-history/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Generated data files (comment out if you want to track generated JSON)
+# react-app/src/data/config.json
+# react-app/src/data/species.json
