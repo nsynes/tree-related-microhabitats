@@ -256,16 +256,6 @@ body {
   align-items: center;
 }
 
-.logic-operator {
-  color: var(--stone-grey);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  padding: 0 4px;
-  opacity: 0.6;
-  user-select: none;
-}
-
 .logic-separator {
   text-align: center;
   color: var(--forest-medium);
