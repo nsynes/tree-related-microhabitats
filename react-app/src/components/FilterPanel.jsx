@@ -36,8 +36,11 @@ function FilterPanel({ config }) {
 
       {/* Active Filters Summary - Always visible */}
       <div className="active-filters-summary">
-        <div className="active-filters-title">📍 Active Filters:</div>
-        
+        <div className="active-filters-label" aria-hidden="true">
+          <span>Active Filters</span>
+        </div>
+        <div className="active-filters-body">
+
         {/* Level 1: Woodland Type */}
         <div className="filter-summary-row">
           <span className="filter-summary-label">Woodland Type:</span>
@@ -115,6 +118,7 @@ function FilterPanel({ config }) {
               </div>
             );
           })()}
+        </div>
         </div>
       </div>
 

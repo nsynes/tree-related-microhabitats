@@ -218,16 +218,38 @@ body {
 /* Active Filters Summary */
 .active-filters-summary {
   background-color: rgba(122, 157, 114, 0.08);
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: 0;
   border-bottom: 1px solid var(--light-grey);
   flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
 }
 
-.active-filters-title {
-  font-size: var(--font-size-sm);
+.active-filters-label {
+  background-color: rgba(74, 103, 65, 0.1);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) 0.4rem;
+  user-select: none;
+}
+
+.active-filters-label > span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.7rem;
   font-weight: 600;
-  color: var(--forest-dark);
-  margin-bottom: var(--spacing-sm);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--forest-medium);
+  opacity: 0.75;
+}
+
+.active-filters-body {
+  flex: 1;
+  min-width: 0;
+  padding: var(--spacing-md) var(--spacing-lg);
 }
 
 .filter-summary-row {
