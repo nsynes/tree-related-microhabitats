@@ -568,8 +568,123 @@ body {
 }
 
 .panel:has(.species-grid) > .results-info,
-.panel:has(.species-list) > .results-info {
+.panel:has(.species-list) > .results-info,
+.panel:has(.species-grid) > .species-search-bar,
+.panel:has(.species-list) > .species-search-bar,
+.panel:has(.species-grid) > .species-class-tabs,
+.panel:has(.species-list) > .species-class-tabs {
   flex-shrink: 0;
+}
+
+/* Species search bar */
+.species-search-bar {
+  position: relative;
+  padding: var(--spacing-sm) var(--spacing-lg) 0;
+}
+
+.species-search-input {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  padding-right: 2rem;
+  border: 1px solid var(--light-grey);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  background: var(--white);
+  color: var(--forest-dark);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.species-search-input:focus {
+  border-color: var(--forest-medium);
+  box-shadow: 0 0 0 2px rgba(74, 103, 65, 0.15);
+}
+
+.species-search-input::placeholder {
+  color: var(--stone-grey);
+  opacity: 0.7;
+}
+
+/* Hide Safari/Chrome's built-in clear ×; we ship our own button. */
+.species-search-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.species-search-clear {
+  position: absolute;
+  right: calc(var(--spacing-lg) + 0.4rem);
+  top: 50%;
+  transform: translateY(calc(var(--spacing-sm) / 2 - 50%));
+  background: none;
+  border: none;
+  color: var(--stone-grey);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0.15rem 0.35rem;
+  border-radius: 50%;
+}
+
+.species-search-clear:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--forest-dark);
+}
+
+/* Class-filter tab strip — inactive tabs are borderless text, only the
+   active tab gets the filled "pill" treatment so the strip stays compact. */
+.species-class-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-bottom: 1px solid var(--light-grey);
+}
+
+.species-class-tab {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.3rem 0.55rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font: inherit;
+  color: var(--forest-medium);
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.species-class-tab:hover {
+  background: rgba(74, 103, 65, 0.08);
+  color: var(--forest-dark);
+}
+
+.species-class-tab:focus-visible {
+  outline: 2px solid var(--forest-light);
+  outline-offset: 1px;
+}
+
+.species-class-tab.active {
+  background: var(--forest-medium);
+  color: var(--white);
+}
+
+.species-class-tab-label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.species-class-tab-count {
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+@media (max-width: 480px) {
+  .species-class-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
 }
 
 /* View toggle in species panel header */

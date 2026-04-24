@@ -16,7 +16,12 @@ function readStoredViewMode() {
 }
 
 function SpeciesGrid({ config }) {
-  const { filteredSpecies, level3Filters, species, getTotalFiltersCount } = useFilterStore();
+  const {
+    filteredSpecies, level3Filters, species, getTotalFiltersCount,
+    searchQuery, setSearchQuery,
+    classFilter, setClassFilter,
+    classBreakdown,
+  } = useFilterStore();
 
   const [viewMode, setViewMode] = useState(readStoredViewMode);
   const [selectedSpecies, setSelectedSpecies] = useState(null);
@@ -34,13 +39,21 @@ function SpeciesGrid({ config }) {
 
   const totalFilters = getTotalFiltersCount();
 
+  // Recomputes on every render — cheap at 635 species and simplest to reason
+  // about given the search query updates on every keystroke.
+  const breakdown = classBreakdown();
+
   const resultsMessage = useMemo(() => {
-    if (totalFilters === 0) {
+    const parts = [];
+    if (totalFilters === 0 && !searchQuery && classFilter === null) {
       return `Select habitat features to view matching species (${species.length} total species available)`;
     }
     const level3Text = level3Filters.size > 0 ? ` with ${level3Filters.size} microhabitat filter(s)` : '';
-    return `Showing ${filteredSpecies.length} of ${species.length} species${level3Text}`;
-  }, [filteredSpecies.length, totalFilters, level3Filters.size, species.length]);
+    parts.push(`Showing ${filteredSpecies.length} of ${species.length} species${level3Text}`);
+    if (searchQuery.trim()) parts.push(`matching "${searchQuery.trim()}"`);
+    if (classFilter !== null) parts.push(`(${classFilter} only)`);
+    return parts.join(' ');
+  }, [filteredSpecies.length, totalFilters, level3Filters.size, species.length, searchQuery, classFilter]);
 
   return (
     <div className="panel">
@@ -77,6 +90,53 @@ function SpeciesGrid({ config }) {
         </div>
       </div>
       <div className="results-info">{resultsMessage}</div>
+
+      <div className="species-search-bar">
+        <input
+          type="search"
+          className="species-search-input"
+          placeholder="Find species by scientific or common name..."
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          aria-label="Search species"
+        />
+        {searchQuery && (
+          <button
+            type="button"
+            className="species-search-clear"
+            onClick={() => setSearchQuery('')}
+            aria-label="Clear search"
+          >
+            ×
+          </button>
+        )}
+      </div>
+
+      <div className="species-class-tabs" role="tablist" aria-label="Filter by class">
+        <button
+          type="button"
+          role="tab"
+          className={`species-class-tab${classFilter === null ? ' active' : ''}`}
+          aria-selected={classFilter === null}
+          onClick={() => setClassFilter(null)}
+        >
+          <span className="species-class-tab-label">All</span>
+          <span className="species-class-tab-count">{breakdown.total}</span>
+        </button>
+        {breakdown.classes.map(({ class: cls, count }) => (
+          <button
+            key={cls}
+            type="button"
+            role="tab"
+            className={`species-class-tab${classFilter === cls ? ' active' : ''}`}
+            aria-selected={classFilter === cls}
+            onClick={() => setClassFilter(classFilter === cls ? null : cls)}
+          >
+            <span className="species-class-tab-label">{cls}</span>
+            <span className="species-class-tab-count">{count}</span>
+          </button>
+        ))}
+      </div>
 
       {filteredSpecies.length === 0 ? (
         <div className="empty-state">

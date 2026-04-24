@@ -11,12 +11,30 @@ import { create } from 'zustand';
  * Logic: (Level1_A OR Level1_B) AND (Level2_A OR Level2_B) AND (Level3_A OR Level3_B OR ALL if none selected)
  */
 
+// Canonical ordering for taxonomic class tabs — matches the dataset skew
+// (insects first because they dominate, then vertebrates, then the rest).
+const CLASS_ORDER = [
+  'Insect', 'Vertebrate', 'Lichen', 'Arachnid',
+  'Mollusc', 'Millipede', 'Fungi', 'Moss',
+];
+
+const normaliseClass = (cls) => {
+  // One record in the source data has 'lichen' lowercase; roll it into Lichen.
+  if (!cls) return '';
+  const lower = cls.toLowerCase();
+  return lower === 'lichen' ? 'Lichen' : cls;
+};
+
 const useFilterStore = create((set, get) => ({
   // State - track filters by hierarchy level
   level1Filters: new Set(), // Woodland Type
   level2Filters: new Set(), // Tree Characteristics (species, age, condition)
   level3Filters: new Set(), // Microhabitats (optional)
-  
+
+  // Right-panel narrowing
+  searchQuery: '',
+  classFilter: null,
+
   species: [],
   filteredSpecies: [],
   
@@ -54,13 +72,27 @@ const useFilterStore = create((set, get) => ({
     filterSpecies();
   },
   
+  setSearchQuery: (q) => {
+    set({ searchQuery: q });
+    get().filterSpecies();
+  },
+
+  setClassFilter: (cls) => {
+    set({ classFilter: cls });
+    get().filterSpecies();
+  },
+
   clearFilters: () => {
-    set({ 
-      level1Filters: new Set(), 
-      level2Filters: new Set(), 
-      level3Filters: new Set() 
+    // Scoped to the habitat-features panel where the Clear All button lives.
+    // Search and class filter belong to the species panel and have their own
+    // inline clear affordances (the × in the search box; clicking the active
+    // class tab or the "All" tab).
+    set({
+      level1Filters: new Set(),
+      level2Filters: new Set(),
+      level3Filters: new Set(),
     });
-    get().filterSpecies(); // Reapply filtering (will show all species when no filters)
+    get().filterSpecies();
   },
   
   setSpecies: (speciesData) => {
@@ -68,43 +100,95 @@ const useFilterStore = create((set, get) => ({
   },
   
   filterSpecies: () => {
-    const { level1Filters, level2Filters, level3Filters, species } = get();
-    
-    // No filters at all - show all species
-    if (level1Filters.size === 0 && level2Filters.size === 0 && level3Filters.size === 0) {
+    const {
+      level1Filters, level2Filters, level3Filters,
+      searchQuery, classFilter, species,
+    } = get();
+
+    const q = searchQuery.trim().toLowerCase();
+    const hasHabitatFilters =
+      level1Filters.size > 0 || level2Filters.size > 0 || level3Filters.size > 0;
+
+    // No filters and no right-panel narrowing — show all species
+    if (!hasHabitatFilters && q === '' && classFilter === null) {
       set({ filteredSpecies: species });
       return;
     }
-    
-    // Filter species using hierarchical AND/OR logic
+
+    // Filter species using hierarchical AND/OR logic + right-panel guards
     const filtered = species.filter(s => {
       // Level 1: Woodland Type (OR within level)
-      // If Level 1 filters selected, species must match at least one
-      const matchesLevel1 = level1Filters.size === 0 || 
+      const matchesLevel1 = level1Filters.size === 0 ||
         s.habitats.some(habitat => level1Filters.has(habitat));
-      
       if (!matchesLevel1) return false;
-      
+
       // Level 2: Tree Characteristics (OR within level)
-      // If Level 2 filters selected, species must match at least one
-      const matchesLevel2 = level2Filters.size === 0 || 
+      const matchesLevel2 = level2Filters.size === 0 ||
         s.habitats.some(habitat => level2Filters.has(habitat));
-      
       if (!matchesLevel2) return false;
-      
+
       // Level 3: Microhabitats (OR within level, optional)
-      // If Level 3 filters selected, species must match at least one
-      // If NO Level 3 filters selected, all species pass (show all microhabitats)
-      const matchesLevel3 = level3Filters.size === 0 || 
+      const matchesLevel3 = level3Filters.size === 0 ||
         s.habitats.some(habitat => level3Filters.has(habitat));
-      
       if (!matchesLevel3) return false;
-      
-      // Species passed all levels
+
+      // Free-text search across scientific and common name
+      if (q !== '') {
+        const sciMatch = s.scientificName && s.scientificName.toLowerCase().includes(q);
+        const comMatch = s.commonName && s.commonName.toLowerCase().includes(q);
+        if (!sciMatch && !comMatch) return false;
+      }
+
+      // Class tab filter
+      if (classFilter !== null && normaliseClass(s.class) !== classFilter) {
+        return false;
+      }
+
       return true;
     });
-    
+
     set({ filteredSpecies: filtered });
+  },
+
+  // Breakdown of the current filtered set by class, ignoring the active
+  // classFilter so users can see what switching tabs would yield.
+  classBreakdown: () => {
+    const {
+      level1Filters, level2Filters, level3Filters,
+      searchQuery, species,
+    } = get();
+
+    const q = searchQuery.trim().toLowerCase();
+    const counts = new Map();
+    let total = 0;
+
+    for (const s of species) {
+      if (level1Filters.size > 0 && !s.habitats.some(h => level1Filters.has(h))) continue;
+      if (level2Filters.size > 0 && !s.habitats.some(h => level2Filters.has(h))) continue;
+      if (level3Filters.size > 0 && !s.habitats.some(h => level3Filters.has(h))) continue;
+      if (q !== '') {
+        const sciMatch = s.scientificName && s.scientificName.toLowerCase().includes(q);
+        const comMatch = s.commonName && s.commonName.toLowerCase().includes(q);
+        if (!sciMatch && !comMatch) continue;
+      }
+      total += 1;
+      const cls = normaliseClass(s.class);
+      if (!cls) continue;
+      counts.set(cls, (counts.get(cls) || 0) + 1);
+    }
+
+    // Preserve the canonical order; include known classes first then any
+    // unexpected ones at the end (defensive — should not happen with
+    // current data but keeps the breakdown honest if it does).
+    const ordered = [];
+    for (const cls of CLASS_ORDER) {
+      const count = counts.get(cls);
+      if (count) ordered.push({ class: cls, count });
+    }
+    for (const [cls, count] of counts) {
+      if (!CLASS_ORDER.includes(cls)) ordered.push({ class: cls, count });
+    }
+    return { total, classes: ordered };
   },
   
   // Helper to get total selected filters count
