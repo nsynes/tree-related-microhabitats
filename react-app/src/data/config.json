@@ -88,8 +88,38 @@
         {
           "id": "cavity",
           "title": "Cavity",
-          "description": "[Placeholder] Cavities — holes, hollows, and concavities in living or dead wood — provide shelter, nesting sites, and breeding habitat for a wide range of vertebrates (birds, bats, small mammals) and saproxylic invertebrates. Final taxa descriptions to be provided by client.",
+          "description": "[Placeholder] TReM category description",
           "categories": [
+            {
+              "title": "Concavities",
+              "filters": [
+                {
+                  "id": "root_buttress",
+                  "label": "Root Buttress Concavity",
+                  "column": "RootButtressConcavity"
+                },
+                {
+                  "id": "bark_lined",
+                  "label": "Bark-lined Concavity",
+                  "column": "Bark-lined concavity"
+                },
+                {
+                  "id": "insect_borehole",
+                  "label": "Insect Borehole",
+                  "column": "InsectBorehole"
+                },
+                {
+                  "id": "dendrotelm",
+                  "label": "Dendrotelm",
+                  "column": "Dendrotelm"
+                },
+                {
+                  "id": "woodpecker_foraging",
+                  "label": "Woodpecker Foraging",
+                  "column": "WoodpeckerForaging"
+                }
+              ]
+            },
             {
               "title": "Nest Holes",
               "filters": [
@@ -136,37 +166,7 @@
               ]
             },
             {
-              "title": "Concavities",
-              "filters": [
-                {
-                  "id": "root_buttress",
-                  "label": "Root Buttress Concavity",
-                  "column": "RootButtressConcavity"
-                },
-                {
-                  "id": "bark_lined",
-                  "label": "Bark-lined Concavity",
-                  "column": "Bark-lined concavity"
-                },
-                {
-                  "id": "insect_borehole",
-                  "label": "Insect Borehole",
-                  "column": "InsectBorehole"
-                },
-                {
-                  "id": "dendrotelm",
-                  "label": "Dendrotelm",
-                  "column": "Dendrotelm"
-                },
-                {
-                  "id": "woodpecker_foraging",
-                  "label": "Woodpecker Foraging",
-                  "column": "WoodpeckerForaging"
-                }
-              ]
-            },
-            {
-              "title": "Wood Decay (Heartwood)",
+              "title": "Wood Decay",
               "filters": [
                 {
                   "id": "any_decay",
@@ -195,7 +195,7 @@
         {
           "id": "injury",
           "title": "Injuries & Exposed Wood",
-          "description": "[Placeholder] Wounds exposing sapwood or heartwood create substrate for wood-decay fungi, saproxylic beetles and flies, and cryptogamic communities. Final taxa descriptions to be provided by client.",
+          "description": "[Placeholder] TReM category description",
           "categories": [
             {
               "title": "Wood Decay (Sapwood)",
@@ -257,7 +257,7 @@
         {
           "id": "crown_deadwood",
           "title": "Crown Deadwood",
-          "description": "[Placeholder] Dead branches in the crown — sun-exposed or shaded — support specialised saproxylic invertebrates, fungi and lichens with different micro-climatic requirements. Final taxa descriptions to be provided by client.",
+          "description": "[Placeholder] TReM category description",
           "categories": [
             {
               "title": "Dead Branches",
@@ -284,7 +284,7 @@
         {
           "id": "excrescences",
           "title": "Excrescences",
-          "description": "[Placeholder] Burrs, cankers and twig tangles create tight, structurally complex wood that supports specialist gall-associated insects, fungi and epiphytic communities. Final taxa descriptions to be provided by client.",
+          "description": "[Placeholder] TReM category description",
           "categories": [
             {
               "title": "Burrs & Cankers",
@@ -321,18 +321,8 @@
         {
           "id": "fungal_fruiting",
           "title": "Fungal Fruiting Bodies",
-          "description": "[Placeholder] Perennial and ephemeral fungal fruiting bodies host a distinctive fauna of fungivorous beetles, flies and other invertebrates, as well as mycophagous vertebrates. Final taxa descriptions to be provided by client.",
+          "description": "[Placeholder] TReM category description",
           "categories": [
-            {
-              "title": "All Fungal Features",
-              "filters": [
-                {
-                  "id": "fungal_parent",
-                  "label": "Any Fungal Fruiting Bodies",
-                  "column": "FUNGALPARENT"
-                }
-              ]
-            },
             {
               "title": "Perennial Fungi",
               "filters": [
@@ -378,7 +368,7 @@
         {
           "id": "epixylic",
           "title": "Epixylic Structures",
-          "description": "[Placeholder] Nests, climbing plants, epiphytes (ivy, lichens, mosses, mistletoe) and accumulated microsoil build up communities that support invertebrates, breeding birds, and cryptogamic specialists. Final taxa descriptions to be provided by client.",
+          "description": "[Placeholder] TReM category description",
           "categories": [
             {
               "title": "Nests",
@@ -440,21 +430,16 @@
         {
           "id": "exudates",
           "title": "Exudates",
-          "description": "[Placeholder] Sap runs and resin flows provide nutrient-rich, short-lived microhabitats for attracted invertebrates (especially Diptera and Coleoptera) and microbial communities. Final taxa descriptions to be provided by client.",
+          "description": "[Placeholder] TReM category description",
           "categories": [
             {
-              "title": "Sap Runs",
+              "title": "",
               "filters": [
                 {
                   "id": "sap_run",
                   "label": "Sap Run",
                   "column": "SapRun"
-                }
-              ]
-            },
-            {
-              "title": "Resin",
-              "filters": [
+                },
                 {
                   "id": "resinosis",
                   "label": "Resinosis",

@@ -190,7 +190,9 @@ function FilterPanel({ config }) {
                     <div className="filter-categories">
                       {group.categories.map((category, catIndex) => (
                         <div key={catIndex} className="filter-category">
-                          <div className="filter-category-title">{category.title}</div>
+                          {group.categories.length > 1 && (
+                            <div className="filter-category-title">{category.title}</div>
+                          )}
                           <div className="filter-options">
                             {category.filters.map(filter => (
                               <label
