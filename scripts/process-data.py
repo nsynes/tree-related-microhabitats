@@ -202,10 +202,9 @@ def count_filters(hierarchy: Dict[str, Any]) -> tuple:
     )
     
     level3_count = sum(
-        len(filter_def)
+        len(category['filters'])
         for group in hierarchy.get('level3', {}).get('groups', [])
         for category in group.get('categories', [])
-        for filter_def in category['filters']
     )
     
     return level1_count, level2_count, level3_count
