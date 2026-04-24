@@ -12,7 +12,14 @@ Usage:
     python scripts/fetch-photos.py --pilot         # stratified sample (~30)
     python scripts/fetch-photos.py --limit 50      # first 50 species
     python scripts/fetch-photos.py --refresh       # re-fetch everything
+    python scripts/fetch-photos.py --refresh-arr   # re-fetch only all-rights-reserved cache entries
     python scripts/fetch-photos.py --species "Abdera biflexuosa"
+
+When iNaturalist's curator-selected default photo for a species is all-rights-
+reserved (license_code=None, which we can't use), the script hits the taxon
+detail endpoint and picks the first Creative-Commons-licensed photo from the
+broader taxon_photos list. This recovers coverage for common species whose
+default upload happens to retain copyright.
 """
 
 import argparse
@@ -30,6 +37,15 @@ USER_AGENT = "tree-related-microhabitats/1.0 (https://trems.nicksynes.com)"
 REQUEST_DELAY_S = 1.0  # iNat asks for <=100/min; 1s/req is well under
 MAX_BACKOFF_S = 60
 TIMEOUT_S = 15
+
+# Creative Commons licences we can use (includes non-commercial since this is
+# a public-sector research tool). Anything outside this set — notably None,
+# which iNat uses for "all rights reserved" — is unusable and triggers the
+# taxon-photos fallback.
+USABLE_LICENSES = frozenset({
+    "cc0", "pd", "cc-by", "cc-by-sa",
+    "cc-by-nc", "cc-by-nc-sa", "cc-by-nc-nd", "cc-by-nd",
+})
 
 SPECIES_PATH = Path("react-app/src/data/species.json")
 CACHE_PATH = Path("data/inaturalist-photos.json")
@@ -132,21 +148,71 @@ def _fetch_exact(session, query):
     return entry
 
 
+def _find_cc_photo(session, taxon_id):
+    """Query /v1/taxa/<id> and return the first taxon_photo whose license is in
+    USABLE_LICENSES. Returns a dict with the photo's url fields, or None if
+    no usable photo was found."""
+    url = f"{API_URL}/{taxon_id}"
+    backoff = 2
+    while True:
+        resp = session.get(url, timeout=TIMEOUT_S)
+        if resp.status_code == 429:
+            if backoff > MAX_BACKOFF_S:
+                return None
+            time.sleep(backoff)
+            backoff *= 2
+            continue
+        if resp.status_code >= 500:
+            if backoff > MAX_BACKOFF_S:
+                return None
+            time.sleep(backoff)
+            backoff *= 2
+            continue
+        resp.raise_for_status()
+        break
+
+    results = resp.json().get("results", [])
+    if not results:
+        return None
+    for tp in results[0].get("taxon_photos", []):
+        photo = tp.get("photo") or {}
+        if photo.get("license_code") in USABLE_LICENSES:
+            return photo
+    return None
+
+
 def fetch_one(session, scientific_name):
-    """Fetch with a binomial-fallback retry for trinomial/subspecies names."""
+    """Fetch with two fallbacks: binomial retry for trinomial names, and
+    taxon-photos lookup when iNat's default photo is all-rights-reserved."""
     entry = _fetch_exact(session, scientific_name)
-    if not entry.get("not_found"):
-        return entry
-    parts = scientific_name.split()
-    if len(parts) <= 2:
-        return entry
-    time.sleep(REQUEST_DELAY_S)  # space out the follow-up call
-    binomial = " ".join(parts[:2])
-    fallback = _fetch_exact(session, binomial)
-    if fallback.get("not_found"):
-        return entry  # keep original not_found result
-    fallback["matched_as"] = binomial
-    return fallback
+
+    # Binomial fallback for subspecies-style trinomial queries that missed.
+    if entry.get("not_found"):
+        parts = scientific_name.split()
+        if len(parts) > 2:
+            time.sleep(REQUEST_DELAY_S)
+            binomial = " ".join(parts[:2])
+            fallback = _fetch_exact(session, binomial)
+            if not fallback.get("not_found"):
+                fallback["matched_as"] = binomial
+                entry = fallback
+
+    # Taxon-photos fallback when the default is present but all-rights-reserved.
+    if (entry.get("photo_medium_url")
+            and not entry.get("license_code")
+            and entry.get("taxon_id")):
+        time.sleep(REQUEST_DELAY_S)
+        cc_photo = _find_cc_photo(session, entry["taxon_id"])
+        if cc_photo is not None:
+            entry["photo_square_url"] = cc_photo.get("square_url")
+            entry["photo_small_url"] = cc_photo.get("small_url")
+            entry["photo_medium_url"] = cc_photo.get("medium_url")
+            entry["photo_large_url"] = cc_photo.get("large_url")
+            entry["attribution"] = cc_photo.get("attribution")
+            entry["license_code"] = cc_photo.get("license_code")
+            entry["used_taxon_photos_fallback"] = True
+
+    return entry
 
 
 def now_iso():
@@ -158,6 +224,8 @@ def main():
     parser.add_argument("--pilot", action="store_true", help="Stratified ~30-species sample")
     parser.add_argument("--limit", type=int, help="Process only the first N species")
     parser.add_argument("--refresh", action="store_true", help="Re-fetch cached entries")
+    parser.add_argument("--refresh-arr", action="store_true",
+                        help="Re-fetch only cached entries whose default photo is all-rights-reserved")
     parser.add_argument("--species", help="Fetch one species by scientific name")
     args = parser.parse_args()
 
@@ -178,11 +246,21 @@ def main():
     session.headers["Accept"] = "application/json"
 
     stats = defaultdict(int)
-    to_fetch = [
-        s for s in targets
-        if s.get("scientificName")
-        and (args.refresh or s["scientificName"] not in cache)
-    ]
+
+    def _entry_is_arr(entry):
+        return bool(entry) and bool(entry.get("photo_medium_url")) and not entry.get("license_code")
+
+    if args.refresh_arr:
+        to_fetch = [
+            s for s in targets
+            if s.get("scientificName") and _entry_is_arr(cache.get(s["scientificName"]))
+        ]
+    else:
+        to_fetch = [
+            s for s in targets
+            if s.get("scientificName")
+            and (args.refresh or s["scientificName"] not in cache)
+        ]
     skipped = len(targets) - len(to_fetch)
 
     print(f"🌿 Targets: {len(targets)}  to fetch: {len(to_fetch)}  cached (skipped): {skipped}")

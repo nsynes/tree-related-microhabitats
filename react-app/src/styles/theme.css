@@ -853,6 +853,22 @@ body {
   color: var(--stone-grey);
 }
 
+.species-detail-inat-link {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: 0.9rem;
+}
+
+.species-detail-inat-link a {
+  color: var(--forest-medium);
+  text-decoration: none;
+  border-bottom: 1px solid var(--forest-light);
+}
+
+.species-detail-inat-link a:hover {
+  color: var(--forest-dark);
+  border-bottom-color: var(--forest-medium);
+}
+
 .species-detail-section {
   margin-top: var(--spacing-lg);
 }

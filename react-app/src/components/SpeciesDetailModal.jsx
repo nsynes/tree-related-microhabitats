@@ -16,9 +16,6 @@ function SpeciesPhoto({ photo }) {
   const [failed, setFailed] = useState(false);
   const src = photo?.largeUrl || photo?.url;
   if (!src || failed) return null;
-  const taxonUrl = photo.taxonId
-    ? `https://www.inaturalist.org/taxa/${photo.taxonId}`
-    : null;
   return (
     <figure className="species-detail-photo">
       <img
@@ -28,15 +25,7 @@ function SpeciesPhoto({ photo }) {
         onError={() => setFailed(true)}
       />
       <figcaption className="species-detail-photo-credit">
-        <span>{photo.attribution}</span>
-        {taxonUrl && (
-          <>
-            {' · '}
-            <a href={taxonUrl} target="_blank" rel="noopener noreferrer">
-              View on iNaturalist
-            </a>
-          </>
-        )}
+        {photo.attribution}
       </figcaption>
     </figure>
   );
@@ -67,6 +56,18 @@ function SpeciesDetailModal({ config, species, onClose }) {
 
         {isValidData(species.commonName) && (
           <p className="species-detail-common">{species.commonName}</p>
+        )}
+
+        {species.taxonId && (
+          <p className="species-detail-inat-link">
+            <a
+              href={`https://www.inaturalist.org/taxa/${species.taxonId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View on iNaturalist →
+            </a>
+          </p>
         )}
 
         <section className="species-detail-section">

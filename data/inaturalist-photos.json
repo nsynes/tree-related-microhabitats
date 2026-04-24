@@ -34,7 +34,7 @@
   },
   "Abraeus granulum": {
     "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T17:56:32+00:00",
+    "fetched_at": "2026-04-24T08:09:34+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -198,15 +198,16 @@
     "taxon_id": 892440
   },
   "Agrilus laticornis": {
-    "attribution": "(c) Nikola Rahmé, all rights reserved, uploaded by Nikola Rahmé",
-    "fetched_at": "2026-04-23T18:09:29+00:00",
+    "attribution": "(c) AWI i Pr., some rights reserved (CC BY-NC), uploaded by AWI i Pr.",
+    "fetched_at": "2026-04-24T08:09:36+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/370246303/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/370246303/square.jpeg",
-    "taxon_id": 547609
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/201833510/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/201833510/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/201833510/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/201833510/square.jpeg",
+    "taxon_id": 547609,
+    "used_taxon_photos_fallback": true
   },
   "Agrilus viridis": {
     "attribution": "(c) Felix Riegel, some rights reserved (CC BY-NC), uploaded by Felix Riegel",
@@ -253,15 +254,16 @@
     "taxon_id": 426154
   },
   "Ampedus balteatus": {
-    "attribution": "(c) Benjamin Fabian, all rights reserved, uploaded by Benjamin Fabian",
-    "fetched_at": "2026-04-23T18:09:33+00:00",
+    "attribution": "(c) Vladimir Bryukhov, some rights reserved (CC BY-NC), uploaded by Vladimir Bryukhov",
+    "fetched_at": "2026-04-24T08:09:39+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/171356032/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/171356032/square.jpg",
-    "taxon_id": 491459
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/63377453/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/63377453/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/63377453/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/63377453/square.jpg",
+    "taxon_id": 491459,
+    "used_taxon_photos_fallback": true
   },
   "Ampedus cardinalis": {
     "attribution": "(c) Shamil Murtazin, some rights reserved (CC BY-NC), uploaded by Shamil Murtazin",
@@ -283,15 +285,16 @@
     "not_found": true
   },
   "Ampedus nigerrimus": {
-    "attribution": "(c) Klaus Dühr, all rights reserved, uploaded by Klaus Dühr",
-    "fetched_at": "2026-04-23T18:09:38+00:00",
+    "attribution": "(c) Sylvain G, some rights reserved (CC BY-NC), uploaded by Sylvain G",
+    "fetched_at": "2026-04-24T08:09:41+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/233907508/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/233907508/square.jpeg",
-    "taxon_id": 1045321
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/346880135/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/346880135/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/346880135/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/346880135/square.jpeg",
+    "taxon_id": 1045321,
+    "used_taxon_photos_fallback": true
   },
   "Ampedus nigrinus": {
     "attribution": "(c) capricornus_singularis, some rights reserved (CC BY-NC)",
@@ -474,16 +477,17 @@
     "taxon_id": 462140
   },
   "Apis mellifera mellifera": {
-    "attribution": "(c) Georges-Alexandre Cotnoir, all rights reserved, uploaded by Georges-Alexandre Cotnoir",
-    "fetched_at": "2026-04-23T18:10:01+00:00",
+    "attribution": "(c) jim, some rights reserved (CC BY-NC), uploaded by jim",
+    "fetched_at": "2026-04-24T08:09:45+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
+    "license_code": "cc-by-nc",
     "matched_as": "Apis mellifera",
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/2369526/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/2369526/square.jpg",
-    "taxon_id": 47219
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/390890505/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/390890505/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/390890505/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/390890505/square.jpg",
+    "taxon_id": 47219,
+    "used_taxon_photos_fallback": true
   },
   "Aplocnemus impressus": {
     "attribution": "(c) Pierre Bornand, some rights reserved (CC BY-NC)",
@@ -515,7 +519,7 @@
   },
   "Apomyelois bistriatella": {
     "attribution": "(c) Gary McDonald, all rights reserved, uploaded by Gary McDonald",
-    "fetched_at": "2026-04-23T18:10:05+00:00",
+    "fetched_at": "2026-04-24T08:09:47+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -537,7 +541,7 @@
   },
   "Aradus cinnamomeus": {
     "attribution": "(c) Boris Loboda, all rights reserved, uploaded by Boris Loboda",
-    "fetched_at": "2026-04-23T18:10:08+00:00",
+    "fetched_at": "2026-04-24T08:09:50+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -580,26 +584,28 @@
     "taxon_id": 214138
   },
   "Arhopalus ferus": {
-    "attribution": "(c) Konstantinos Kalaentzis, all rights reserved, uploaded by Konstantinos Kalaentzis",
-    "fetched_at": "2026-04-23T18:10:12+00:00",
+    "attribution": "(c) Suso Tizón, some rights reserved (CC BY-NC-SA), uploaded by Suso Tizón",
+    "fetched_at": "2026-04-24T08:09:52+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/559324738/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/559324738/square.jpg",
-    "taxon_id": 386061
+    "license_code": "cc-by-nc-sa",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/48609663/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/48609663/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/48609663/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/48609663/square.jpeg",
+    "taxon_id": 386061,
+    "used_taxon_photos_fallback": true
   },
   "Arhopalus rusticus": {
-    "attribution": "(c) Michael H. King, all rights reserved",
-    "fetched_at": "2026-04-23T18:10:14+00:00",
+    "attribution": "(c) Kenneth Geisert, some rights reserved (CC BY-NC), uploaded by Kenneth Geisert",
+    "fetched_at": "2026-04-24T08:09:55+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/248203935/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/248203935/square.jpg",
-    "taxon_id": 130616
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/414304920/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/414304920/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/414304920/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/414304920/square.jpg",
+    "taxon_id": 130616,
+    "used_taxon_photos_fallback": true
   },
   "Arthonia invadens": {
     "fetched_at": "2026-04-23T17:56:47+00:00",
@@ -659,7 +665,7 @@
   },
   "Atomaria umbrina": {
     "attribution": "(c) Konstantin, all rights reserved, uploaded by Konstantin",
-    "fetched_at": "2026-04-23T18:10:19+00:00",
+    "fetched_at": "2026-04-24T08:09:57+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -691,15 +697,16 @@
     "taxon_id": 988148
   },
   "Auplopus carbonarius": {
-    "attribution": "(c) Valter Jacinto, all rights reserved",
-    "fetched_at": "2026-04-23T18:10:23+00:00",
+    "attribution": "(c) Roman Prokhorov, some rights reserved (CC BY-NC), uploaded by Roman Prokhorov",
+    "fetched_at": "2026-04-24T08:09:59+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/1999533/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/1999533/square.jpg",
-    "taxon_id": 466448
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/44039533/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/44039533/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/44039533/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/44039533/square.jpg",
+    "taxon_id": 466448,
+    "used_taxon_photos_fallback": true
   },
   "Bacidia subturgidula": {
     "fetched_at": "2026-04-23T17:56:48+00:00",
@@ -764,7 +771,7 @@
   },
   "Batrisodes venustus": {
     "attribution": "(c) karsten_s, all rights reserved, uploaded by karsten_s",
-    "fetched_at": "2026-04-23T18:10:29+00:00",
+    "fetched_at": "2026-04-24T08:10:02+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -775,7 +782,7 @@
   },
   "Bellicidia incompta": {
     "attribution": "(c) Marc Bulte, all rights reserved, uploaded by Marc Bulte",
-    "fetched_at": "2026-04-23T17:56:50+00:00",
+    "fetched_at": "2026-04-24T08:10:04+00:00",
     "iconic_taxon": "Fungi",
     "license_code": null,
     "photo_large_url": null,
@@ -896,7 +903,7 @@
   },
   "Brachyopa insensilis": {
     "attribution": "(c) Peter Wijnsouw, all rights reserved, uploaded by Peter Wijnsouw",
-    "fetched_at": "2026-04-23T18:10:41+00:00",
+    "fetched_at": "2026-04-24T08:10:07+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -1081,15 +1088,16 @@
     "taxon_id": 462648
   },
   "Certhia familiaris": {
-    "attribution": "(c) Михаил Кузьмин, all rights reserved, uploaded by Михаил Кузьмин",
-    "fetched_at": "2026-04-23T17:56:45+00:00",
+    "attribution": "(c) Leonid, some rights reserved (CC BY-NC), uploaded by Leonid",
+    "fetched_at": "2026-04-24T08:10:09+00:00",
     "iconic_taxon": "Aves",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/29333045/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/29333045/square.jpeg",
-    "taxon_id": 7450
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/353776251/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/353776251/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/353776251/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/353776251/square.jpg",
+    "taxon_id": 7450,
+    "used_taxon_photos_fallback": true
   },
   "Cerylon fagi": {
     "attribution": "(c) Alexis Tinker-Tsavalas, some rights reserved (CC BY), uploaded by Alexis Tinker-Tsavalas",
@@ -1103,26 +1111,28 @@
     "taxon_id": 570179
   },
   "Cerylon ferrugineum": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:11:02+00:00",
+    "attribution": "(c) Paul Cook, some rights reserved (CC BY), uploaded by Paul Cook",
+    "fetched_at": "2026-04-24T08:10:12+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/29519393/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/29519393/square.jpg",
-    "taxon_id": 500722
+    "license_code": "cc-by",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/60503677/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/60503677/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/60503677/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/60503677/square.jpg",
+    "taxon_id": 500722,
+    "used_taxon_photos_fallback": true
   },
   "Cerylon histeroides": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:11:03+00:00",
+    "attribution": "(c) AWI i Pr., some rights reserved (CC BY-NC), uploaded by AWI i Pr.",
+    "fetched_at": "2026-04-24T08:10:14+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/276860278/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/276860278/square.jpeg",
-    "taxon_id": 547841
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/186873570/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/186873570/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/186873570/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/186873570/square.jpeg",
+    "taxon_id": 547841,
+    "used_taxon_photos_fallback": true
   },
   "Chernes cimicoides": {
     "attribution": "(c) Alexis Tinker-Tsavalas, some rights reserved (CC BY), uploaded by Alexis Tinker-Tsavalas",
@@ -1276,15 +1286,16 @@
     "taxon_id": 547801
   },
   "Cis punctulatus": {
-    "attribution": "(c) Frederik Leck Fischer, all rights reserved, uploaded by Frederik Leck Fischer",
-    "fetched_at": "2026-04-23T18:11:21+00:00",
+    "attribution": "(c) Kevin Gielen, some rights reserved (CC BY-NC), uploaded by Kevin Gielen",
+    "fetched_at": "2026-04-24T08:10:16+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/94303359/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/94303359/square.jpg",
-    "taxon_id": 988958
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/104476275/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/104476275/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/104476275/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/104476275/square.jpg",
+    "taxon_id": 988958,
+    "used_taxon_photos_fallback": true
   },
   "Cis pygmaeus": {
     "attribution": "(c) tuggip_t, some rights reserved (CC BY-NC)",
@@ -1320,15 +1331,16 @@
     "taxon_id": 570927
   },
   "Cladonia caespiticia": {
-    "attribution": "(c) Marko Doboš, all rights reserved, uploaded by Marko Doboš",
-    "fetched_at": "2026-04-23T18:11:25+00:00",
+    "attribution": "(c) Tomás Curtis, some rights reserved (CC BY-NC), uploaded by Tomás Curtis",
+    "fetched_at": "2026-04-24T08:10:19+00:00",
     "iconic_taxon": "Fungi",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/359100399/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/359100399/square.jpeg",
-    "taxon_id": 217081
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4908999/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4908999/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4908999/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4908999/square.jpg",
+    "taxon_id": 217081,
+    "used_taxon_photos_fallback": true
   },
   "Clambus pallidulus": {
     "fetched_at": "2026-04-23T18:11:27+00:00",
@@ -1346,16 +1358,17 @@
     "taxon_id": 429134
   },
   "Coccothraustes coccothraustes coccothraustes": {
-    "attribution": "(c) Vladimir Ovchinnikov, all rights reserved, uploaded by Vladimir Ovchinnikov",
-    "fetched_at": "2026-04-23T18:11:30+00:00",
+    "attribution": "(c) Александр, some rights reserved (CC BY-NC-SA), uploaded by Александр",
+    "fetched_at": "2026-04-24T08:10:22+00:00",
     "iconic_taxon": "Aves",
-    "license_code": null,
+    "license_code": "cc-by-nc-sa",
     "matched_as": "Coccothraustes coccothraustes",
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/188331058/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/188331058/square.jpg",
-    "taxon_id": 9801
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/113175106/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/113175106/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/113175106/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/113175106/square.jpg",
+    "taxon_id": 9801,
+    "used_taxon_photos_fallback": true
   },
   "Codonoblepharon forsteri": {
     "attribution": "(c) Mathieu Pélissié, some rights reserved (CC BY-NC), uploaded by Mathieu Pélissié",
@@ -1440,7 +1453,7 @@
   },
   "Corticeus fraxini": {
     "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:11:40+00:00",
+    "fetched_at": "2026-04-24T08:10:25+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -1450,15 +1463,16 @@
     "taxon_id": 980625
   },
   "Corticeus unicolor": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:11:41+00:00",
+    "attribution": "(c) Udo Schmidt, some rights reserved (CC BY-SA)",
+    "fetched_at": "2026-04-24T08:10:27+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/127393008/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/127393008/square.jpg",
-    "taxon_id": 174209
+    "license_code": "cc-by-sa",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/3640124/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/3640124/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/3640124/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/3640124/square.jpg",
+    "taxon_id": 174209,
+    "used_taxon_photos_fallback": true
   },
   "Corvus monedula": {
     "fetched_at": "2026-04-23T18:11:43+00:00",
@@ -1528,15 +1542,16 @@
     "taxon_id": 340933
   },
   "Cryphia algae": {
-    "attribution": "(c) Raniero Panfili, all rights reserved, uploaded by Raniero Panfili",
-    "fetched_at": "2026-04-23T18:11:52+00:00",
+    "attribution": "(c) Manuel Raab, some rights reserved (CC BY-NC), uploaded by Manuel Raab",
+    "fetched_at": "2026-04-24T08:10:30+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/64245068/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/64245068/square.jpeg",
-    "taxon_id": 342903
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/550426235/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/550426235/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/550426235/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/550426235/square.jpg",
+    "taxon_id": 342903,
+    "used_taxon_photos_fallback": true
   },
   "Cryptarcha strigata": {
     "attribution": "(c) Udo Schmidt, some rights reserved (CC BY-SA)",
@@ -1580,7 +1595,7 @@
   },
   "Cryptophagus labilis": {
     "attribution": "(c) Konstantin, all rights reserved, uploaded by Konstantin",
-    "fetched_at": "2026-04-23T18:11:59+00:00",
+    "fetched_at": "2026-04-24T08:10:32+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -1611,15 +1626,16 @@
     "taxon_id": 989570
   },
   "Ctenophora flaveolata": {
-    "attribution": "(c) Edu Zeta, all rights reserved, uploaded by Edu Zeta",
-    "fetched_at": "2026-04-23T18:12:04+00:00",
+    "attribution": "(c) Frank Vassen, some rights reserved (CC BY)",
+    "fetched_at": "2026-04-24T08:10:34+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/40424082/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/40424082/square.jpeg",
-    "taxon_id": 492629
+    "license_code": "cc-by",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4092767/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4092767/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4092767/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4092767/square.jpg",
+    "taxon_id": 492629,
+    "used_taxon_photos_fallback": true
   },
   "Ctenophora ornata": {
     "attribution": "(c) Philippe Geniez, some rights reserved (CC BY-NC), uploaded by Philippe Geniez",
@@ -1839,7 +1855,7 @@
   },
   "Ditomyia fasciata": {
     "attribution": "(c) Ana Rita Gonçalves, all rights reserved",
-    "fetched_at": "2026-04-23T18:12:27+00:00",
+    "fetched_at": "2026-04-24T08:10:37+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -1908,7 +1924,7 @@
   },
   "Dromius agilis": {
     "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:12:36+00:00",
+    "fetched_at": "2026-04-24T08:10:39+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -1944,19 +1960,20 @@
     "taxon_id": 1005950
   },
   "Dryophthorus corticalis": {
-    "attribution": "(c) WonGun Kim, all rights reserved, uploaded by WonGun Kim",
-    "fetched_at": "2026-04-23T18:12:42+00:00",
+    "attribution": "(c) Felix Riegel, some rights reserved (CC BY-NC), uploaded by Felix Riegel",
+    "fetched_at": "2026-04-24T08:10:42+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/136635386/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/136635386/square.jpeg",
-    "taxon_id": 864887
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/33351636/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/33351636/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/33351636/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/33351636/square.jpeg",
+    "taxon_id": 864887,
+    "used_taxon_photos_fallback": true
   },
   "Dynatosoma fuscicorne": {
     "attribution": "(c) Konstantin, all rights reserved, uploaded by Konstantin",
-    "fetched_at": "2026-04-23T18:12:43+00:00",
+    "fetched_at": "2026-04-24T08:10:44+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -1967,7 +1984,7 @@
   },
   "Dystebenna stephensi": {
     "attribution": "(c) alcon_blue, all rights reserved",
-    "fetched_at": "2026-04-23T18:12:44+00:00",
+    "fetched_at": "2026-04-24T08:10:46+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -2237,15 +2254,16 @@
     "taxon_id": 1045660
   },
   "Esperia sulphurella": {
-    "attribution": "(c) Alice Abela, all rights reserved",
-    "fetched_at": "2026-04-23T18:13:16+00:00",
+    "attribution": "(c) Ken-ichi Ueda, some rights reserved (CC BY), uploaded by Ken-ichi Ueda",
+    "fetched_at": "2026-04-24T08:10:49+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/14982990/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/14982990/square.jpg",
-    "taxon_id": 325665
+    "license_code": "cc-by",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/16221672/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/16221672/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/16221672/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/16221672/square.jpg",
+    "taxon_id": 325665,
+    "used_taxon_photos_fallback": true
   },
   "Eucnemis capucina": {
     "attribution": "(c) Paul Cook, some rights reserved (CC BY), uploaded by Paul Cook",
@@ -2260,7 +2278,7 @@
   },
   "Euconnus pragensis": {
     "attribution": "(c) Aleš Buček, all rights reserved, uploaded by Aleš Buček",
-    "fetched_at": "2026-04-23T18:13:18+00:00",
+    "fetched_at": "2026-04-24T08:10:51+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -2503,19 +2521,20 @@
     "taxon_id": 497354
   },
   "Globicornis nigripes": {
-    "attribution": "(c) Tomasz Klejdysz, all rights reserved, uploaded by Tomasz Klejdysz",
-    "fetched_at": "2026-04-23T18:13:54+00:00",
+    "attribution": "(c) Aron Bellersheim, some rights reserved (CC BY-NC), uploaded by Aron Bellersheim",
+    "fetched_at": "2026-04-24T08:10:54+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/505120274/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/505120274/square.jpg",
-    "taxon_id": 1084631
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/470575644/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/470575644/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/470575644/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/470575644/square.jpg",
+    "taxon_id": 1084631,
+    "used_taxon_photos_fallback": true
   },
   "Gnathoncus buyssoni": {
     "attribution": "(c) Eco&amp;Sols, all rights reserved, uploaded by Eco&amp;Sols",
-    "fetched_at": "2026-04-23T18:13:55+00:00",
+    "fetched_at": "2026-04-24T08:10:56+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -2590,15 +2609,16 @@
     "taxon_id": 547852
   },
   "Grammoptera ruficornis": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:14:06+00:00",
+    "attribution": "(c) Cosimo Costanzia di Costigliole, some rights reserved (CC BY), uploaded by Cosimo Costanzia di Costigliole",
+    "fetched_at": "2026-04-24T08:10:59+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/276688856/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/276688856/square.jpeg",
-    "taxon_id": 360050
+    "license_code": "cc-by",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/502674908/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/502674908/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/502674908/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/502674908/square.jpg",
+    "taxon_id": 360050,
+    "used_taxon_photos_fallback": true
   },
   "Grammoptera ustulata": {
     "attribution": "(c) Ralph Martin, some rights reserved (CC BY-NC-ND), uploaded by Ralph Martin",
@@ -2759,15 +2779,16 @@
     "taxon_id": 318911
   },
   "Harpella forficella": {
-    "attribution": "(c) Benjamin Fabian, all rights reserved, uploaded by Benjamin Fabian",
-    "fetched_at": "2026-04-23T18:14:27+00:00",
+    "attribution": "(c) Donald Hobern, some rights reserved (CC BY)",
+    "fetched_at": "2026-04-24T08:11:01+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/104150064/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/104150064/square.jpg",
-    "taxon_id": 361924
+    "license_code": "cc-by",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/993616/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/993616/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/993616/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/993616/square.jpg",
+    "taxon_id": 361924,
+    "used_taxon_photos_fallback": true
   },
   "Helicigona lapicida lapicida": {
     "attribution": "no rights reserved, uploaded by Jesse Rorabaugh",
@@ -2872,7 +2893,7 @@
   },
   "Ischnomera cyanea": {
     "attribution": "(c) Chris Moody, all rights reserved",
-    "fetched_at": "2026-04-23T18:14:41+00:00",
+    "fetched_at": "2026-04-24T08:11:03+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -2893,15 +2914,16 @@
     "taxon_id": 505845
   },
   "Ixapion variegatum": {
-    "attribution": "(c) Jakob Jilg, all rights reserved, uploaded by Jakob Jilg",
-    "fetched_at": "2026-04-23T18:14:44+00:00",
+    "attribution": "(c) besart22, some rights reserved (CC BY-NC)",
+    "fetched_at": "2026-04-24T08:11:06+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/156625373/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/156625373/square.jpg",
-    "taxon_id": 566673
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/57947274/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/57947274/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/57947274/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/57947274/square.jpg",
+    "taxon_id": 566673,
+    "used_taxon_photos_fallback": true
   },
   "Judolia sexmaculata": {
     "attribution": "(c) Andrey Ponomarev, some rights reserved (CC BY-NC), uploaded by Andrey Ponomarev",
@@ -3000,15 +3022,16 @@
     "not_found": true
   },
   "Lecanactis abietina": {
-    "attribution": "(c) Marko Doboš, all rights reserved, uploaded by Marko Doboš",
-    "fetched_at": "2026-04-23T18:14:59+00:00",
+    "attribution": "(c) morvan debroize, some rights reserved (CC BY-NC-SA), uploaded by morvan debroize",
+    "fetched_at": "2026-04-24T08:11:08+00:00",
     "iconic_taxon": "Fungi",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/446613682/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/446613682/square.jpeg",
-    "taxon_id": 222780
+    "license_code": "cc-by-nc-sa",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/472464098/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/472464098/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/472464098/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/472464098/square.jpeg",
+    "taxon_id": 222780,
+    "used_taxon_photos_fallback": true
   },
   "Lecania chlorotiza": {
     "fetched_at": "2026-04-23T18:15:00+00:00",
@@ -3038,15 +3061,16 @@
     "not_found": true
   },
   "Lepthyphantes minutus": {
-    "attribution": "(c) Frederik Leck Fischer, all rights reserved, uploaded by Frederik Leck Fischer",
-    "fetched_at": "2026-04-23T18:15:06+00:00",
+    "attribution": "(c) jfb22, some rights reserved (CC BY-NC), uploaded by jfb22",
+    "fetched_at": "2026-04-24T08:11:10+00:00",
     "iconic_taxon": "Arachnida",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/62865444/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/62865444/square.jpg",
-    "taxon_id": 497180
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/182706799/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/182706799/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/182706799/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/182706799/square.jpeg",
+    "taxon_id": 497180,
+    "used_taxon_photos_fallback": true
   },
   "Leptusa fumida": {
     "attribution": "(c) Felix Riegel, some rights reserved (CC BY-NC), uploaded by Felix Riegel",
@@ -3098,7 +3122,7 @@
   },
   "Limoniscus violaceus": {
     "attribution": "(c) Nikola Rahmé, all rights reserved, uploaded by Nikola Rahmé",
-    "fetched_at": "2026-04-23T18:15:12+00:00",
+    "fetched_at": "2026-04-24T08:11:13+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -3222,15 +3246,16 @@
     "taxon_id": 709886
   },
   "Lucanus cervus": {
-    "attribution": "(c) Marek R. Swadzba, all rights reserved, uploaded by Marek R. Swadzba",
-    "fetched_at": "2026-04-23T18:15:32+00:00",
+    "attribution": "(c) Chrissi, some rights reserved (CC BY-NC), uploaded by Chrissi",
+    "fetched_at": "2026-04-24T08:11:15+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/348296511/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/348296511/square.jpg",
-    "taxon_id": 61749
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/55617155/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/55617155/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/55617155/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/55617155/square.jpg",
+    "taxon_id": 61749,
+    "used_taxon_photos_fallback": true
   },
   "Lymantor coryli": {
     "attribution": "(c) Guillaume Delporte, some rights reserved (CC BY-NC), uploaded by Guillaume Delporte",
@@ -3244,15 +3269,16 @@
     "taxon_id": 997249
   },
   "Lymexylon navale": {
-    "attribution": "(c) Nikola Rahmé, all rights reserved, uploaded by Nikola Rahmé",
-    "fetched_at": "2026-04-23T18:15:34+00:00",
+    "attribution": "(c) Martin Grimm, some rights reserved (CC BY-NC), uploaded by Martin Grimm",
+    "fetched_at": "2026-04-24T08:11:18+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/365046600/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/365046600/square.jpeg",
-    "taxon_id": 500403
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4186464/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4186464/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4186464/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/4186464/square.jpg",
+    "taxon_id": 500403,
+    "used_taxon_photos_fallback": true
   },
   "Macronychia polyodon": {
     "attribution": "(c) Mike Kerry, some rights reserved (CC BY), uploaded by Mike Kerry",
@@ -3277,26 +3303,28 @@
     "taxon_id": 1087960
   },
   "Malachius bipustulatus": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:15:38+00:00",
+    "attribution": "(c) romanvrbicek, some rights reserved (CC BY-NC), uploaded by romanvrbicek",
+    "fetched_at": "2026-04-24T08:11:20+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/103532554/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/103532554/square.jpg",
-    "taxon_id": 326491
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/72759093/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/72759093/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/72759093/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/72759093/square.jpeg",
+    "taxon_id": 326491,
+    "used_taxon_photos_fallback": true
   },
   "Mallota cimbiciformis": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:15:39+00:00",
+    "attribution": "(c) eliegaget, some rights reserved (CC BY-NC), uploaded by eliegaget",
+    "fetched_at": "2026-04-24T08:11:23+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/138446924/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/138446924/square.jpg",
-    "taxon_id": 486814
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/489831534/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/489831534/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/489831534/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/489831534/square.jpeg",
+    "taxon_id": 486814,
+    "used_taxon_photos_fallback": true
   },
   "Malthinus frontalis": {
     "attribution": "(c) Nikolai Vladimirov, some rights reserved (CC BY-NC), uploaded by Nikolai Vladimirov",
@@ -3339,7 +3367,7 @@
   },
   "Mastigusa arietina": {
     "attribution": "(c) Frederik Leck Fischer, všetky práva vyhradené, uploaded by Frederik Leck Fischer",
-    "fetched_at": "2026-04-23T18:15:45+00:00",
+    "fetched_at": "2026-04-24T08:11:25+00:00",
     "iconic_taxon": "Arachnida",
     "license_code": null,
     "photo_large_url": null,
@@ -3501,15 +3529,16 @@
     "taxon_id": 461242
   },
   "Meta bourneti": {
-    "attribution": "(c) Luis Lopes Silva, all rights reserved, uploaded by Luis Lopes Silva",
-    "fetched_at": "2026-04-23T18:16:05+00:00",
+    "attribution": "(c) Philippe  Garcelon, some rights reserved (CC BY-NC-SA)",
+    "fetched_at": "2026-04-24T08:11:27+00:00",
     "iconic_taxon": "Arachnida",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/7372517/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/7372517/square.jpeg",
-    "taxon_id": 430053
+    "license_code": "cc-by-nc-sa",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/2325182/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/2325182/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/2325182/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/2325182/square.jpg",
+    "taxon_id": 430053,
+    "used_taxon_photos_fallback": true
   },
   "Meta menardi": {
     "attribution": "(c) Jakob Fahr, some rights reserved (CC BY-NC), uploaded by Jakob Fahr",
@@ -3677,7 +3706,7 @@
   },
   "Mycetobia pallipes": {
     "attribution": "(c) Rui Andrade, all rights reserved, uploaded by Rui Andrade",
-    "fetched_at": "2026-04-23T18:16:29+00:00",
+    "fetched_at": "2026-04-24T08:11:30+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -3687,15 +3716,16 @@
     "taxon_id": 968868
   },
   "Mycetochara humeralis": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:16:31+00:00",
+    "attribution": "(c) AWI i Pr., some rights reserved (CC BY-NC), uploaded by AWI i Pr.",
+    "fetched_at": "2026-04-24T08:11:36+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/342112918/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/342112918/square.jpg",
-    "taxon_id": 891849
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/140605475/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/140605475/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/140605475/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/140605475/square.jpeg",
+    "taxon_id": 891849,
+    "used_taxon_photos_fallback": true
   },
   "Mycetophagus atomarius": {
     "attribution": "(c) Kevin Gielen, some rights reserved (CC BY-NC), uploaded by Kevin Gielen",
@@ -3901,7 +3931,7 @@
   },
   "Nemapogon ruricolella": {
     "attribution": "(c) Tig, all rights reserved, uploaded by Tig",
-    "fetched_at": "2026-04-23T18:16:55+00:00",
+    "fetched_at": "2026-04-24T08:11:38+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -3976,15 +4006,16 @@
     "taxon_id": 502314
   },
   "Nuctenea umbratica": {
-    "attribution": "(c) Markus Horrer, all rights reserved, uploaded by Markus Horrer",
-    "fetched_at": "2026-04-23T18:17:04+00:00",
+    "attribution": "(c) Marcello Consolo, some rights reserved (CC BY-NC-SA)",
+    "fetched_at": "2026-04-24T08:11:41+00:00",
     "iconic_taxon": "Arachnida",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/366417951/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/366417951/square.jpg",
-    "taxon_id": 130092
+    "license_code": "cc-by-nc-sa",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/602037/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/602037/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/602037/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/602037/square.jpg",
+    "taxon_id": 130092,
+    "used_taxon_photos_fallback": true
   },
   "Nyctalus leisleri": {
     "attribution": "(c) Yuzefovich Alexander, some rights reserved (CC BY-NC), uploaded by Yuzefovich Alexander",
@@ -4009,15 +4040,16 @@
     "taxon_id": 40572
   },
   "Ochina ptinoides": {
-    "attribution": "(c) Marco Huang, all rights reserved, uploaded by Marco Huang",
-    "fetched_at": "2026-04-23T18:17:07+00:00",
+    "attribution": "(c) Alexis Tinker-Tsavalas, some rights reserved (CC BY), uploaded by Alexis Tinker-Tsavalas",
+    "fetched_at": "2026-04-24T08:11:43+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/119192768/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/119192768/square.jpg",
-    "taxon_id": 546075
+    "license_code": "cc-by",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/40346897/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/40346897/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/40346897/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/40346897/square.jpeg",
+    "taxon_id": 546075,
+    "used_taxon_photos_fallback": true
   },
   "Octotemnus glabriculus": {
     "attribution": "(c) Udo Schmidt, some rights reserved (CC BY-SA)",
@@ -4068,15 +4100,16 @@
     "not_found": true
   },
   "Opilo mollis": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:17:16+00:00",
+    "attribution": "(c) Gilles San Martin, some rights reserved (CC BY-SA), uploaded by Gilles San Martin",
+    "fetched_at": "2026-04-24T08:11:46+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/116095604/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/116095604/square.jpg",
-    "taxon_id": 471345
+    "license_code": "cc-by-sa",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/36351779/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/36351779/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/36351779/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/36351779/square.jpeg",
+    "taxon_id": 471345,
+    "used_taxon_photos_fallback": true
   },
   "Orchesia micans": {
     "attribution": "(c) Nikolai Vladimirov, some rights reserved (CC BY-NC), uploaded by Nikolai Vladimirov",
@@ -4091,7 +4124,7 @@
   },
   "Orchesia minor": {
     "attribution": "(c) bettyglatzhofer, all rights reserved, uploaded by bettyglatzhofer",
-    "fetched_at": "2026-04-23T18:17:18+00:00",
+    "fetched_at": "2026-04-24T08:11:48+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -4149,7 +4182,7 @@
   },
   "Oxypoda vittata": {
     "attribution": "(c) Aleš Buček, all rights reserved, uploaded by Aleš Buček",
-    "fetched_at": "2026-04-23T18:17:27+00:00",
+    "fetched_at": "2026-04-24T08:11:51+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -4252,7 +4285,7 @@
   },
   "Passaloecus turionum": {
     "attribution": "(c) Svavar Martin Andreasen, all rights reserved, uploaded by Svavar Martin Andreasen",
-    "fetched_at": "2026-04-23T18:17:40+00:00",
+    "fetched_at": "2026-04-24T08:11:53+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -4462,15 +4495,16 @@
     "taxon_id": 865359
   },
   "Phoenicurus phoenicurus": {
-    "attribution": "(c) Лазарус Лонг, all rights reserved, uploaded by Лазарус Лонг",
-    "fetched_at": "2026-04-23T18:18:06+00:00",
+    "attribution": "(c) Pablo Pozo, some rights reserved (CC BY-NC), uploaded by Pablo Pozo",
+    "fetched_at": "2026-04-24T08:11:55+00:00",
     "iconic_taxon": "Aves",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/131227002/medium.jpeg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/131227002/square.jpeg",
-    "taxon_id": 12992
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/234744131/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/234744131/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/234744131/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/234744131/square.jpg",
+    "taxon_id": 12992,
+    "used_taxon_photos_fallback": true
   },
   "Phortica variegata": {
     "attribution": "(c) Tom Murray, some rights reserved (CC BY-NC), uploaded by Tom Murray",
@@ -4506,19 +4540,20 @@
     "taxon_id": 228022
   },
   "Physatocheila dumetorum": {
-    "attribution": "(c) Benjamin Fabian, all rights reserved, uploaded by Benjamin Fabian",
-    "fetched_at": "2026-04-23T18:18:11+00:00",
+    "attribution": "(c) Christophe Quintin, some rights reserved (CC BY-NC)",
+    "fetched_at": "2026-04-24T08:11:58+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/175408995/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/175408995/square.jpg",
-    "taxon_id": 604008
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12335002/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12335002/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12335002/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12335002/square.jpg",
+    "taxon_id": 604008,
+    "used_taxon_photos_fallback": true
   },
   "Physatocheila smreczynskii": {
     "attribution": "(c) WonGun Kim, all rights reserved, uploaded by WonGun Kim",
-    "fetched_at": "2026-04-23T18:18:12+00:00",
+    "fetched_at": "2026-04-24T08:12:00+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -4573,7 +4608,7 @@
   },
   "Placusa depressa": {
     "attribution": "(c) Benjamin Fabian, all rights reserved, uploaded by Benjamin Fabian",
-    "fetched_at": "2026-04-23T18:18:18+00:00",
+    "fetched_at": "2026-04-24T08:12:03+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -4654,7 +4689,7 @@
   },
   "Plectophloeus nitidus": {
     "attribution": "(c) quadratmeter, all rights reserved",
-    "fetched_at": "2026-04-23T18:18:28+00:00",
+    "fetched_at": "2026-04-24T08:12:05+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -4719,15 +4754,16 @@
     "taxon_id": 505407
   },
   "Polyxenus lagurus": {
-    "attribution": "(c) Benjamin Fabian, all rights reserved, uploaded by Benjamin Fabian",
-    "fetched_at": "2026-04-23T18:18:35+00:00",
+    "attribution": "(c) Paul Bowyer, some rights reserved (CC BY-NC), uploaded by Paul Bowyer",
+    "fetched_at": "2026-04-24T08:12:07+00:00",
     "iconic_taxon": "Animalia",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/177276332/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/177276332/square.jpg",
-    "taxon_id": 133872
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/68059026/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/68059026/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/68059026/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/68059026/square.jpg",
+    "taxon_id": 133872,
+    "used_taxon_photos_fallback": true
   },
   "Potamia setifemur": {
     "fetched_at": "2026-04-23T18:18:37+00:00",
@@ -4794,7 +4830,7 @@
   },
   "Pseudotriphyllus suturalis": {
     "attribution": "(c) Daniele Bertolino, all rights reserved, uploaded by Daniele Bertolino",
-    "fetched_at": "2026-04-23T18:18:45+00:00",
+    "fetched_at": "2026-04-24T08:12:10+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -4897,7 +4933,7 @@
   },
   "Ptinus subpilosus": {
     "attribution": "(c) RUIZ Jean Marc, all rights reserved, uploaded by RUIZ Jean Marc",
-    "fetched_at": "2026-04-23T18:18:57+00:00",
+    "fetched_at": "2026-04-24T08:12:12+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -4934,7 +4970,7 @@
   },
   "Quedius brevicornis": {
     "attribution": "(c) karsten_s, all rights reserved, uploaded by karsten_s",
-    "fetched_at": "2026-04-23T18:19:02+00:00",
+    "fetched_at": "2026-04-24T08:12:15+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -5139,15 +5175,16 @@
     "taxon_id": 1050811
   },
   "Sciurus vulgaris": {
-    "attribution": "(c) guido parmeggiani, all rights reserved, uploaded by guido parmeggiani",
-    "fetched_at": "2026-04-23T18:16:30+00:00",
+    "attribution": "(c) Rhododendrites, some rights reserved (CC BY-SA)",
+    "fetched_at": "2026-04-24T08:11:32+00:00",
     "iconic_taxon": "Mammalia",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/6235808/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/6235808/square.jpg",
-    "taxon_id": 46001
+    "license_code": "cc-by-sa",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/462357539/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/462357539/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/462357539/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/462357539/square.jpg",
+    "taxon_id": 46001,
+    "used_taxon_photos_fallback": true
   },
   "Sclerophora pallida": {
     "attribution": "(c) Renāte Kaupuža, some rights reserved (CC BY-NC), uploaded by Renāte Kaupuža",
@@ -5179,7 +5216,7 @@
   },
   "Scraptia fuscula": {
     "attribution": "(c) jesorg, all rights reserved",
-    "fetched_at": "2026-04-23T18:19:31+00:00",
+    "fetched_at": "2026-04-24T08:12:17+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -5256,15 +5293,16 @@
     "taxon_id": 1016641
   },
   "Sinodendron cylindricum": {
-    "attribution": "(c) Karim Strohriegl, all rights reserved, uploaded by Karim Strohriegl",
-    "fetched_at": "2026-04-23T18:19:40+00:00",
+    "attribution": "(c) Kentish Plumber, some rights reserved (CC BY-NC-ND)",
+    "fetched_at": "2026-04-24T08:12:19+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/556479214/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/556479214/square.jpg",
-    "taxon_id": 321485
+    "license_code": "cc-by-nc-nd",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/605124456/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/605124456/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/605124456/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/605124456/square.jpg",
+    "taxon_id": 321485,
+    "used_taxon_photos_fallback": true
   },
   "Sitta europaea": {
     "attribution": "(c) Frank Vassen, some rights reserved (CC BY)",
@@ -5440,15 +5478,16 @@
     "taxon_id": 51683
   },
   "Synanthedon myopaeformis": {
-    "attribution": "(c) David Beadle, all rights reserved, uploaded by David Beadle",
-    "fetched_at": "2026-04-23T18:20:04+00:00",
+    "attribution": "(c) Ryszard, some rights reserved (CC BY-NC)",
+    "fetched_at": "2026-04-24T08:12:22+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/64475198/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/64475198/square.jpg",
-    "taxon_id": 468467
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/19361756/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/19361756/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/19361756/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/19361756/square.jpg",
+    "taxon_id": 468467,
+    "used_taxon_photos_fallback": true
   },
   "Synanthedon scoliaeformis": {
     "attribution": "(c) Christoph Moning, some rights reserved (CC BY), uploaded by Christoph Moning",
@@ -5473,15 +5512,16 @@
     "taxon_id": 362872
   },
   "Synanthedon vespiformis": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:20:08+00:00",
+    "attribution": "(c) giorege1959, some rights reserved (CC BY-NC), uploaded by giorege1959",
+    "fetched_at": "2026-04-24T08:12:24+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/56652702/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/56652702/square.jpg",
-    "taxon_id": 362871
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/70500450/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/70500450/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/70500450/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/70500450/square.jpg",
+    "taxon_id": 362871,
+    "used_taxon_photos_fallback": true
   },
   "Synchita humeralis": {
     "attribution": "(c) Kevin Gielen, some rights reserved (CC BY-NC), uploaded by Kevin Gielen",
@@ -5554,7 +5594,7 @@
   },
   "Tachyusida gracilis": {
     "attribution": "(c) Даниил Детков, all rights reserved, uploaded by Даниил Детков",
-    "fetched_at": "2026-04-23T18:20:19+00:00",
+    "fetched_at": "2026-04-24T08:12:27+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -5685,19 +5725,20 @@
     "taxon_id": 130787
   },
   "Thereva nobilitata": {
-    "attribution": "(c) Henk Wallays, all rights reserved",
-    "fetched_at": "2026-04-23T18:20:36+00:00",
+    "attribution": "(c) Stefan, some rights reserved (CC BY-NC), uploaded by Stefan",
+    "fetched_at": "2026-04-24T08:12:29+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/15043427/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/15043427/square.jpg",
-    "taxon_id": 362410
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12619828/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12619828/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12619828/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/12619828/square.jpeg",
+    "taxon_id": 362410,
+    "used_taxon_photos_fallback": true
   },
   "Thymalus limbatus": {
     "attribution": "(c) Henk Wallays, all rights reserved",
-    "fetched_at": "2026-04-23T18:20:38+00:00",
+    "fetched_at": "2026-04-24T08:12:32+00:00",
     "iconic_taxon": "Insecta",
     "license_code": null,
     "photo_large_url": null,
@@ -5718,15 +5759,16 @@
     "taxon_id": 232591
   },
   "Tillus elongatus": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:20:40+00:00",
+    "attribution": "(c) Kutushev Radik, some rights reserved (CC BY-NC), uploaded by Kutushev Radik",
+    "fetched_at": "2026-04-24T08:12:34+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/170249709/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/170249709/square.jpg",
-    "taxon_id": 468109
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/132694955/large.jpg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/132694955/medium.jpg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/132694955/small.jpg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/132694955/square.jpg",
+    "taxon_id": 468109,
+    "used_taxon_photos_fallback": true
   },
   "Tipula flavolineata": {
     "attribution": "(c) Nárgila, some rights reserved (CC BY-NC), uploaded by Nárgila",
@@ -5788,15 +5830,16 @@
     "not_found": true
   },
   "Triaxomasia caprimulgella": {
-    "attribution": "(c) petermclight, all rights reserved",
-    "fetched_at": "2026-04-23T18:20:48+00:00",
+    "attribution": "(c) Alexei Kouprianov, some rights reserved (CC BY-NC), uploaded by Alexei Kouprianov",
+    "fetched_at": "2026-04-24T08:12:36+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/348073379/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/348073379/square.jpg",
-    "taxon_id": 876053
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/397081849/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/397081849/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/397081849/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/397081849/square.jpeg",
+    "taxon_id": 876053,
+    "used_taxon_photos_fallback": true
   },
   "Triaxomera fulvimitrella": {
     "attribution": "(c) Nikolai Vladimirov, some rights reserved (CC BY-NC), uploaded by Nikolai Vladimirov",
@@ -5832,26 +5875,28 @@
     "taxon_id": 897854
   },
   "Trichonyx sulcicollis": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:20:53+00:00",
+    "attribution": "(c) romanvrbicek, some rights reserved (CC BY-NC), uploaded by romanvrbicek",
+    "fetched_at": "2026-04-24T08:12:39+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/249031066/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/249031066/square.jpg",
-    "taxon_id": 894451
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/39809238/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/39809238/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/39809238/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/39809238/square.jpeg",
+    "taxon_id": 894451,
+    "used_taxon_photos_fallback": true
   },
   "Trichophya pilicornis": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:20:54+00:00",
+    "attribution": "(c) Ludo Leclerc, some rights reserved (CC BY-NC), uploaded by Ludo Leclerc",
+    "fetched_at": "2026-04-24T08:12:41+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/110154488/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/110154488/square.jpg",
-    "taxon_id": 178754
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/335068536/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/335068536/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/335068536/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/335068536/square.jpeg",
+    "taxon_id": 178754,
+    "used_taxon_photos_fallback": true
   },
   "Trinodes hirtus": {
     "attribution": "(c) muecke2000, some rights reserved (CC BY-NC)",
@@ -5920,15 +5965,16 @@
     "taxon_id": 955007
   },
   "Tritoma bipustulata": {
-    "attribution": "(c) gernotkunz, all rights reserved, uploaded by gernotkunz",
-    "fetched_at": "2026-04-23T18:21:03+00:00",
+    "attribution": "(c) Alexis Tinker-Tsavalas, some rights reserved (CC BY), uploaded by Alexis Tinker-Tsavalas",
+    "fetched_at": "2026-04-24T08:12:44+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/135844410/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/135844410/square.jpg",
-    "taxon_id": 114499
+    "license_code": "cc-by",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/133133200/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/133133200/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/133133200/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/133133200/square.jpeg",
+    "taxon_id": 114499,
+    "used_taxon_photos_fallback": true
   },
   "Troglodytes troglodytes": {
     "attribution": "(c) Samuel Beyertt, some rights reserved (CC BY-NC), uploaded by Samuel Beyertt",
@@ -6006,15 +6052,16 @@
     "not_found": true
   },
   "Vespa crabro": {
-    "attribution": "(c) Matthieu Berroneau, all rights reserved",
-    "fetched_at": "2026-04-23T18:21:15+00:00",
+    "attribution": "(c) Jakob Fahr, some rights reserved (CC BY-NC), uploaded by Jakob Fahr",
+    "fetched_at": "2026-04-24T08:12:46+00:00",
     "iconic_taxon": "Insecta",
-    "license_code": null,
-    "photo_large_url": null,
-    "photo_medium_url": "https://static.inaturalist.org/photos/88741046/medium.jpg",
-    "photo_small_url": null,
-    "photo_square_url": "https://static.inaturalist.org/photos/88741046/square.jpg",
-    "taxon_id": 54327
+    "license_code": "cc-by-nc",
+    "photo_large_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/18078852/large.jpeg",
+    "photo_medium_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/18078852/medium.jpeg",
+    "photo_small_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/18078852/small.jpeg",
+    "photo_square_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/18078852/square.jpeg",
+    "taxon_id": 54327,
+    "used_taxon_photos_fallback": true
   },
   "Volucella inflata": {
     "attribution": "(c) aga-ma, some rights reserved (CC BY-NC), uploaded by aga-ma",

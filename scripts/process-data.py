@@ -150,30 +150,33 @@ def attach_photos(species_list: List[Dict[str, Any]], photo_cache: Dict[str, Any
 
     Returns a small stats dict for logging.
     """
-    stats = {'with_photo': 0, 'all_rights_reserved': 0, 'no_photo': 0, 'not_found': 0, 'missing': 0}
+    stats = {'with_photo': 0, 'all_rights_reserved': 0, 'no_photo': 0, 'not_found': 0, 'missing': 0, 'with_taxon_id': 0}
     for species in species_list:
         name = species['scientificName']
+        species['photo'] = None
+        species['taxonId'] = None
         entry = photo_cache.get(name)
         if entry is None:
-            species['photo'] = None
             stats['missing'] += 1
             continue
+        # Capture the iNat taxon id whenever we have one — enables "View on
+        # iNaturalist" links even for species without a usable photo.
+        taxon_id = entry.get('taxon_id')
+        if taxon_id:
+            species['taxonId'] = taxon_id
+            stats['with_taxon_id'] += 1
         if entry.get('not_found'):
-            species['photo'] = None
             stats['not_found'] += 1
             continue
         if entry.get('no_photo'):
-            species['photo'] = None
             stats['no_photo'] += 1
             continue
         if not entry.get('photo_medium_url'):
-            species['photo'] = None
             stats['no_photo'] += 1
             continue
         license_code = entry.get('license_code')
         if not license_code:
             # iNat returns None for 'all rights reserved' — unusable
-            species['photo'] = None
             stats['all_rights_reserved'] += 1
             continue
         medium_url = entry['photo_medium_url']
@@ -186,7 +189,6 @@ def attach_photos(species_list: List[Dict[str, Any]], photo_cache: Dict[str, Any
             'largeUrl': medium_url.replace('/medium.', '/large.'),
             'attribution': entry.get('attribution', ''),
             'licenseCode': license_code,
-            'taxonId': entry.get('taxon_id'),
         }
         stats['with_photo'] += 1
     return stats
@@ -311,6 +313,7 @@ def main():
         print(f"   ✓ On iNat, no photo:    {photo_stats['no_photo']}")
         print(f"   ✓ Not on iNat:          {photo_stats['not_found']}")
         print(f"   ✓ Not yet fetched:      {photo_stats['missing']}")
+        print(f"   ✓ With iNat taxon id:   {photo_stats['with_taxon_id']}")
     else:
         print(f"\n📷 No photo cache at {photo_cache_path} — skipping.")
         for s in species_data:
