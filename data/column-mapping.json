@@ -32,9 +32,7 @@
         {
           "title": "Tree Age",
           "filters": [
-            {"id": "ancient", "label": "Ancient/Veteran", "column": "ancient/veteran"},
-            {"id": "mature", "label": "Mature", "column": "Mature"},
-            {"id": "young", "label": "Young", "column": "Young"}
+            {"id": "need_avt", "label": "Requires Ancient/Veteran Trees", "column": "NEED AVT"}
           ]
         }
       ]
