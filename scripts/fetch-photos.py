@@ -97,8 +97,17 @@ def pilot_sample(species):
 
 
 def _fetch_exact(session, query):
-    """Single iNaturalist lookup; exact case-insensitive name match required."""
-    params = {"q": query, "rank": "species", "per_page": 5}
+    """Single iNaturalist lookup; exact case-insensitive name match required.
+
+    We include `is_active=any` so renamed species (e.g. Corvus monedula →
+    Coloeus monedula) still resolve to an iNat taxon id. When the matched
+    taxon is inactive we still record the id — the UI can link through to
+    the iNat page, which shows the rename — but we intentionally don't
+    store photo fields for it (photos belong to whatever the current
+    accepted taxon is; the client can update the name in the source data
+    and we refetch for real photos).
+    """
+    params = {"q": query, "rank": "species", "is_active": "any", "per_page": 5}
     backoff = 2
     while True:
         resp = session.get(API_URL, params=params, timeout=TIMEOUT_S)
@@ -118,20 +127,28 @@ def _fetch_exact(session, query):
         break
 
     target = query.strip().lower()
-    match = next(
-        (r for r in resp.json().get("results", [])
-         if (r.get("name") or "").strip().lower() == target),
-        None,
-    )
-    if match is None:
+    matches = [r for r in resp.json().get("results", [])
+               if (r.get("name") or "").strip().lower() == target]
+    if not matches:
         return {"not_found": True, "fetched_at": now_iso()}
 
-    photo = match.get("default_photo") or {}
+    # Prefer active taxa when iNat returns both (rare but possible).
+    match = next((m for m in matches if m.get("is_active")), matches[0])
+
     entry = {
         "taxon_id": match.get("id"),
         "iconic_taxon": match.get("iconic_taxon_name"),
         "fetched_at": now_iso(),
     }
+
+    if match.get("is_active") is False:
+        # Keep the taxon_id for the UI link (iNat's inactive-taxon page shows
+        # the rename) but skip photo fields — we don't want to present photos
+        # attached to deprecated taxonomy.
+        entry["inactive_taxon"] = True
+        return entry
+
+    photo = match.get("default_photo") or {}
     if photo:
         entry.update(
             {

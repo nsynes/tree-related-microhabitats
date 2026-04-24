@@ -77,8 +77,10 @@
     "taxon_id": 887760
   },
   "Achalcus melanotrichus": {
-    "fetched_at": "2026-04-23T18:09:16+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:42:58+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 1047842
   },
   "Acnemia amoena": {
     "attribution": "(c) carnifex, some rights reserved (CC BY), uploaded by carnifex",
@@ -277,11 +279,11 @@
     "taxon_id": 93868
   },
   "Ampedus cinnabarinus": {
-    "fetched_at": "2026-04-23T18:09:35+00:00",
+    "fetched_at": "2026-04-24T09:43:00+00:00",
     "not_found": true
   },
   "Ampedus elongantulus": {
-    "fetched_at": "2026-04-23T18:09:37+00:00",
+    "fetched_at": "2026-04-24T09:43:01+00:00",
     "not_found": true
   },
   "Ampedus nigerrimus": {
@@ -429,7 +431,7 @@
     "taxon_id": 982707
   },
   "Anobium inexspectatum": {
-    "fetched_at": "2026-04-23T18:09:53+00:00",
+    "fetched_at": "2026-04-24T09:43:02+00:00",
     "not_found": true
   },
   "Anomognathus cuspidatus": {
@@ -979,7 +981,7 @@
     "taxon_id": 699070
   },
   "Calicera rufa": {
-    "fetched_at": "2026-04-23T18:10:48+00:00",
+    "fetched_at": "2026-04-24T09:43:03+00:00",
     "not_found": true
   },
   "Caliprobola speciosa": {
@@ -1157,8 +1159,10 @@
     "taxon_id": 145360
   },
   "Choerades marginatus": {
-    "fetched_at": "2026-04-23T18:11:05+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:04+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 497727
   },
   "Choragus sheppardi": {
     "attribution": "(c) Kevin Gielen, some rights reserved (CC BY-NC), uploaded by Kevin Gielen",
@@ -1260,8 +1264,10 @@
     "taxon_id": 1084934
   },
   "Cis hispidus": {
-    "fetched_at": "2026-04-23T18:11:17+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:06+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 546360
   },
   "Cis lineatocribratus": {
     "attribution": "(c) Nikolai Vladimirov, some rights reserved (CC BY-NC), uploaded by Nikolai Vladimirov",
@@ -1343,7 +1349,7 @@
     "used_taxon_photos_fallback": true
   },
   "Clambus pallidulus": {
-    "fetched_at": "2026-04-23T18:11:27+00:00",
+    "fetched_at": "2026-04-24T09:43:07+00:00",
     "not_found": true
   },
   "Cleorodes lichenaria": {
@@ -1426,7 +1432,7 @@
     "taxon_id": 1047170
   },
   "Corticaria dubia": {
-    "fetched_at": "2026-04-23T18:11:37+00:00",
+    "fetched_at": "2026-04-24T09:43:08+00:00",
     "not_found": true
   },
   "Corticaria longicollis": {
@@ -1475,8 +1481,10 @@
     "used_taxon_photos_fallback": true
   },
   "Corvus monedula": {
-    "fetched_at": "2026-04-23T18:11:43+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:09+00:00",
+    "iconic_taxon": "Aves",
+    "inactive_taxon": true,
+    "taxon_id": 8000
   },
   "Cossonus parallelepipedus": {
     "attribution": "(c) Nikolai Vladimirov, some rights reserved (CC BY-NC), uploaded by Nikolai Vladimirov",
@@ -1501,8 +1509,10 @@
     "taxon_id": 486882
   },
   "Criorhina berberina": {
-    "fetched_at": "2026-04-23T18:11:46+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:10+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 357423
   },
   "Criorhina floccosa": {
     "attribution": "(c) Walwyn, some rights reserved (CC BY-NC-SA)",
@@ -1527,7 +1537,7 @@
     "taxon_id": 486883
   },
   "Crossocerus leucostomus": {
-    "fetched_at": "2026-04-23T18:11:50+00:00",
+    "fetched_at": "2026-04-24T09:43:11+00:00",
     "not_found": true
   },
   "Crossocerus vagabundus": {
@@ -1611,7 +1621,7 @@
     "taxon_id": 1085072
   },
   "Cryptophagus ruficornis": {
-    "fetched_at": "2026-04-23T18:12:02+00:00",
+    "fetched_at": "2026-04-24T09:43:13+00:00",
     "not_found": true
   },
   "Crypturgus subcribrosus": {
@@ -1776,8 +1786,10 @@
     "taxon_id": 17871
   },
   "Dendrocopos minor": {
-    "fetched_at": "2026-04-23T18:12:41+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:21+00:00",
+    "iconic_taxon": "Aves",
+    "inactive_taxon": true,
+    "taxon_id": 72800
   },
   "Dendrophilus punctatus": {
     "attribution": "(c) Kevin Gielen, some rights reserved (CC BY-NC), uploaded by Kevin Gielen",
@@ -1835,7 +1847,7 @@
     "taxon_id": 570172
   },
   "Diplodoma herminata": {
-    "fetched_at": "2026-04-23T18:12:23+00:00",
+    "fetched_at": "2026-04-24T09:43:14+00:00",
     "not_found": true
   },
   "Diplodoma laichartingella": {
@@ -1850,8 +1862,10 @@
     "taxon_id": 522517
   },
   "Dipogon subintermedius": {
-    "fetched_at": "2026-04-23T18:12:25+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:15+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 990774
   },
   "Ditomyia fasciata": {
     "attribution": "(c) Ana Rita Gonçalves, all rights reserved",
@@ -1915,11 +1929,11 @@
     "taxon_id": 990872
   },
   "Drapetis arcuata": {
-    "fetched_at": "2026-04-23T18:12:34+00:00",
+    "fetched_at": "2026-04-24T09:43:16+00:00",
     "not_found": true
   },
   "Drapetis simulans": {
-    "fetched_at": "2026-04-23T18:12:35+00:00",
+    "fetched_at": "2026-04-24T09:43:18+00:00",
     "not_found": true
   },
   "Dromius agilis": {
@@ -1945,7 +1959,7 @@
     "taxon_id": 363331
   },
   "Dropephylla gracilicornis": {
-    "fetched_at": "2026-04-23T18:12:38+00:00",
+    "fetched_at": "2026-04-24T09:43:19+00:00",
     "not_found": true
   },
   "Dropephylla ioptera": {
@@ -2310,8 +2324,10 @@
     "taxon_id": 519692
   },
   "Eulagius filicornis": {
-    "fetched_at": "2026-04-23T18:13:22+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:22+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 567664
   },
   "Eupachygaster tarsalis": {
     "attribution": "(c) Gilles San Martin, some rights reserved (CC BY-SA), uploaded by Gilles San Martin",
@@ -2337,11 +2353,11 @@
     "taxon_id": 1086212
   },
   "Euplectus fauveli": {
-    "fetched_at": "2026-04-23T18:13:26+00:00",
+    "fetched_at": "2026-04-24T09:43:23+00:00",
     "not_found": true
   },
   "Euplectus kirbyi": {
-    "fetched_at": "2026-04-23T18:13:27+00:00",
+    "fetched_at": "2026-04-24T09:43:24+00:00",
     "not_found": true
   },
   "Euplectus mutator": {
@@ -2396,11 +2412,11 @@
     "taxon_id": 1047216
   },
   "Eutheia formicetorum": {
-    "fetched_at": "2026-04-23T18:13:36+00:00",
+    "fetched_at": "2026-04-24T09:43:25+00:00",
     "not_found": true
   },
   "Eutheia linearis": {
-    "fetched_at": "2026-04-23T18:13:37+00:00",
+    "fetched_at": "2026-04-24T09:43:27+00:00",
     "not_found": true
   },
   "Euthyneura halidayi": {
@@ -2421,7 +2437,7 @@
     "taxon_id": 472766
   },
   "Fannia aequilineata": {
-    "fetched_at": "2026-04-23T18:13:41+00:00",
+    "fetched_at": "2026-04-24T09:43:28+00:00",
     "not_found": true
   },
   "Fannia difficilis": {
@@ -2436,7 +2452,7 @@
     "taxon_id": 1366553
   },
   "Fannia gotlandica": {
-    "fetched_at": "2026-04-23T18:13:43+00:00",
+    "fetched_at": "2026-04-24T09:43:29+00:00",
     "not_found": true
   },
   "Ferdinandea cuprea": {
@@ -2506,8 +2522,10 @@
     "taxon_id": 809172
   },
   "Glaphyra umbellatarum": {
-    "fetched_at": "2026-04-23T18:13:51+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:30+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 497492
   },
   "Glischrochilus quadriguttatus": {
     "attribution": "(c) Marie Lou Legrand, some rights reserved (CC BY-NC), uploaded by Marie Lou Legrand",
@@ -2566,7 +2584,7 @@
     "taxon_id": 992184
   },
   "Gnathoncus nanus": {
-    "fetched_at": "2026-04-23T18:13:59+00:00",
+    "fetched_at": "2026-04-24T09:43:31+00:00",
     "not_found": true
   },
   "Gnophomyia elsneri": {
@@ -2632,8 +2650,10 @@
     "taxon_id": 503883
   },
   "Grapholita janthinana": {
-    "fetched_at": "2026-04-23T18:14:08+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:33+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 362748
   },
   "Gyrophaena affinis": {
     "attribution": "(c) Michał Górski, some rights reserved (CC BY-NC), uploaded by Michał Górski",
@@ -2714,7 +2734,7 @@
     "taxon_id": 992294
   },
   "Gyrophaena rousi": {
-    "fetched_at": "2026-04-23T18:14:19+00:00",
+    "fetched_at": "2026-04-24T09:43:34+00:00",
     "not_found": true
   },
   "Gyrophaena strictula": {
@@ -2937,11 +2957,11 @@
     "taxon_id": 472806
   },
   "Karstenia dictyospora": {
-    "fetched_at": "2026-04-23T18:14:46+00:00",
+    "fetched_at": "2026-04-24T09:43:35+00:00",
     "not_found": true
   },
   "Karstenia nigra": {
-    "fetched_at": "2026-04-23T18:14:47+00:00",
+    "fetched_at": "2026-04-24T09:43:36+00:00",
     "not_found": true
   },
   "Kyklioacalles roboris": {
@@ -3018,7 +3038,7 @@
     "taxon_id": 322806
   },
   "Lathridius consimilis": {
-    "fetched_at": "2026-04-23T18:14:58+00:00",
+    "fetched_at": "2026-04-24T09:43:37+00:00",
     "not_found": true
   },
   "Lecanactis abietina": {
@@ -3057,7 +3077,7 @@
     "taxon_id": 994906
   },
   "Leiopus linnei/nebulosus agg.": {
-    "fetched_at": "2026-04-23T18:15:04+00:00",
+    "fetched_at": "2026-04-24T09:43:39+00:00",
     "not_found": true
   },
   "Lepthyphantes minutus": {
@@ -3117,8 +3137,10 @@
     "taxon_id": 143291
   },
   "Limax tenellus": {
-    "fetched_at": "2026-04-23T18:15:11+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:41+00:00",
+    "iconic_taxon": "Mollusca",
+    "inactive_taxon": true,
+    "taxon_id": 460521
   },
   "Limoniscus violaceus": {
     "attribution": "(c) Nikola Rahmé, all rights reserved, uploaded by Nikola Rahmé",
@@ -3143,7 +3165,7 @@
     "taxon_id": 699521
   },
   "Lissodema denticollis": {
-    "fetched_at": "2026-04-23T18:15:15+00:00",
+    "fetched_at": "2026-04-24T09:43:42+00:00",
     "not_found": true
   },
   "Litargus connexus": {
@@ -3199,7 +3221,7 @@
     "taxon_id": 1200503
   },
   "Lonchaea mallochi": {
-    "fetched_at": "2026-04-23T18:15:25+00:00",
+    "fetched_at": "2026-04-24T09:43:43+00:00",
     "not_found": true
   },
   "Lonchaea peregrina": {
@@ -3209,7 +3231,7 @@
     "taxon_id": 1087750
   },
   "Lonchaea serrata": {
-    "fetched_at": "2026-04-23T18:15:27+00:00",
+    "fetched_at": "2026-04-24T09:43:44+00:00",
     "not_found": true
   },
   "Lophophanes cristatus": {
@@ -3388,7 +3410,7 @@
     "taxon_id": 783581
   },
   "Medetera bispinosa": {
-    "fetched_at": "2026-04-23T18:15:48+00:00",
+    "fetched_at": "2026-04-24T09:43:46+00:00",
     "not_found": true
   },
   "Medetera impigra": {
@@ -3497,8 +3519,10 @@
     "taxon_id": 496011
   },
   "Melaspilea lentiginosa": {
-    "fetched_at": "2026-04-23T18:16:01+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:47+00:00",
+    "iconic_taxon": "Fungi",
+    "inactive_taxon": true,
+    "taxon_id": 986362
   },
   "Meoneura neottiophila": {
     "fetched_at": "2026-04-23T18:16:02+00:00",
@@ -3697,11 +3721,11 @@
     "taxon_id": 70211
   },
   "Mycetobia gemella": {
-    "fetched_at": "2026-04-23T18:16:26+00:00",
+    "fetched_at": "2026-04-24T09:43:48+00:00",
     "not_found": true
   },
   "Mycetobia obscura": {
-    "fetched_at": "2026-04-23T18:16:28+00:00",
+    "fetched_at": "2026-04-24T09:43:49+00:00",
     "not_found": true
   },
   "Mycetobia pallipes": {
@@ -3849,8 +3873,10 @@
     "taxon_id": 40314
   },
   "Myrmedobia coleoptrata": {
-    "fetched_at": "2026-04-23T18:16:46+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:50+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 1000700
   },
   "Narycia duplicella": {
     "attribution": "(c) Andrey Ponomarev, some rights reserved (CC BY-NC), uploaded by Andrey Ponomarev",
@@ -3985,7 +4011,7 @@
     "taxon_id": 736823
   },
   "Neossus nidicola": {
-    "fetched_at": "2026-04-23T18:17:00+00:00",
+    "fetched_at": "2026-04-24T09:43:52+00:00",
     "not_found": true
   },
   "Niditinea piercella": {
@@ -4096,7 +4122,7 @@
     "taxon_id": 324799
   },
   "Oligota apicata": {
-    "fetched_at": "2026-04-23T18:17:14+00:00",
+    "fetched_at": "2026-04-24T09:43:53+00:00",
     "not_found": true
   },
   "Opilo mollis": {
@@ -4145,7 +4171,7 @@
     "taxon_id": 176492
   },
   "Orthocis coluber": {
-    "fetched_at": "2026-04-23T18:17:21+00:00",
+    "fetched_at": "2026-04-24T09:43:54+00:00",
     "not_found": true
   },
   "Orthopodomyia pulcripalpis": {
@@ -4171,8 +4197,10 @@
     "taxon_id": 484592
   },
   "Ostoma ferrugineum": {
-    "fetched_at": "2026-04-23T18:17:24+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:55+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 1166494
   },
   "Oxypoda recondita": {
     "fetched_at": "2026-04-23T18:17:26+00:00",
@@ -4192,8 +4220,10 @@
     "taxon_id": 1004336
   },
   "Palloptera usta": {
-    "fetched_at": "2026-04-23T18:17:28+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:43:56+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 773576
   },
   "Pammene populana": {
     "attribution": "(c) Andrey Ponomarev, some rights reserved (CC BY-NC), uploaded by Andrey Ponomarev",
@@ -4373,11 +4403,11 @@
     "taxon_id": 1050776
   },
   "Periscelis winnertzi": {
-    "fetched_at": "2026-04-23T18:17:51+00:00",
+    "fetched_at": "2026-04-24T09:43:57+00:00",
     "not_found": true
   },
   "Phaonia canescens": {
-    "fetched_at": "2026-04-23T18:17:52+00:00",
+    "fetched_at": "2026-04-24T09:43:59+00:00",
     "not_found": true
   },
   "Phaonia cincta": {
@@ -4392,7 +4422,7 @@
     "taxon_id": 1087768
   },
   "Phaonia exoleta": {
-    "fetched_at": "2026-04-23T18:17:54+00:00",
+    "fetched_at": "2026-04-24T09:44:00+00:00",
     "not_found": true
   },
   "Phaonia laeta": {
@@ -4629,8 +4659,10 @@
     "taxon_id": 458402
   },
   "Platycis cosnardi": {
-    "fetched_at": "2026-04-23T18:18:21+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:44:01+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 474459
   },
   "Platycis minutus": {
     "attribution": "(c) Miroslav Fiala, some rights reserved (CC BY-NC)",
@@ -4766,7 +4798,7 @@
     "used_taxon_photos_fallback": true
   },
   "Potamia setifemur": {
-    "fetched_at": "2026-04-23T18:18:37+00:00",
+    "fetched_at": "2026-04-24T09:44:02+00:00",
     "not_found": true
   },
   "Prionocyphon serricornis": {
@@ -4814,8 +4846,10 @@
     "taxon_id": 1006447
   },
   "Psathyrella cernua": {
-    "fetched_at": "2026-04-23T18:18:43+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:44:03+00:00",
+    "iconic_taxon": "Fungi",
+    "inactive_taxon": true,
+    "taxon_id": 803118
   },
   "Pseudocistela ceramboides": {
     "attribution": "(c) Kutushev Radik, some rights reserved (CC BY-NC), uploaded by Kutushev Radik",
@@ -4873,7 +4907,7 @@
     "taxon_id": 1048056
   },
   "Ptenidium turgidum": {
-    "fetched_at": "2026-04-23T18:18:50+00:00",
+    "fetched_at": "2026-04-24T09:44:05+00:00",
     "not_found": true
   },
   "Ptilinus pectinicornis": {
@@ -4965,7 +4999,7 @@
     "taxon_id": 347956
   },
   "Quedius aetolicus": {
-    "fetched_at": "2026-04-23T18:19:00+00:00",
+    "fetched_at": "2026-04-24T09:44:06+00:00",
     "not_found": true
   },
   "Quedius brevicornis": {
@@ -5437,7 +5471,7 @@
     "taxon_id": 451375
   },
   "Strix aluca": {
-    "fetched_at": "2026-04-23T18:19:56+00:00",
+    "fetched_at": "2026-04-24T09:44:07+00:00",
     "not_found": true
   },
   "Sturnus vulgaris vulgaris": {
@@ -5453,11 +5487,11 @@
     "taxon_id": 14850
   },
   "Sulcacis affinis": {
-    "fetched_at": "2026-04-23T18:20:00+00:00",
+    "fetched_at": "2026-04-24T09:44:08+00:00",
     "not_found": true
   },
   "Sulcacis bicornis": {
-    "fetched_at": "2026-04-23T18:20:01+00:00",
+    "fetched_at": "2026-04-24T09:44:09+00:00",
     "not_found": true
   },
   "Symbiotes latus": {
@@ -5546,7 +5580,7 @@
     "taxon_id": 1048086
   },
   "Systenus mallochi": {
-    "fetched_at": "2026-04-23T18:20:11+00:00",
+    "fetched_at": "2026-04-24T09:44:10+00:00",
     "not_found": true
   },
   "Systenus scholtzii": {
@@ -5561,7 +5595,7 @@
     "taxon_id": 1050407
   },
   "Systenus tener": {
-    "fetched_at": "2026-04-23T18:20:14+00:00",
+    "fetched_at": "2026-04-24T09:44:12+00:00",
     "not_found": true
   },
   "Tachinus bipustulatus": {
@@ -5621,7 +5655,7 @@
     "taxon_id": 1049198
   },
   "Telmatoscopus rothschildii": {
-    "fetched_at": "2026-04-23T18:20:23+00:00",
+    "fetched_at": "2026-04-24T09:44:13+00:00",
     "not_found": true
   },
   "Telmatoscopus tristis": {
@@ -5826,8 +5860,10 @@
     "taxon_id": 460538
   },
   "Tremella moriformis": {
-    "fetched_at": "2026-04-23T18:20:47+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:44:14+00:00",
+    "iconic_taxon": "Fungi",
+    "inactive_taxon": true,
+    "taxon_id": 1018908
   },
   "Triaxomasia caprimulgella": {
     "attribution": "(c) Alexei Kouprianov, some rights reserved (CC BY-NC), uploaded by Alexei Kouprianov",
@@ -6038,7 +6074,7 @@
     "taxon_id": 20445
   },
   "Uleiota planatus": {
-    "fetched_at": "2026-04-23T18:21:11+00:00",
+    "fetched_at": "2026-04-24T09:44:15+00:00",
     "not_found": true
   },
   "Vanonus brevicornis": {
@@ -6048,8 +6084,10 @@
     "taxon_id": 1045643
   },
   "Velleius dilatatus": {
-    "fetched_at": "2026-04-23T18:21:14+00:00",
-    "not_found": true
+    "fetched_at": "2026-04-24T09:44:17+00:00",
+    "iconic_taxon": "Insecta",
+    "inactive_taxon": true,
+    "taxon_id": 483646
   },
   "Vespa crabro": {
     "attribution": "(c) Jakob Fahr, some rights reserved (CC BY-NC), uploaded by Jakob Fahr",

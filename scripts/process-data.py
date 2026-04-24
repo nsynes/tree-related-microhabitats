@@ -150,7 +150,8 @@ def attach_photos(species_list: List[Dict[str, Any]], photo_cache: Dict[str, Any
 
     Returns a small stats dict for logging.
     """
-    stats = {'with_photo': 0, 'all_rights_reserved': 0, 'no_photo': 0, 'not_found': 0, 'missing': 0, 'with_taxon_id': 0}
+    stats = {'with_photo': 0, 'all_rights_reserved': 0, 'no_photo': 0, 'not_found': 0,
+             'missing': 0, 'with_taxon_id': 0, 'inactive_taxon': 0}
     for species in species_list:
         name = species['scientificName']
         species['photo'] = None
@@ -167,6 +168,11 @@ def attach_photos(species_list: List[Dict[str, Any]], photo_cache: Dict[str, Any
             stats['with_taxon_id'] += 1
         if entry.get('not_found'):
             stats['not_found'] += 1
+            continue
+        if entry.get('inactive_taxon'):
+            # Keep the taxon id (set above) so the UI can link to the iNat
+            # page where the rename is visible. Don't attach any photo.
+            stats['inactive_taxon'] += 1
             continue
         if entry.get('no_photo'):
             stats['no_photo'] += 1
@@ -311,6 +317,7 @@ def main():
         print(f"   ✓ With photo:           {photo_stats['with_photo']}")
         print(f"   ✓ All rights reserved:  {photo_stats['all_rights_reserved']}")
         print(f"   ✓ On iNat, no photo:    {photo_stats['no_photo']}")
+        print(f"   ✓ Inactive (renamed):   {photo_stats['inactive_taxon']}")
         print(f"   ✓ Not on iNat:          {photo_stats['not_found']}")
         print(f"   ✓ Not yet fetched:      {photo_stats['missing']}")
         print(f"   ✓ With iNat taxon id:   {photo_stats['with_taxon_id']}")

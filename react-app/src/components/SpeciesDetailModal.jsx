@@ -115,10 +115,7 @@ function SpeciesDetailModal({ config, species, onClose }) {
                 <div className="species-detail-habitat-heading">Tree Characteristics</div>
                 <ul className="species-detail-habitat-list">
                   {grouped.level2.map(h => (
-                    <li key={h.id}>
-                      {h.label}
-                      <span className="species-detail-habitat-context"> — {h.categoryTitle}</span>
-                    </li>
+                    <li key={h.id}>{h.label}</li>
                   ))}
                 </ul>
               </div>
