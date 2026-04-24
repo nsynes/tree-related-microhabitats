@@ -597,8 +597,7 @@ body {
   min-width: 0;
   overflow-y: auto;
   flex: 1;
-  align-items: start; /* Prevent cards from stretching vertically */
-  grid-auto-rows: min-content; /* Cards only take height they need */
+  /* Default grid align-items: stretch — cards in a row match the tallest. */
 }
 
 @media (max-width: 1024px) {
@@ -624,7 +623,6 @@ body {
   cursor: pointer;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  height: fit-content;
 }
 
 .species-card:hover {
