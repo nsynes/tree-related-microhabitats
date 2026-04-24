@@ -88,12 +88,12 @@ function App() {
         
         <h3>Contact & Credits</h3>
         <p>
-          For more information, please contact [Contact details to be provided].
+          Developed by ...
+        </p>
+        <p>
+          For more information, please contact ...
         </p>
         
-        <p>
-          <em>Note: This is placeholder content. Final text will be provided by the client.</em>
-        </p>
       </Modal>
 
       {/* Help Modal */}
@@ -107,31 +107,6 @@ function App() {
           Use the filter panel on the left to select habitat features and tree characteristics. 
           The species list will update automatically to show matching species.
         </p>
-        
-        <h3>Filter Levels</h3>
-        <ul>
-          <li>
-            <strong>Level 1: Woodland Type</strong> - Select the type of woodland or tree setting 
-            (e.g., open grown, closed canopy, parkland).
-          </li>
-          <li>
-            <strong>Level 2: Tree Characteristics</strong> - Filter by tree type (conifer, broadleaved) 
-            and age (ancient/veteran, mature, young).
-          </li>
-          <li>
-            <strong>Level 3: Microhabitats</strong> - Select specific microhabitat features organized 
-            into groups:
-            <ul>
-              <li>Cavity - Holes, rot holes, and concavities</li>
-              <li>Injuries & Exposed Wood - Bark damage and exposed heartwood</li>
-              <li>Crown Deadwood - Dead branches and limbs</li>
-              <li>Excrescences - Burrs, cankers, and twig tangles</li>
-              <li>Fungal Fruiting Bodies - Various types of fungi</li>
-              <li>Epixylic Structures - Nests, epiphytes, and microsoil</li>
-              <li>Exudates - Sap runs and resinosis</li>
-            </ul>
-          </li>
-        </ul>
         
         <h3>Group Checkboxes</h3>
         <p>
@@ -150,9 +125,6 @@ function App() {
           Click "Clear All" in the filter panel header to reset all filters and show all species.
         </p>
         
-        <p>
-          <em>Note: This is placeholder content. Final instructions will be provided by the client.</em>
-        </p>
       </Modal>
     </>
   );
