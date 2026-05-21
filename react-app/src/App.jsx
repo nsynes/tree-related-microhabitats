@@ -11,12 +11,15 @@ function App() {
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const setSpecies = useFilterStore(state => state.setSpecies);
+  const setConfig = useFilterStore(state => state.setConfig);
 
   useEffect(() => {
-    // Load species data on mount
+    // Hydrate the store with config + species on mount. Config informs the
+    // store about hierarchy levels (it has no hardcoded knowledge of them).
+    setConfig(config);
     setSpecies(speciesData);
     setLoading(false);
-  }, [setSpecies]);
+  }, [setConfig, setSpecies]);
 
   if (loading) {
     return (
@@ -110,8 +113,8 @@ function App() {
         
         <h3>Group Checkboxes</h3>
         <p>
-          In Level 3 (Microhabitats), each group has a checkbox at the top. Click this to 
-          select or deselect all features within that group at once.
+          In the Microhabitats section, each group (Cavity, Injuries, etc.) has a checkbox
+          at the top. Click this to select or deselect all features within that group at once.
         </p>
         
         <h3>Filter Logic</h3>

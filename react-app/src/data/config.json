@@ -5,15 +5,33 @@
   "filterHierarchy": [
     {
       "level": 1,
-      "id": "woodland_type",
-      "title": "1. Woodland Type",
-      "description": "Filter by habitat type",
+      "id": "geographic_location",
+      "title": "1. Geographic Location",
+      "description": "Filter by geographic location",
       "filters": [
         {
-          "id": "open_grown",
-          "label": "Open Grown Trees",
-          "column": "uses open grown"
+          "id": "england",
+          "label": "England",
+          "column": "England"
         },
+        {
+          "id": "scotland",
+          "label": "Scotland",
+          "column": "Scotland"
+        },
+        {
+          "id": "wales",
+          "label": "Wales",
+          "column": "Wales"
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "id": "woodland_type",
+      "title": "2. Woodland Type",
+      "description": "Filter by woodland type",
+      "filters": [
         {
           "id": "closed_canopy",
           "label": "Closed Canopy Woodland",
@@ -37,9 +55,9 @@
       ]
     },
     {
-      "level": 2,
+      "level": 3,
       "id": "tree_characteristics",
-      "title": "2. Tree Characteristics",
+      "title": "3. Tree Characteristics",
       "description": "Filter by tree type and age",
       "categories": [
         {
@@ -70,9 +88,9 @@
       ]
     },
     {
-      "level": 3,
+      "level": 4,
       "id": "microhabitats",
-      "title": "3. Microhabitats",
+      "title": "4. Microhabitats",
       "description": "Filter by tree-related microhabitats",
       "groups": [
         {

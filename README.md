@@ -131,13 +131,3 @@ tree-related-microhabitats/
    ```
 3. Run `python scripts/process-data.py`
 4. Test and deploy
-
-## Support
-
-- **Developer:** Nick S
-- **Client:** Forest Research (Katty Baird)
-- **Issues:** Report via GitHub issues
-
-## License
-
-Proprietary - Forest Research

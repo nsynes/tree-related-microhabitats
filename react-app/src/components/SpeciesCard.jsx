@@ -69,9 +69,16 @@ function SpeciesCard({ species, onClick }) {
         </div>
       )}
 
-      {species.d4d5 && (
+      {species.d4 && (
         <div className="species-info-row">
-          <span className="species-info-label">D4/D5:</span>
+          <span className="species-info-label">D4:</span>
+          <span className="species-info-value">Yes</span>
+        </div>
+      )}
+
+      {species.d5 && (
+        <div className="species-info-row">
+          <span className="species-info-label">D5:</span>
           <span className="species-info-value">Yes</span>
         </div>
       )}

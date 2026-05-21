@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import Modal from './Modal';
-import { isValidData, groupHabitatsByLevel } from '../utils/dataHelpers';
+import { isValidData, groupHabitatsByLevel, levelShape } from '../utils/dataHelpers';
 
 function DetailRow({ label, value }) {
   if (!isValidData(value)) return null;
@@ -37,17 +37,27 @@ function SpeciesDetailModal({ config, species, onClose }) {
     [config, species]
   );
 
-  const level3ByGroup = useMemo(() => {
-    if (!grouped) return [];
+  // Pre-bucket the groups-level entries by their group title so the modal can
+  // render them in subsections (e.g. Cavity, Injuries, etc.).
+  const groupsLevelByGroupTitle = useMemo(() => {
+    if (!grouped) return new Map();
     const map = new Map();
-    for (const entry of grouped.level3) {
-      if (!map.has(entry.groupTitle)) map.set(entry.groupTitle, []);
-      map.get(entry.groupTitle).push(entry);
+    for (const level of config.filterHierarchy) {
+      if (levelShape(level) !== 'groups') continue;
+      for (const entry of grouped[level.level] || []) {
+        const key = `${level.level}:${entry.groupTitle}`;
+        if (!map.has(key)) map.set(key, { level: level.level, groupTitle: entry.groupTitle, entries: [] });
+        map.get(key).entries.push(entry);
+      }
     }
-    return Array.from(map.entries());
-  }, [grouped]);
+    return map;
+  }, [config, grouped]);
 
   if (!species) return null;
+
+  const totalGrouped = grouped
+    ? config.filterHierarchy.reduce((sum, l) => sum + (grouped[l.level]?.length || 0), 0)
+    : 0;
 
   return (
     <Modal isOpen={true} onClose={onClose} title={species.scientificName}>
@@ -82,7 +92,8 @@ function SpeciesDetailModal({ config, species, onClose }) {
           {species.priorityEngland && (
             <DetailRow label="Priority (England)" value="Yes" />
           )}
-          {species.d4d5 && <DetailRow label="D4/D5" value="Yes" />}
+          {species.d4 && <DetailRow label="D4" value="Yes" />}
+          {species.d5 && <DetailRow label="D5" value="Yes" />}
           <DetailRow label="IUCN Status" value={species.iucnStatus} />
           <DetailRow label="Threatened Action" value={species.threatenedAction} />
           <DetailRow label="Distribution" value={species.distribution} />
@@ -95,47 +106,43 @@ function SpeciesDetailModal({ config, species, onClose }) {
           </section>
         )}
 
-        {grouped && (grouped.level1.length + grouped.level2.length + grouped.level3.length > 0) && (
+        {grouped && totalGrouped > 0 && (
           <section className="species-detail-section">
-            <h3>Associated Microhabitats</h3>
+            <h3>Habitat Associations</h3>
 
-            {grouped.level1.length > 0 && (
-              <div className="species-detail-habitat-level">
-                <div className="species-detail-habitat-heading">Woodland Type</div>
-                <ul className="species-detail-habitat-list">
-                  {grouped.level1.map(h => (
-                    <li key={h.id}>{h.label}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {config.filterHierarchy.map(level => {
+              const entries = grouped[level.level] || [];
+              if (entries.length === 0) return null;
+              const shape = levelShape(level);
+              const heading = level.title.replace(/^\d+\.\s*/, '');
 
-            {grouped.level2.length > 0 && (
-              <div className="species-detail-habitat-level">
-                <div className="species-detail-habitat-heading">Tree Characteristics</div>
-                <ul className="species-detail-habitat-list">
-                  {grouped.level2.map(h => (
-                    <li key={h.id}>{h.label}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {level3ByGroup.length > 0 && (
-              <div className="species-detail-habitat-level">
-                <div className="species-detail-habitat-heading">Microhabitats</div>
-                {level3ByGroup.map(([groupTitle, entries]) => (
-                  <div key={groupTitle} className="species-detail-habitat-group">
-                    <div className="species-detail-habitat-subheading">{groupTitle}</div>
-                    <ul className="species-detail-habitat-list">
-                      {entries.map(h => (
-                        <li key={h.id}>{h.label}</li>
-                      ))}
-                    </ul>
+              if (shape === 'groups') {
+                const groupsForLevel = Array.from(groupsLevelByGroupTitle.values())
+                  .filter(g => g.level === level.level);
+                return (
+                  <div key={level.level} className="species-detail-habitat-level">
+                    <div className="species-detail-habitat-heading">{heading}</div>
+                    {groupsForLevel.map(({ groupTitle, entries: gentries }) => (
+                      <div key={groupTitle} className="species-detail-habitat-group">
+                        <div className="species-detail-habitat-subheading">{groupTitle}</div>
+                        <ul className="species-detail-habitat-list">
+                          {gentries.map(h => (<li key={h.id}>{h.label}</li>))}
+                        </ul>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            )}
+                );
+              }
+
+              return (
+                <div key={level.level} className="species-detail-habitat-level">
+                  <div className="species-detail-habitat-heading">{heading}</div>
+                  <ul className="species-detail-habitat-list">
+                    {entries.map(h => (<li key={h.id}>{h.label}</li>))}
+                  </ul>
+                </div>
+              );
+            })}
           </section>
         )}
       </div>

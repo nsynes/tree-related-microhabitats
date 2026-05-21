@@ -4,7 +4,7 @@ Tree-Related Microhabitats - Data Processing Script
 
 This script reads:
 1. data/column-mapping.json - Filter hierarchy configuration
-2. data/SpeciesTreMsPaper_v1_9April.xlsx - Species data
+2. species data spreadsheet specificied with the properties "speciesDataFile" and "speciesDataSheet"
 
 And generates:
 1. react-app/src/data/config.json - Complete filter hierarchy for React app
@@ -20,35 +20,44 @@ from pathlib import Path
 from typing import Dict, List, Any, Set
 
 
+def iter_level_filters(level_obj: Dict[str, Any]):
+    """Yield every filter dict in a level, regardless of its shape.
+
+    Three shapes are supported:
+      - flat:       level.filters[]
+      - categories: level.categories[].filters[]
+      - groups:     level.groups[].categories[].filters[]
+
+    Any future hierarchy levels with one of these shapes are handled
+    automatically without code changes — see column-mapping.json.
+    """
+    if 'filters' in level_obj:
+        yield from level_obj['filters']
+    elif 'categories' in level_obj:
+        for cat in level_obj['categories']:
+            yield from cat.get('filters', [])
+    elif 'groups' in level_obj:
+        for group in level_obj['groups']:
+            for cat in group.get('categories', []):
+                yield from cat.get('filters', [])
+
+
+def iter_levels(hierarchy: Dict[str, Any]):
+    """Yield (key, level_obj) pairs in hierarchy order ('level1', 'level2', …)."""
+    for key in sorted(hierarchy):
+        yield key, hierarchy[key]
+
+
 def extract_columns_from_hierarchy(hierarchy: Dict[str, Any]) -> Set[str]:
     """
-    Dynamically extract all column names from the hierarchy configuration.
-    This ensures we only use columns that are defined in the hierarchy (DRY principle).
+    Dynamically extract all column names from every level of the hierarchy.
+    Shape-agnostic: works for flat / categories / groups levels.
     """
     columns = set()
-    
-    # Level 1: filters directly
-    if 'level1' in hierarchy and 'filters' in hierarchy['level1']:
-        for filter_def in hierarchy['level1']['filters']:
+    for _, level_obj in iter_levels(hierarchy):
+        for filter_def in iter_level_filters(level_obj):
             if 'column' in filter_def:
                 columns.add(filter_def['column'])
-    
-    # Level 2: categories → filters
-    if 'level2' in hierarchy and 'categories' in hierarchy['level2']:
-        for category in hierarchy['level2']['categories']:
-            for filter_def in category['filters']:
-                if 'column' in filter_def:
-                    columns.add(filter_def['column'])
-    
-    # Level 3: groups → categories → filters
-    if 'level3' in hierarchy and 'groups' in hierarchy['level3']:
-        for group in hierarchy['level3']['groups']:
-            if 'categories' in group:
-                for category in group['categories']:
-                    for filter_def in category['filters']:
-                        if 'column' in filter_def:
-                            columns.add(filter_def['column'])
-    
     return columns
 
 
@@ -62,73 +71,53 @@ def convert_yes_blank(value: Any) -> bool:
 def extract_habitats(row: pd.Series, hierarchy: Dict[str, Any]) -> List[str]:
     """
     Extract all habitat filter IDs where the species has 'yes'.
-    
-    Args:
-        row: Single row from dataframe
-        hierarchy: Hierarchy dict from config
-    
-    Returns:
-        List of filter IDs
+    Walks every level of the hierarchy regardless of count or shape.
     """
     habitats = []
-    
-    # Level 1: Woodland Type
-    if 'level1' in hierarchy:
-        for filter_def in hierarchy['level1'].get('filters', []):
+    for _, level_obj in iter_levels(hierarchy):
+        for filter_def in iter_level_filters(level_obj):
             if convert_yes_blank(row.get(filter_def['column'])):
                 habitats.append(filter_def['id'])
-    
-    # Level 2: Tree Characteristics
-    if 'level2' in hierarchy:
-        for category in hierarchy['level2'].get('categories', []):
-            for filter_def in category['filters']:
-                if convert_yes_blank(row.get(filter_def['column'])):
-                    habitats.append(filter_def['id'])
-    
-    # Level 3: Microhabitats (groups → categories → filters)
-    if 'level3' in hierarchy:
-        for group in hierarchy['level3'].get('groups', []):
-            for category in group.get('categories', []):
-                for filter_def in category['filters']:
-                    if convert_yes_blank(row.get(filter_def['column'])):
-                        habitats.append(filter_def['id'])
-    
     return habitats
 
 
-def process_species(df: pd.DataFrame, hierarchy: Dict[str, Any]) -> List[Dict[str, Any]]:
+def _read_field(row: pd.Series, spec: Dict[str, Any]) -> Any:
+    """Read one cell from a row according to its metadata-column spec."""
+    val = row.get(spec['column'])
+    kind = spec.get('type', 'string')
+    if kind == 'yes_blank':
+        return convert_yes_blank(val)
+    # Default: string with NaN → empty string
+    return str(val) if pd.notna(val) else ''
+
+
+def process_species(
+    df: pd.DataFrame,
+    hierarchy: Dict[str, Any],
+    metadata_cols: List[Dict[str, Any]],
+) -> List[Dict[str, Any]]:
     """
     Process species data into JSON format.
 
-    Args:
-        df: Dataframe with species data
-        hierarchy: Hierarchy dict from config
-
-    Returns:
-        List of species dicts
+    metadata_cols is the speciesMetadataColumns list from column-mapping.json,
+    one entry per output field. Each entry has at minimum {key, column} and
+    optionally type='yes_blank' for boolean fields.
     """
-    species_list = []
+    sci_name_spec = next((m for m in metadata_cols if m['key'] == 'scientificName'), None)
+    if sci_name_spec is None:
+        raise SystemExit("✗ speciesMetadataColumns must include a 'scientificName' key")
+    sci_name_col = sci_name_spec['column']
 
-    for idx, row in df.iterrows():
+    species_list = []
+    for _, row in df.iterrows():
         # Skip rows with no scientific name
-        if pd.isna(row.get('Scientific name')) or row.get('Scientific name') == '':
+        if pd.isna(row.get(sci_name_col)) or row.get(sci_name_col) == '':
             continue
 
-        species = {
-            'id': len(species_list) + 1,
-            'scientificName': str(row.get('Scientific name', '')),
-            'commonName': str(row.get('Common name', '')) if pd.notna(row.get('Common name')) else '',
-            'class': str(row.get('Class', '')) if pd.notna(row.get('Class')) else '',
-            'order': str(row.get('Order', '')) if pd.notna(row.get('Order')) else '',
-            'family': str(row.get('Family', '')) if pd.notna(row.get('Family')) else '',
-            'priorityEngland': convert_yes_blank(row.get('PriorityEngland')),
-            'd4d5': convert_yes_blank(row.get('D4/D5')),
-            'iucnStatus': str(row.get('IUCNStatus', '')) if pd.notna(row.get('IUCNStatus')) else '',
-            'threatenedAction': str(row.get('ThreatenedAction', '')) if pd.notna(row.get('ThreatenedAction')) else '',
-            'distribution': str(row.get('Distribution', '')) if pd.notna(row.get('Distribution')) else '',
-            'habitatRequirements': str(row.get('Habitat requirements', '')) if pd.notna(row.get('Habitat requirements')) else '',
-            'habitats': extract_habitats(row, hierarchy)
-        }
+        species = {'id': len(species_list) + 1}
+        for spec in metadata_cols:
+            species[spec['key']] = _read_field(row, spec)
+        species['habitats'] = extract_habitats(row, hierarchy)
 
         species_list.append(species)
 
@@ -200,22 +189,13 @@ def attach_photos(species_list: List[Dict[str, Any]], photo_cache: Dict[str, Any
     return stats
 
 
-def count_filters(hierarchy: Dict[str, Any]) -> tuple:
-    """Count filters in each level"""
-    level1_count = len(hierarchy.get('level1', {}).get('filters', []))
-    
-    level2_count = sum(
-        len(cat['filters']) 
-        for cat in hierarchy.get('level2', {}).get('categories', [])
-    )
-    
-    level3_count = sum(
-        len(category['filters'])
-        for group in hierarchy.get('level3', {}).get('groups', [])
-        for category in group.get('categories', [])
-    )
-    
-    return level1_count, level2_count, level3_count
+def count_filters(hierarchy: Dict[str, Any]) -> List[tuple]:
+    """Return [(key, label, count), ...] in hierarchy order."""
+    counts = []
+    for key, level_obj in iter_levels(hierarchy):
+        label = level_obj.get('title', key)
+        counts.append((key, label, sum(1 for _ in iter_level_filters(level_obj))))
+    return counts
 
 
 def main():
@@ -242,19 +222,21 @@ def main():
     excel_input = Path(column_config['pipeline']['speciesDataFile'])
     if not excel_input.exists():
         raise SystemExit(f"✗ Species data file not found: {excel_input}")
-    
-    # Dynamically extract column whitelist from hierarchy
-    print("\n🔍 Extracting column whitelist from hierarchy...")
+
+    # Dynamically extract column whitelist from hierarchy + metadata mapping.
+    print("\n🔍 Extracting column whitelist...")
     habitat_columns = extract_columns_from_hierarchy(hierarchy)
-    all_columns = set(species_metadata_cols) | habitat_columns
-    
-    print(f"   ✓ Species metadata columns: {len(species_metadata_cols)}")
+    metadata_column_names = {m['column'] for m in species_metadata_cols}
+    all_columns = metadata_column_names | habitat_columns
+
+    print(f"   ✓ Species metadata fields: {len(species_metadata_cols)}")
     print(f"   ✓ Habitat columns: {len(habitat_columns)}")
     print(f"   ✓ Total columns to use: {len(all_columns)}")
     
     # Read Excel file
     print(f"\n� Reading {excel_input}...")
-    df = pd.read_excel(excel_input, header=4)  # Row 5 (0-indexed = 4) contains column names
+    sheet = column_config['pipeline'].get('speciesDataSheet', 0) 
+    df = pd.read_excel(excel_input, sheet_name=sheet, header=4)  # Row 5 (0-indexed = 4) contains column names
     
     # Filter to only included columns that exist in the Excel file
     available_cols = [col for col in df.columns if col in all_columns]
@@ -263,35 +245,25 @@ def main():
     print(f"   ✓ Loaded {len(df)} rows")
     print(f"   ✓ Using {len(available_cols)} columns")
     
-    # Build config for React app
+    # Build config for React app — preserve hierarchy order via sorted keys,
+    # tagging each level with its numeric position so the frontend has a
+    # stable level identifier independent of the key name.
     print("\n⚙️  Generating config.json...")
     react_config = {
         'app': {
             'title': 'Tree-Related Microhabitats Species Explorer'
         },
         'filterHierarchy': [
-            {
-                'level': 1,
-                **hierarchy['level1']
-            },
-            {
-                'level': 2,
-                **hierarchy['level2']
-            },
-            {
-                'level': 3,
-                **hierarchy['level3']
-            }
+            {'level': i + 1, **level_obj}
+            for i, (_, level_obj) in enumerate(iter_levels(hierarchy))
         ]
     }
-    
-    # Count filters
-    level1_count, level2_count, level3_count = count_filters(hierarchy)
-    total_filters = level1_count + level2_count + level3_count
-    
-    print(f"   ✓ Level 1: {level1_count} filters")
-    print(f"   ✓ Level 2: {level2_count} filters")
-    print(f"   ✓ Level 3: {level3_count} filters")
+
+    # Count filters per level
+    counts = count_filters(hierarchy)
+    total_filters = sum(n for _, _, n in counts)
+    for _, label, n in counts:
+        print(f"   ✓ {label}: {n} filters")
     print(f"   ✓ Total: {total_filters} filters")
     
     # Save config
@@ -301,7 +273,7 @@ def main():
     
     # Process species data
     print("\n🦋 Processing species data...")
-    species_data = process_species(df, hierarchy)
+    species_data = process_species(df, hierarchy, species_metadata_cols)
     print(f"   ✓ Processed {len(species_data)} species")
 
     # Calculate stats

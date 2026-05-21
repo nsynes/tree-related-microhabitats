@@ -1,77 +1,129 @@
 import { create } from 'zustand';
+import { iterLevelFilters, getGroupFilterIds, findGroupsLevel } from '../utils/dataHelpers';
 
 /**
- * Zustand store for hierarchical habitat filtering
- * 
- * Hierarchy:
- * Level 1: Woodland Type (required, OR within level)
- * Level 2: Tree Characteristics (required, OR within level)
- * Level 3: Microhabitats (optional, OR within level)
- * 
- * Logic: (Level1_A OR Level1_B) AND (Level2_A OR Level2_B) AND (Level3_A OR Level3_B OR ALL if none selected)
+ * Filter store for the species explorer.
+ *
+ * State shape (normalised, level-agnostic):
+ *   selectedFilterIds: Set<string>   every checked filter ID, across every level
+ *   searchQuery:       string        free-text search against name fields
+ *   classFilter:       string|null   selected class tab in the right panel
+ *   species / filteredSpecies        full dataset and current filtered view
+ *
+ * Level structure lives in config.filterHierarchy and is consulted at filter
+ * time. Adding/reordering hierarchy levels requires no changes to this store.
+ *
+ * Three level shapes are recognised (detected via dataHelpers.levelShape):
+ *   - 'flat':       level.filters[]
+ *   - 'categories': level.categories[].filters[]
+ *   - 'groups':     level.groups[].categories[].filters[]
+ *
+ * Filter logic per filterSpecies():
+ *   - OR within a level (a species needs to match at least one of that
+ *     level's selected filter IDs).
+ *   - AND between levels (a species must pass every level that has any
+ *     selection).
+ *   - Levels with zero selections pass everything.
  */
 
-// Canonical ordering for taxonomic class tabs — matches the dataset skew
-// (insects first because they dominate, then vertebrates, then the rest).
+// Canonical ordering for taxonomic class tabs — matches the values present
+// in the 'Taxa for filters' source column, listed roughly by record count so
+// the dominant groups (insect orders, vertebrates) appear first.
 const CLASS_ORDER = [
-  'Insect', 'Vertebrate', 'Lichen', 'Arachnid',
-  'Mollusc', 'Millipede', 'Fungi', 'Moss',
+  'Coleoptera', 'Diptera', 'Lepidoptera', 'Other insect',
+  'Vertebrate', 'Arachnid',
+  'Mollusc', 'Millipedes', 'Fungi', 'Bryophyte',
 ];
 
-const normaliseClass = (cls) => {
-  // One record in the source data has 'lichen' lowercase; roll it into Lichen.
-  if (!cls) return '';
-  const lower = cls.toLowerCase();
-  return lower === 'lichen' ? 'Lichen' : cls;
-};
+const normaliseClass = (cls) => cls || '';
+
+// Build a per-level array of selected ids: [{level, ids: [...]}, ...]
+// Used by filterSpecies and the chip-summary logic.
+function selectedByLevel(config, selectedFilterIds) {
+  if (!config?.filterHierarchy) return [];
+  return config.filterHierarchy.map(levelObj => {
+    const ids = [];
+    for (const filter of iterLevelFilters(levelObj)) {
+      if (selectedFilterIds.has(filter.id)) ids.push(filter.id);
+    }
+    return { level: levelObj.level, ids };
+  });
+}
 
 const useFilterStore = create((set, get) => ({
-  // State - track filters by hierarchy level
-  level1Filters: new Set(), // Woodland Type
-  level2Filters: new Set(), // Tree Characteristics (species, age, condition)
-  level3Filters: new Set(), // Microhabitats (optional)
-
-  // Right-panel narrowing
+  // State
+  selectedFilterIds: new Set(),
   searchQuery: '',
   classFilter: null,
+  config: null,
 
   species: [],
   filteredSpecies: [],
-  
-  // Actions
-  toggleFilter: (filterId, level) => {
-    const { level1Filters, level2Filters, level3Filters, filterSpecies } = get();
-    
-    let newFilters;
-    if (level === 1) {
-      newFilters = new Set(level1Filters);
-      if (newFilters.has(filterId)) {
-        newFilters.delete(filterId);
-      } else {
-        newFilters.add(filterId);
-      }
-      set({ level1Filters: newFilters });
-    } else if (level === 2) {
-      newFilters = new Set(level2Filters);
-      if (newFilters.has(filterId)) {
-        newFilters.delete(filterId);
-      } else {
-        newFilters.add(filterId);
-      }
-      set({ level2Filters: newFilters });
-    } else if (level === 3) {
-      newFilters = new Set(level3Filters);
-      if (newFilters.has(filterId)) {
-        newFilters.delete(filterId);
-      } else {
-        newFilters.add(filterId);
-      }
-      set({ level3Filters: newFilters });
-    }
-    
-    filterSpecies();
+
+  // Setup
+  setConfig: (config) => {
+    set({ config });
+    get().filterSpecies();
   },
-  
+
+  setSpecies: (speciesData) => {
+    set({ species: speciesData, filteredSpecies: speciesData });
+  },
+
+  // Filter actions — level-agnostic. The filter's ID is enough; its level is
+  // looked up from config when filtering.
+  toggleFilter: (filterId) => {
+    const next = new Set(get().selectedFilterIds);
+    if (next.has(filterId)) next.delete(filterId);
+    else next.add(filterId);
+    set({ selectedFilterIds: next });
+    get().filterSpecies();
+  },
+
+  // Group-level helpers (Level 3 microhabitat groups today, generalisable
+  // tomorrow if the groups-shape level ever lands at a different position).
+  toggleGroup: (groupId) => {
+    const { config, selectedFilterIds } = get();
+    const ids = getGroupFilterIds(config, groupId);
+    if (ids.length === 0) return;
+    const next = new Set(selectedFilterIds);
+    const allSelected = ids.every(id => selectedFilterIds.has(id));
+    if (allSelected) ids.forEach(id => next.delete(id));
+    else ids.forEach(id => next.add(id));
+    set({ selectedFilterIds: next });
+    get().filterSpecies();
+  },
+
+  clearGroup: (groupId) => {
+    const { config, selectedFilterIds } = get();
+    const ids = getGroupFilterIds(config, groupId);
+    if (ids.length === 0) return;
+    const next = new Set(selectedFilterIds);
+    ids.forEach(id => next.delete(id));
+    set({ selectedFilterIds: next });
+    get().filterSpecies();
+  },
+
+  isGroupSelected: (groupId) => {
+    const { config, selectedFilterIds } = get();
+    const ids = getGroupFilterIds(config, groupId);
+    return ids.length > 0 && ids.every(id => selectedFilterIds.has(id));
+  },
+
+  isGroupIndeterminate: (groupId) => {
+    const { config, selectedFilterIds } = get();
+    const ids = getGroupFilterIds(config, groupId);
+    if (ids.length === 0) return false;
+    const n = ids.filter(id => selectedFilterIds.has(id)).length;
+    return n > 0 && n < ids.length;
+  },
+
+  countGroupSelected: (groupId) => {
+    const { config, selectedFilterIds } = get();
+    return getGroupFilterIds(config, groupId).filter(id => selectedFilterIds.has(id)).length;
+  },
+
+  // Right-panel narrowing
   setSearchQuery: (q) => {
     set({ searchQuery: q });
     get().filterSpecies();
@@ -82,94 +134,71 @@ const useFilterStore = create((set, get) => ({
     get().filterSpecies();
   },
 
+  // Scoped to the habitat panel's Clear All button — search and class have
+  // their own inline clears in the species panel.
   clearFilters: () => {
-    // Scoped to the habitat-features panel where the Clear All button lives.
-    // Search and class filter belong to the species panel and have their own
-    // inline clear affordances (the × in the search box; clicking the active
-    // class tab or the "All" tab).
-    set({
-      level1Filters: new Set(),
-      level2Filters: new Set(),
-      level3Filters: new Set(),
-    });
+    set({ selectedFilterIds: new Set() });
     get().filterSpecies();
   },
-  
-  setSpecies: (speciesData) => {
-    set({ species: speciesData, filteredSpecies: speciesData });
-  },
-  
+
+  // Core filtering — applies OR-within-level / AND-between-levels via config.
   filterSpecies: () => {
-    const {
-      level1Filters, level2Filters, level3Filters,
-      searchQuery, classFilter, species,
-    } = get();
-
+    const { selectedFilterIds, searchQuery, classFilter, config, species } = get();
     const q = searchQuery.trim().toLowerCase();
-    const hasHabitatFilters =
-      level1Filters.size > 0 || level2Filters.size > 0 || level3Filters.size > 0;
+    const hasHabitatFilters = selectedFilterIds.size > 0;
 
-    // No filters and no right-panel narrowing — show all species
     if (!hasHabitatFilters && q === '' && classFilter === null) {
       set({ filteredSpecies: species });
       return;
     }
 
-    // Filter species using hierarchical AND/OR logic + right-panel guards
+    // Pre-bucket the selected IDs per level so the per-species loop doesn't
+    // re-walk the config each time.
+    const buckets = config ? selectedByLevel(config, selectedFilterIds) : [];
+
     const filtered = species.filter(s => {
-      // Level 1: Woodland Type (OR within level)
-      const matchesLevel1 = level1Filters.size === 0 ||
-        s.habitats.some(habitat => level1Filters.has(habitat));
-      if (!matchesLevel1) return false;
-
-      // Level 2: Tree Characteristics (OR within level)
-      const matchesLevel2 = level2Filters.size === 0 ||
-        s.habitats.some(habitat => level2Filters.has(habitat));
-      if (!matchesLevel2) return false;
-
-      // Level 3: Microhabitats (OR within level, optional)
-      const matchesLevel3 = level3Filters.size === 0 ||
-        s.habitats.some(habitat => level3Filters.has(habitat));
-      if (!matchesLevel3) return false;
-
-      // Free-text search across scientific and common name
-      if (q !== '') {
-        const sciMatch = s.scientificName && s.scientificName.toLowerCase().includes(q);
-        const comMatch = s.commonName && s.commonName.toLowerCase().includes(q);
-        if (!sciMatch && !comMatch) return false;
+      for (const { ids } of buckets) {
+        if (ids.length === 0) continue;
+        if (!s.habitats.some(h => ids.includes(h))) return false;
       }
-
-      // Class tab filter
+      if (q !== '') {
+        const sci = s.scientificName && s.scientificName.toLowerCase().includes(q);
+        const com = s.commonName && s.commonName.toLowerCase().includes(q);
+        if (!sci && !com) return false;
+      }
       if (classFilter !== null && normaliseClass(s.class) !== classFilter) {
         return false;
       }
-
       return true;
     });
 
     set({ filteredSpecies: filtered });
   },
 
-  // Breakdown of the current filtered set by class, ignoring the active
-  // classFilter so users can see what switching tabs would yield.
-  classBreakdown: () => {
-    const {
-      level1Filters, level2Filters, level3Filters,
-      searchQuery, species,
-    } = get();
+  // Total selected count for the Clear All (N) button.
+  getTotalFiltersCount: () => get().selectedFilterIds.size,
 
+  // Class tab breakdown — counts ignore the active classFilter so users see
+  // "what would I get if I switched tabs", not "everything except current = 0".
+  classBreakdown: () => {
+    const { selectedFilterIds, searchQuery, config, species } = get();
     const q = searchQuery.trim().toLowerCase();
+    const buckets = config ? selectedByLevel(config, selectedFilterIds) : [];
+
     const counts = new Map();
     let total = 0;
 
     for (const s of species) {
-      if (level1Filters.size > 0 && !s.habitats.some(h => level1Filters.has(h))) continue;
-      if (level2Filters.size > 0 && !s.habitats.some(h => level2Filters.has(h))) continue;
-      if (level3Filters.size > 0 && !s.habitats.some(h => level3Filters.has(h))) continue;
+      let pass = true;
+      for (const { ids } of buckets) {
+        if (ids.length === 0) continue;
+        if (!s.habitats.some(h => ids.includes(h))) { pass = false; break; }
+      }
+      if (!pass) continue;
       if (q !== '') {
-        const sciMatch = s.scientificName && s.scientificName.toLowerCase().includes(q);
-        const comMatch = s.commonName && s.commonName.toLowerCase().includes(q);
-        if (!sciMatch && !comMatch) continue;
+        const sci = s.scientificName && s.scientificName.toLowerCase().includes(q);
+        const com = s.commonName && s.commonName.toLowerCase().includes(q);
+        if (!sci && !com) continue;
       }
       total += 1;
       const cls = normaliseClass(s.class);
@@ -177,9 +206,6 @@ const useFilterStore = create((set, get) => ({
       counts.set(cls, (counts.get(cls) || 0) + 1);
     }
 
-    // Preserve the canonical order; include known classes first then any
-    // unexpected ones at the end (defensive — should not happen with
-    // current data but keeps the breakdown honest if it does).
     const ordered = [];
     for (const cls of CLASS_ORDER) {
       const count = counts.get(cls);
@@ -190,94 +216,9 @@ const useFilterStore = create((set, get) => ({
     }
     return { total, classes: ordered };
   },
-  
-  // Helper to get total selected filters count
-  getTotalFiltersCount: () => {
-    const { level1Filters, level2Filters, level3Filters } = get();
-    return level1Filters.size + level2Filters.size + level3Filters.size;
-  },
-  
-  // Group-level helpers for Level 3 microhabitats
-  
-  // Extract all filter IDs from a group in the config
-  getGroupFilterIds: (groupId, config) => {
-    const level3 = config.filterHierarchy.find(level => level.level === 3);
-    if (!level3 || !level3.groups) return [];
-    
-    const group = level3.groups.find(g => g.id === groupId);
-    if (!group || !group.categories) return [];
-    
-    // Extract all filter IDs from all categories in the group
-    const filterIds = [];
-    for (const category of group.categories) {
-      for (const filter of category.filters) {
-        filterIds.push(filter.id);
-      }
-    }
-    return filterIds;
-  },
-  
-  // Check if all filters in a group are selected
-  isGroupSelected: (groupId, config) => {
-    const { level3Filters, getGroupFilterIds } = get();
-    const filterIds = getGroupFilterIds(groupId, config);
-    if (filterIds.length === 0) return false;
-    return filterIds.every(id => level3Filters.has(id));
-  },
-  
-  // Check if some (but not all) filters in a group are selected
-  isGroupIndeterminate: (groupId, config) => {
-    const { level3Filters, getGroupFilterIds } = get();
-    const filterIds = getGroupFilterIds(groupId, config);
-    if (filterIds.length === 0) return false;
-    
-    const selectedCount = filterIds.filter(id => level3Filters.has(id)).length;
-    return selectedCount > 0 && selectedCount < filterIds.length;
-  },
-  
-  // Toggle all filters in a group
-  toggleGroup: (groupId, config) => {
-    const { level3Filters, getGroupFilterIds, filterSpecies } = get();
-    const filterIds = getGroupFilterIds(groupId, config);
-
-    if (filterIds.length === 0) return;
-
-    const newFilters = new Set(level3Filters);
-
-    // If all filters are selected, deselect all
-    // Otherwise, select all
-    const allSelected = filterIds.every(id => level3Filters.has(id));
-
-    if (allSelected) {
-      // Deselect all filters in the group
-      filterIds.forEach(id => newFilters.delete(id));
-    } else {
-      // Select all filters in the group
-      filterIds.forEach(id => newFilters.add(id));
-    }
-
-    set({ level3Filters: newFilters });
-    filterSpecies();
-  },
-
-  // Remove every level 3 filter that belongs to a group (partial or full)
-  clearGroup: (groupId, config) => {
-    const { level3Filters, getGroupFilterIds, filterSpecies } = get();
-    const filterIds = getGroupFilterIds(groupId, config);
-    if (filterIds.length === 0) return;
-
-    const newFilters = new Set(level3Filters);
-    filterIds.forEach(id => newFilters.delete(id));
-    set({ level3Filters: newFilters });
-    filterSpecies();
-  },
-
-  // Count how many filters in a group are currently selected
-  countGroupSelected: (groupId, config) => {
-    const { level3Filters, getGroupFilterIds } = get();
-    const filterIds = getGroupFilterIds(groupId, config);
-    return filterIds.filter(id => level3Filters.has(id)).length;
-  }
 }));
+
+// Re-export for components that read this from the store namespace.
+export { findGroupsLevel };
 
 export default useFilterStore;

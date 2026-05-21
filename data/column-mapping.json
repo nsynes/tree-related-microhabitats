@@ -1,38 +1,38 @@
 {
   "description": "Tree-Related Microhabitats - Filter Hierarchy Configuration",
   "pipeline": {
-    "speciesDataFile": "data/SpeciesTreMsPaper_v1_9April.xlsx"
+    "speciesDataFile": "data/SpeciesTreMsPaper_v1_29April.xlsx",
+    "speciesDataSheet": "version for publ"
   },
   "hierarchy": {
     "level1": {
-      "id": "woodland_type",
-      "title": "1. Woodland Type",
-      "description": "Filter by habitat type",
+      "id": "geographic_location",
+      "title": "1. Geographic Location",
+      "description": "Filter by geographic location",
       "filters": [
-        {"id": "open_grown", "label": "Open Grown Trees", "column": "uses open grown"},
-        {"id": "closed_canopy", "label": "Closed Canopy Woodland", "column": "woodland"},
-        {"id": "parkland", "label": "Wood Pasture/Parkland", "column": "parkland/open grown"},
-        {"id": "tow", "label": "Trees Outside Woodland", "column": "ToW"},
-        {"id": "orchard", "label": "Orchard", "column": "Orchard"}
+        {"id": "england", "label": "England", "column": "England"},
+        {"id": "scotland", "label": "Scotland", "column": "Scotland"},
+        {"id": "wales", "label": "Wales", "column": "Wales"}
       ]
     },
-    
+
     "level2": {
-      "id": "tree_characteristics",
-      "title": "2. Tree Characteristics",
-      "description": "Filter by tree type and age",
+      "id": "woodland_tree_type",
+      "title": "2. Woodland and Tree Characteristics",
+      "description": "Filter by woodland, tree type and age",
       "categories": [
+        {
+          "title": "Woodland Type",
+          "filters": [
+            {"id": "closed_canopy", "label": "Closed Canopy", "column": "ClosedCanopy"},
+            {"id": "open_grown", "label": "Open Grown", "column": "OpenGrown"}
+          ]
+        },
         {
           "title": "Tree Type",
           "filters": [
             {"id": "conifer", "label": "Conifer", "column": "Conifer"},
             {"id": "broadleaved", "label": "Broadleaved", "column": "Broadleaved"}
-          ]
-        },
-        {
-          "title": "Tree Age",
-          "filters": [
-            {"id": "need_avt", "label": "Requires Ancient/Veteran Trees", "column": "NEED AVT"}
           ]
         }
       ]
@@ -40,7 +40,7 @@
     
     "level3": {
       "id": "microhabitats",
-      "title": "3. Microhabitats",
+      "title": "3. Tree-related Microhabitats",
       "description": "Filter by tree-related microhabitats",
       "groups": [
         {
@@ -224,16 +224,17 @@
   },
   
   "speciesMetadataColumns": [
-    "Scientific name",
-    "Common name",
-    "Class",
-    "Order",
-    "Family",
-    "PriorityEngland",
-    "D4/D5",
-    "IUCNStatus",
-    "ThreatenedAction",
-    "Distribution",
-    "Habitat requirements"
+    {"key": "scientificName",      "column": "Scientific name"},
+    {"key": "commonName",          "column": "Common name"},
+    {"key": "class",                "column": "Taxa for filters"},
+    {"key": "order",                "column": "Order"},
+    {"key": "family",               "column": "Family"},
+    {"key": "iucnStatus",           "column": "Red Listing Status (IUCN)"},
+    {"key": "distribution",         "column": "Distribution"},
+    {"key": "habitatRequirements",  "column": "Description"},
+    {"key": "priorityEngland",      "column": "Priority (England)",         "type": "yes_blank"},
+    {"key": "d4",                   "column": "D4",                          "type": "yes_blank"},
+    {"key": "d5",                   "column": "D5",                          "type": "yes_blank"},
+    {"key": "threatenedAction",     "column": "TSRA"}
   ]
 }

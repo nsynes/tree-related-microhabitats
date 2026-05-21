@@ -17,7 +17,7 @@ function readStoredViewMode() {
 
 function SpeciesGrid({ config }) {
   const {
-    filteredSpecies, level3Filters, species, getTotalFiltersCount,
+    filteredSpecies, species, getTotalFiltersCount,
     searchQuery, setSearchQuery,
     classFilter, setClassFilter,
     classBreakdown,
@@ -39,7 +39,7 @@ function SpeciesGrid({ config }) {
 
   const totalFilters = getTotalFiltersCount();
 
-  // Recomputes on every render — cheap at 635 species and simplest to reason
+  // Recomputes on every render — cheap at ~600 species and simplest to reason
   // about given the search query updates on every keystroke.
   const breakdown = classBreakdown();
 
@@ -48,12 +48,11 @@ function SpeciesGrid({ config }) {
     if (totalFilters === 0 && !searchQuery && classFilter === null) {
       return `Select habitat features to view matching species (${species.length} total species available)`;
     }
-    const level3Text = level3Filters.size > 0 ? ` with ${level3Filters.size} microhabitat filter(s)` : '';
-    parts.push(`Showing ${filteredSpecies.length} of ${species.length} species${level3Text}`);
+    parts.push(`Showing ${filteredSpecies.length} of ${species.length} species`);
     if (searchQuery.trim()) parts.push(`matching "${searchQuery.trim()}"`);
     if (classFilter !== null) parts.push(`(${classFilter} only)`);
     return parts.join(' ');
-  }, [filteredSpecies.length, totalFilters, level3Filters.size, species.length, searchQuery, classFilter]);
+  }, [filteredSpecies.length, totalFilters, species.length, searchQuery, classFilter]);
 
   return (
     <div className="panel">
