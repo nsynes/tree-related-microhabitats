@@ -233,15 +233,52 @@ def main():
     print(f"   ✓ Habitat columns: {len(habitat_columns)}")
     print(f"   ✓ Total columns to use: {len(all_columns)}")
     
-    # Read Excel file
-    print(f"\n� Reading {excel_input}...")
-    sheet = column_config['pipeline'].get('speciesDataSheet', 0) 
-    df = pd.read_excel(excel_input, sheet_name=sheet, header=4)  # Row 5 (0-indexed = 4) contains column names
-    
-    # Filter to only included columns that exist in the Excel file
+    # Read Excel file. Header row is 1-indexed for human-friendliness (matches
+    # Excel's UI) and converted to pandas' 0-indexed `header` parameter.
+    print(f"\n📖 Reading {excel_input}...")
+    sheet = column_config['pipeline'].get('speciesDataSheet', 0)
+    header_row = column_config['pipeline'].get('speciesDataHeaderRow', 5)
+    df = pd.read_excel(excel_input, sheet_name=sheet, header=header_row - 1)
+
+    # Validate every column the config references actually exists in the
+    # spreadsheet. Silent failure here used to produce empty species records
+    # with no obvious cause, so we fail loudly and list everything that's
+    # missing.
+    sheet_cols = set(df.columns)
+    missing_metadata = [
+        f"{m['key']!r} → {m['column']!r}"
+        for m in species_metadata_cols
+        if m['column'] not in sheet_cols
+    ]
+    missing_habitats = sorted(habitat_columns - sheet_cols)
+    if missing_metadata or missing_habitats:
+        msg = [
+            "",
+            f"✗ Some columns referenced in {config_input} were not found in",
+            f"  {excel_input} (sheet={sheet!r}, header row={header_row}).",
+            "",
+            "  Check:",
+            "  - That speciesDataHeaderRow points at the row of column headers (1-indexed).",
+            "  - That speciesDataSheet matches the intended sheet name.",
+            "  - That each 'column' value in column-mapping.json matches the spreadsheet exactly.",
+            "",
+        ]
+        if missing_metadata:
+            msg.append(f"  Missing metadata columns ({len(missing_metadata)}):")
+            msg.extend(f"    {m}" for m in missing_metadata)
+            msg.append("")
+        if missing_habitats:
+            msg.append(f"  Missing habitat columns ({len(missing_habitats)}):")
+            msg.extend(f"    {c!r}" for c in missing_habitats[:20])
+            if len(missing_habitats) > 20:
+                msg.append(f"    … and {len(missing_habitats) - 20} more")
+        raise SystemExit("\n".join(msg))
+
+    # Trim the frame to just the columns we care about — saves memory and
+    # makes downstream row.get() lookups faster.
     available_cols = [col for col in df.columns if col in all_columns]
     df = df[available_cols]
-    
+
     print(f"   ✓ Loaded {len(df)} rows")
     print(f"   ✓ Using {len(available_cols)} columns")
     
