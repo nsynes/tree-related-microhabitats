@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect, useCallback } from 'react';
 import useFilterStore from '../store/useFilterStore';
+import { findGroupsLevel, iterLevelFilters } from '../utils/dataHelpers';
 import SpeciesCard from './SpeciesCard';
 import SpeciesListItem from './SpeciesListItem';
 import SpeciesDetailModal from './SpeciesDetailModal';
@@ -18,6 +19,7 @@ function readStoredViewMode() {
 function SpeciesGrid({ config }) {
   const {
     filteredSpecies, species, getTotalFiltersCount,
+    selectedFilterIds,
     searchQuery, setSearchQuery,
     classFilter, setClassFilter,
     classBreakdown,
@@ -43,16 +45,33 @@ function SpeciesGrid({ config }) {
   // about given the search query updates on every keystroke.
   const breakdown = classBreakdown();
 
+  // Count selected filters that belong to the groups-shape level (today,
+  // "Tree-related Microhabitats"). Surfaced in the summary because that
+  // level is the one users routinely select many filters in — Geographic
+  // Location, Woodland Type etc. only have a handful of options each.
+  const microhabitatCount = useMemo(() => {
+    const level = findGroupsLevel(config);
+    if (!level) return 0;
+    let n = 0;
+    for (const f of iterLevelFilters(level)) {
+      if (selectedFilterIds.has(f.id)) n++;
+    }
+    return n;
+  }, [config, selectedFilterIds]);
+
   const resultsMessage = useMemo(() => {
     const parts = [];
     if (totalFilters === 0 && !searchQuery && classFilter === null) {
       return `Select habitat features to view matching species (${species.length} total species available)`;
     }
-    parts.push(`Showing ${filteredSpecies.length} of ${species.length} species`);
+    const microhabitatText = microhabitatCount > 0
+      ? ` with ${microhabitatCount} microhabitat filter${microhabitatCount === 1 ? '' : 's'}`
+      : '';
+    parts.push(`Showing ${filteredSpecies.length} of ${species.length} species${microhabitatText}`);
     if (searchQuery.trim()) parts.push(`matching "${searchQuery.trim()}"`);
     if (classFilter !== null) parts.push(`(${classFilter} only)`);
     return parts.join(' ');
-  }, [filteredSpecies.length, totalFilters, species.length, searchQuery, classFilter]);
+  }, [filteredSpecies.length, totalFilters, species.length, searchQuery, classFilter, microhabitatCount]);
 
   return (
     <div className="panel">

@@ -31,8 +31,8 @@ import { iterLevelFilters, getGroupFilterIds, findGroupsLevel } from '../utils/d
 // the dominant groups (insect orders, vertebrates) appear first.
 const CLASS_ORDER = [
   'Coleoptera', 'Diptera', 'Lepidoptera', 'Other insect',
-  'Vertebrate', 'Arachnid',
-  'Mollusc', 'Millipedes', 'Fungi', 'Bryophyte',
+  'Vertebrate', 'Arachnid', 'Lichen',
+  'Mollusc', 'Millipede', 'Fungi', 'Bryophyte',
 ];
 
 const normaliseClass = (cls) => cls || '';
