@@ -282,6 +282,24 @@ def main():
     print(f"   ✓ Loaded {len(df)} rows")
     print(f"   ✓ Using {len(available_cols)} columns")
     
+    # Validate speciesFilters references against speciesMetadataColumns.
+    species_filters = column_config.get('speciesFilters', [])
+    metadata_keys = {m['key'] for m in species_metadata_cols}
+    invalid_refs = []
+    for group in species_filters:
+        group_field = group.get('field')
+        if group_field and group_field not in metadata_keys:
+            invalid_refs.append(f"group {group['id']!r} → group.field {group_field!r}")
+        for opt in group.get('options', []):
+            opt_field = opt.get('field')
+            if opt_field and opt_field not in metadata_keys:
+                invalid_refs.append(f"group {group['id']!r}, option {opt['id']!r} → field {opt_field!r}")
+    if invalid_refs:
+        raise SystemExit(
+            "✗ speciesFilters references fields not present in speciesMetadataColumns:\n  "
+            + "\n  ".join(invalid_refs)
+        )
+
     # Build config for React app — preserve hierarchy order via sorted keys,
     # tagging each level with its numeric position so the frontend has a
     # stable level identifier independent of the key name.
@@ -293,7 +311,8 @@ def main():
         'filterHierarchy': [
             {'level': i + 1, **level_obj}
             for i, (_, level_obj) in enumerate(iter_levels(hierarchy))
-        ]
+        ],
+        'speciesFilters': species_filters,
     }
 
     # Count filters per level
@@ -302,6 +321,10 @@ def main():
     for _, label, n in counts:
         print(f"   ✓ {label}: {n} filters")
     print(f"   ✓ Total: {total_filters} filters")
+    if species_filters:
+        groups_n = len(species_filters)
+        opts_n = sum(len(g.get('options', [])) for g in species_filters)
+        print(f"   ✓ Species filters: {groups_n} groups, {opts_n} options")
     
     # Save config
     with open(config_output, 'w', encoding='utf-8') as f:

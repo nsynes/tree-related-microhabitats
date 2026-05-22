@@ -15,7 +15,12 @@
   /* Subtle wash used behind panel summary / filter bars — consistent across
      the habitat Active Filters strip and the species search + class bar. */
   --panel-summary-bg: rgba(122, 157, 114, 0.08);
-  
+  /* Slightly stronger wash used as the "filter group surface" — applied to
+     the Taxa row and to the per-group cards inside the More filters panel,
+     so the translucent-white chips pop the same way in both contexts. */
+  --filter-group-bg: rgba(74, 103, 65, 0.12);
+
+
   /* Spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
@@ -222,6 +227,15 @@ body {
   font-weight: 600;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Right-side cluster in the species panel title: Clear All sits left of the
+   view-mode toggle. Both are right-aligned in the title row via the parent's
+   space-between layout. */
+.panel-title-actions {
+  display: flex;
   align-items: center;
   gap: var(--spacing-sm);
 }
@@ -605,9 +619,17 @@ body {
 
 /* Species search bar */
 .species-search-bar {
-  position: relative;
-  padding: var(--spacing-sm) var(--spacing-lg) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
   background-color: var(--panel-summary-bg);
+}
+
+.species-search-input-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
 }
 
 .species-search-input {
@@ -640,9 +662,9 @@ body {
 
 .species-search-clear {
   position: absolute;
-  right: calc(var(--spacing-lg) + 0.4rem);
+  right: 0.4rem;
   top: 50%;
-  transform: translateY(calc(var(--spacing-sm) / 2 - 50%));
+  transform: translateY(-50%);
   background: none;
   border: none;
   color: var(--stone-grey);
@@ -658,6 +680,185 @@ body {
   color: var(--forest-dark);
 }
 
+/* "More filters" toggle button sits to the right of the search input. */
+.more-filters-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: var(--spacing-sm) 0.75rem;
+  border: 1px solid var(--light-grey);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--forest-medium);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+}
+
+.more-filters-button:hover {
+  border-color: var(--forest-medium);
+  color: var(--forest-dark);
+}
+
+.more-filters-button.has-active {
+  border-color: var(--forest-medium);
+  color: var(--forest-dark);
+  font-weight: 600;
+}
+
+.more-filters-button.open {
+  background: var(--forest-medium);
+  border-color: var(--forest-medium);
+  color: var(--white);
+}
+
+.more-filters-button-caret {
+  font-size: 0.7rem;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+/* The count badge slot reserves a fixed horizontal slot so the button doesn't
+   resize as filters are added/removed. When empty we keep the placeholder
+   text in flow with visibility: hidden so layout stays stable. */
+.more-filters-button-count {
+  display: inline-block;
+  min-width: 2.5em;
+  text-align: left;
+}
+
+.more-filters-button-count.empty {
+  visibility: hidden;
+}
+
+/* Collapsible panel below the search bar. Background continues the green
+   wash from the search bar to read as one strip; rounded bottom corners and
+   a forest-medium border-bottom separate the panel from class tabs below. */
+.more-filters-panel {
+  position: relative;
+  background-color: var(--panel-summary-bg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--light-grey);
+  /* Defensive height cap — panel can never eat more than ~40% of the
+     viewport. Scrolls internally if the chip rows ever grow past that. */
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+/* Inline close button in the panel's top-right corner. Sits inside the
+   container so users have an obvious dismissal action without hunting back
+   up to the trigger button outside the panel. */
+.more-filters-close {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  background: none;
+  border: none;
+  color: var(--stone-grey);
+  cursor: pointer;
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 0.15rem 0.45rem;
+  border-radius: 50%;
+}
+
+.more-filters-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--forest-dark);
+}
+
+.more-filters-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding-right: 1.75rem;   /* clear the close button from the first row */
+}
+
+/* Each group sits in its own subtle "card" so the boundaries are obvious
+   without resorting to extra dividers or alternating bands (which would
+   read awkwardly with only three groups).
+   Title and chips share one row (title flex-shrinks to its natural width,
+   chips fill the rest and wrap as needed on narrower viewports). */
+.more-filters-group {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-sm);
+  background: var(--filter-group-bg);
+  border-radius: var(--radius-sm);
+}
+
+.more-filters-group-title {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--forest-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.more-filters-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.more-filters-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.3rem 0.55rem;
+  background: rgba(255, 255, 255, 0.65);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font: inherit;
+  color: var(--forest-medium);
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.more-filters-chip:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--forest-dark);
+}
+
+.more-filters-chip:focus-visible {
+  outline: 2px solid var(--forest-light);
+  outline-offset: 1px;
+}
+
+.more-filters-chip.active {
+  background: var(--forest-medium);
+  color: var(--white);
+}
+
+.more-filters-chip-label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.more-filters-chip-count {
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+
+@media (max-width: 600px) {
+  .species-search-bar {
+    flex-wrap: wrap;
+  }
+  .more-filters-button {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
 /* Class-filter tab strip — inactive tabs are borderless text, only the
    active tab gets the filled "pill" treatment so the strip stays compact. */
 .species-class-tabs {
@@ -665,7 +866,7 @@ body {
   flex-wrap: wrap;
   gap: 2px;
   padding: var(--spacing-sm) var(--spacing-lg);
-  background-color: var(--panel-summary-bg);
+  background-color: var(--filter-group-bg);
   border-bottom: 1px solid var(--light-grey);
 }
 
@@ -674,7 +875,7 @@ body {
   align-items: baseline;
   gap: 0.3rem;
   padding: 0.3rem 0.55rem;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.65);
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -684,7 +885,7 @@ body {
 }
 
 .species-class-tab:hover {
-  background: rgba(74, 103, 65, 0.08);
+  background: rgba(255, 255, 255, 0.95);
   color: var(--forest-dark);
 }
 

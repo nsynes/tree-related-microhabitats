@@ -471,5 +471,132 @@
         }
       ]
     }
+  ],
+  "speciesFilters": [
+    {
+      "id": "class",
+      "title": "Taxa",
+      "field": "class",
+      "alwaysVisible": true,
+      "options": [
+        {
+          "id": "Coleoptera"
+        },
+        {
+          "id": "Diptera"
+        },
+        {
+          "id": "Lepidoptera"
+        },
+        {
+          "id": "Other insect"
+        },
+        {
+          "id": "Vertebrate"
+        },
+        {
+          "id": "Arachnid"
+        },
+        {
+          "id": "Lichen"
+        },
+        {
+          "id": "Mollusc"
+        },
+        {
+          "id": "Millipede"
+        },
+        {
+          "id": "Fungi"
+        },
+        {
+          "id": "Bryophyte"
+        }
+      ]
+    },
+    {
+      "id": "priority",
+      "title": "Conservation Priority",
+      "statusFormat": "Priority ({label})",
+      "options": [
+        {
+          "id": "england",
+          "label": "England",
+          "field": "priorityEngland"
+        },
+        {
+          "id": "scotland",
+          "label": "Scotland",
+          "field": "priorityScotland"
+        },
+        {
+          "id": "wales",
+          "label": "Wales",
+          "field": "priorityWales"
+        },
+        {
+          "id": "ni",
+          "label": "Northern Ireland",
+          "field": "priorityNI"
+        }
+      ]
+    },
+    {
+      "id": "eif",
+      "title": "Environmental Indicator Frameworks",
+      "options": [
+        {
+          "id": "d4",
+          "label": "D4",
+          "field": "d4"
+        },
+        {
+          "id": "d5",
+          "label": "D5",
+          "field": "d5"
+        },
+        {
+          "id": "tsra",
+          "label": "TSRA",
+          "field": "tsra"
+        }
+      ]
+    },
+    {
+      "id": "iucn",
+      "title": "IUCN Red List Status",
+      "field": "iucnStatus",
+      "statusFormat": "Red List Status (IUCN): {label}",
+      "options": [
+        {
+          "id": "RE",
+          "tooltip": "Regionally Extinct"
+        },
+        {
+          "id": "CR",
+          "tooltip": "Critically Endangered"
+        },
+        {
+          "id": "EN",
+          "tooltip": "Endangered"
+        },
+        {
+          "id": "VU",
+          "tooltip": "Vulnerable"
+        },
+        {
+          "id": "NT",
+          "tooltip": "Near Threatened"
+        },
+        {
+          "id": "LC",
+          "tooltip": "Least Concern"
+        },
+        {
+          "id": "DD",
+          "tooltip": "Data Deficient"
+        }
+      ]
+    }
   ]
 }

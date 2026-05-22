@@ -37,6 +37,42 @@ function SpeciesDetailModal({ config, species, onClose }) {
     [config, species]
   );
 
+  // Conservation status list derived from config.speciesFilters: every
+  // non-alwaysVisible group contributes (taxa class is the alwaysVisible
+  // group today and shown in the Taxonomy section instead). Boolean
+  // fan-out groups contribute the labels of options whose field is truthy
+  // on this species; categorical groups contribute the species' value of
+  // the shared field (e.g. IUCN code).
+  //
+  // group.statusFormat is an optional "{label}"-template the modal applies
+  // so the flat list can carry context that the chip in the filter panel
+  // doesn't need (e.g. "Priority (England)" vs the chip's "England", or
+  // "Red List Status (IUCN): LC" vs the chip's "LC").
+  const conservationStatuses = useMemo(() => {
+    if (!species || !config?.speciesFilters) return [];
+    const format = (group, label) =>
+      group.statusFormat ? group.statusFormat.replace('{label}', label) : label;
+    const list = [];
+    for (const group of config.speciesFilters) {
+      if (group.alwaysVisible) continue;
+      if (group.field) {
+        const val = species[group.field];
+        if (val) {
+          const opt = group.options.find(o => o.id === val);
+          const display = opt ? (opt.label || opt.id) : val;
+          list.push(format(group, display));
+        }
+      } else {
+        for (const opt of group.options) {
+          if (opt.field && species[opt.field]) {
+            list.push(format(group, opt.label || opt.id));
+          }
+        }
+      }
+    }
+    return list;
+  }, [config, species]);
+
   // Pre-bucket the groups-level entries by their group title so the modal can
   // render them in subsections (e.g. Cavity, Injuries, etc.).
   const groupsLevelByGroupTitle = useMemo(() => {
@@ -87,17 +123,19 @@ function SpeciesDetailModal({ config, species, onClose }) {
           <DetailRow label="Family" value={species.family} />
         </section>
 
-        <section className="species-detail-section">
-          <h3>Status</h3>
-          {species.priorityEngland && (
-            <DetailRow label="Priority (England)" value="Yes" />
-          )}
-          {species.d4 && <DetailRow label="D4" value="Yes" />}
-          {species.d5 && <DetailRow label="D5" value="Yes" />}
-          <DetailRow label="IUCN Status" value={species.iucnStatus} />
-          <DetailRow label="Threatened Action" value={species.threatenedAction} />
-          <DetailRow label="Distribution" value={species.distribution} />
-        </section>
+        {conservationStatuses.length > 0 && (
+          <section className="species-detail-section">
+            <h3>Conservation Status</h3>
+            <p className="species-detail-prose">{conservationStatuses.join(', ')}</p>
+          </section>
+        )}
+
+        {isValidData(species.distribution) && (
+          <section className="species-detail-section">
+            <h3>Distribution</h3>
+            <p className="species-detail-prose">{species.distribution}</p>
+          </section>
+        )}
 
         {isValidData(species.habitatRequirements) && (
           <section className="species-detail-section">

@@ -4,6 +4,7 @@ import { findGroupsLevel, iterLevelFilters } from '../utils/dataHelpers';
 import SpeciesCard from './SpeciesCard';
 import SpeciesListItem from './SpeciesListItem';
 import SpeciesDetailModal from './SpeciesDetailModal';
+import MoreFiltersPanel from './MoreFiltersPanel';
 
 const VIEW_MODE_KEY = 'trems-view-mode';
 
@@ -21,12 +22,16 @@ function SpeciesGrid({ config }) {
     filteredSpecies, species, getTotalFiltersCount,
     selectedFilterIds,
     searchQuery, setSearchQuery,
-    classFilter, setClassFilter,
-    classBreakdown,
+    selectedSpeciesFilters,
+    toggleSpeciesFilter,
+    clearSpeciesFilterGroup,
+    clearAllSpeciesFilters,
+    speciesFiltersBreakdown,
   } = useFilterStore();
 
   const [viewMode, setViewMode] = useState(readStoredViewMode);
   const [selectedSpecies, setSelectedSpecies] = useState(null);
+  const [moreFiltersOpen, setMoreFiltersOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -40,15 +45,27 @@ function SpeciesGrid({ config }) {
   const handleClose = useCallback(() => setSelectedSpecies(null), []);
 
   const totalFilters = getTotalFiltersCount();
+  const breakdown = speciesFiltersBreakdown();
 
-  // Recomputes on every render — cheap at ~600 species and simplest to reason
-  // about given the search query updates on every keystroke.
-  const breakdown = classBreakdown();
+  // Always-visible groups render above the search bar; the rest go in the
+  // collapsible "More filters" panel. Driven by alwaysVisible config flag.
+  const allGroups = config.speciesFilters || [];
+  const alwaysVisibleGroups = allGroups.filter(g => g.alwaysVisible);
+  const hiddenGroups = allGroups.filter(g => !g.alwaysVisible);
 
-  // Count selected filters that belong to the groups-shape level (today,
-  // "Tree-related Microhabitats"). Surfaced in the summary because that
-  // level is the one users routinely select many filters in — Geographic
-  // Location, Woodland Type etc. only have a handful of options each.
+  // Counter for the "More filters" button reflects only the hidden groups —
+  // alwaysVisible groups (taxa) have their own always-visible UI feedback.
+  const hiddenSelectionsCount = useMemo(() => {
+    let n = 0;
+    const hiddenPrefixes = hiddenGroups.map(g => `${g.id}:`);
+    for (const id of selectedSpeciesFilters) {
+      if (hiddenPrefixes.some(p => id.startsWith(p))) n += 1;
+    }
+    return n;
+  }, [selectedSpeciesFilters, hiddenGroups]);
+
+  // Count selected filters in the groups-shape hierarchy level for the
+  // results-info line (today: microhabitats).
   const microhabitatCount = useMemo(() => {
     const level = findGroupsLevel(config);
     if (!level) return 0;
@@ -61,7 +78,7 @@ function SpeciesGrid({ config }) {
 
   const resultsMessage = useMemo(() => {
     const parts = [];
-    if (totalFilters === 0 && !searchQuery && classFilter === null) {
+    if (totalFilters === 0 && !searchQuery && selectedSpeciesFilters.size === 0) {
       return `Select habitat features to view matching species (${species.length} total species available)`;
     }
     const microhabitatText = microhabitatCount > 0
@@ -69,15 +86,23 @@ function SpeciesGrid({ config }) {
       : '';
     parts.push(`Showing ${filteredSpecies.length} of ${species.length} species${microhabitatText}`);
     if (searchQuery.trim()) parts.push(`matching "${searchQuery.trim()}"`);
-    if (classFilter !== null) parts.push(`(${classFilter} only)`);
     return parts.join(' ');
-  }, [filteredSpecies.length, totalFilters, species.length, searchQuery, classFilter, microhabitatCount]);
+  }, [filteredSpecies.length, totalFilters, species.length, searchQuery, selectedSpeciesFilters, microhabitatCount]);
 
   return (
     <div className="panel">
       <div className="panel-title">
         <span>Associated Species</span>
-        <div className="view-toggle" role="group" aria-label="View mode">
+        <div className="panel-title-actions">
+          {(selectedSpeciesFilters.size > 0 || searchQuery.trim()) && (
+            <button
+              onClick={clearAllSpeciesFilters}
+              className="clear-filters-btn"
+            >
+              Clear All ({selectedSpeciesFilters.size + (searchQuery.trim() ? 1 : 0)})
+            </button>
+          )}
+          <div className="view-toggle" role="group" aria-label="View mode">
           <button
             type="button"
             className={`view-toggle-btn${viewMode === 'card' ? ' active' : ''}`}
@@ -105,56 +130,77 @@ function SpeciesGrid({ config }) {
               <line x1="4" y1="18" x2="20" y2="18" />
             </svg>
           </button>
+          </div>
         </div>
       </div>
       <div className="results-info">{resultsMessage}</div>
 
-      <div className="species-search-bar">
-        <input
-          type="search"
-          className="species-search-input"
-          placeholder="Find species by scientific or common name..."
-          value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
-          aria-label="Search species"
+      {/* Always-visible filter rows — typically just Taxa today. Sits above
+          the search bar because it's the most-used filter and the breakdown
+          counts double as a taxonomic overview of the current dataset. */}
+      {alwaysVisibleGroups.map(group => (
+        <AlwaysVisibleGroup
+          key={group.id}
+          group={group}
+          selectedSpeciesFilters={selectedSpeciesFilters}
+          breakdown={breakdown.get(group.id)}
+          onToggle={toggleSpeciesFilter}
+          onClear={() => clearSpeciesFilterGroup(group.id)}
         />
-        {searchQuery && (
+      ))}
+
+      <div className="species-search-bar">
+        <div className="species-search-input-wrap">
+          <input
+            type="search"
+            className="species-search-input"
+            placeholder="Find species by scientific or common name..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            aria-label="Search species"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              className="species-search-clear"
+              onClick={() => setSearchQuery('')}
+              aria-label="Clear search"
+            >
+              ×
+            </button>
+          )}
+        </div>
+        {hiddenGroups.length > 0 && (
           <button
             type="button"
-            className="species-search-clear"
-            onClick={() => setSearchQuery('')}
-            aria-label="Clear search"
+            className={`more-filters-button${moreFiltersOpen ? ' open' : ''}${hiddenSelectionsCount > 0 ? ' has-active' : ''}`}
+            onClick={() => setMoreFiltersOpen(v => !v)}
+            aria-expanded={moreFiltersOpen}
+            aria-controls="more-filters-panel"
           >
-            ×
+            <span>More filters</span>
+            <span
+              className={`more-filters-button-count${hiddenSelectionsCount === 0 ? ' empty' : ''}`}
+              aria-hidden={hiddenSelectionsCount === 0}
+            >
+              ({hiddenSelectionsCount || 0})
+            </span>
+            <span className="more-filters-button-caret" aria-hidden="true">
+              {moreFiltersOpen ? '▴' : '▾'}
+            </span>
           </button>
         )}
       </div>
 
-      <div className="species-class-tabs" role="tablist" aria-label="Filter by class">
-        <button
-          type="button"
-          role="tab"
-          className={`species-class-tab${classFilter === null ? ' active' : ''}`}
-          aria-selected={classFilter === null}
-          onClick={() => setClassFilter(null)}
-        >
-          <span className="species-class-tab-label">All</span>
-          <span className="species-class-tab-count">{breakdown.total}</span>
-        </button>
-        {breakdown.classes.map(({ class: cls, count }) => (
-          <button
-            key={cls}
-            type="button"
-            role="tab"
-            className={`species-class-tab${classFilter === cls ? ' active' : ''}`}
-            aria-selected={classFilter === cls}
-            onClick={() => setClassFilter(classFilter === cls ? null : cls)}
-          >
-            <span className="species-class-tab-label">{cls}</span>
-            <span className="species-class-tab-count">{count}</span>
-          </button>
-        ))}
-      </div>
+      {moreFiltersOpen && (
+        <div id="more-filters-panel">
+          <MoreFiltersPanel
+            config={config}
+            breakdown={breakdown}
+            onClose={() => setMoreFiltersOpen(false)}
+          />
+        </div>
+      )}
 
       {filteredSpecies.length === 0 ? (
         <div className="empty-state">
@@ -181,6 +227,50 @@ function SpeciesGrid({ config }) {
         species={selectedSpecies}
         onClose={handleClose}
       />
+    </div>
+  );
+}
+
+/**
+ * Renders one alwaysVisible speciesFilters group as a chip row, with an "All"
+ * reset chip at the front. Active when no chips in this group are selected.
+ */
+function AlwaysVisibleGroup({ group, selectedSpeciesFilters, breakdown, onToggle, onClear }) {
+  const prefix = `${group.id}:`;
+  const anySelected = Array.from(selectedSpeciesFilters).some(id => id.startsWith(prefix));
+  const total = breakdown?.total ?? 0;
+  const counts = breakdown?.counts;
+
+  return (
+    <div className="species-class-tabs" role="tablist" aria-label={group.title}>
+      <button
+        type="button"
+        role="tab"
+        className={`species-class-tab${!anySelected ? ' active' : ''}`}
+        aria-selected={!anySelected}
+        onClick={onClear}
+      >
+        <span className="species-class-tab-label">All</span>
+        <span className="species-class-tab-count">{total}</span>
+      </button>
+      {group.options.map(opt => {
+        const id = `${group.id}:${opt.id}`;
+        const active = selectedSpeciesFilters.has(id);
+        const count = counts?.get(opt.id) ?? 0;
+        return (
+          <button
+            key={opt.id}
+            type="button"
+            role="tab"
+            className={`species-class-tab${active ? ' active' : ''}`}
+            aria-selected={active}
+            onClick={() => onToggle(id)}
+          >
+            <span className="species-class-tab-label">{opt.label || opt.id}</span>
+            <span className="species-class-tab-count">{count}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }

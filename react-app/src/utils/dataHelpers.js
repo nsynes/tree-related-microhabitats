@@ -115,6 +115,56 @@ export function getGroupFilterIds(config, groupId) {
 }
 
 /**
+ * Returns true if a single species matches a single speciesFilters option.
+ * Evaluation mode is inferred from the group's shape:
+ *   - group.field present → categorical (species[group.field] === opt.id)
+ *   - else → boolean fan-out (species[opt.field] truthy)
+ */
+export function speciesMatchesFilterOption(species, group, opt) {
+  if (group.field) {
+    return species[group.field] === opt.id;
+  }
+  return Boolean(opt.field && species[opt.field]);
+}
+
+/**
+ * Right-panel chip predicate. Driven entirely by
+ * config.speciesFilters — no hardcoded knowledge of which fields exist or
+ * which group is "priority" vs "iucn". OR within each group, AND between
+ * groups; empty groups pass.
+ *
+ * The extraFilters Set holds composite IDs of the form `${groupId}:${optionId}`.
+ *
+ * A group's evaluation mode is implicit in its config shape:
+ *   - If the group has a top-level `field`, options match against
+ *     species[group.field] === option.id (categorical).
+ *   - Otherwise each option has its own `field`, and a species passes when
+ *     species[option.field] is truthy (boolean fan-out).
+ */
+export function speciesPassesExtras(species, selectedSpeciesFilters, speciesFilters) {
+  if (!selectedSpeciesFilters || selectedSpeciesFilters.size === 0) return true;
+  if (!speciesFilters) return true;
+
+  for (const group of speciesFilters) {
+    const prefix = `${group.id}:`;
+    const selectedOptions = [];
+    for (const id of selectedSpeciesFilters) {
+      if (id.startsWith(prefix)) {
+        const optId = id.slice(prefix.length);
+        const opt = group.options.find(o => o.id === optId);
+        if (opt) selectedOptions.push(opt);
+      }
+    }
+    if (selectedOptions.length === 0) continue;
+    // OR within group: any matching option means the species passes this group
+    if (!selectedOptions.some(opt => speciesMatchesFilterOption(species, group, opt))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
  * Buckets a species' habitat IDs by hierarchy level. Returns an object keyed
  * by numeric level: { 1: [{id, label}, ...], 2: [...], ... }. Entry shape
  * carries extra context for category-shape and group-shape levels so the
