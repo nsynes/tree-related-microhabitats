@@ -165,6 +165,88 @@ export function speciesPassesExtras(species, selectedSpeciesFilters, speciesFilt
 }
 
 /**
+ * Walks config.speciesFilters and yields one entry per applicable status on
+ * the species, in config order. Entry shape:
+ *
+ *   { groupId, group, opt, label, longLabel, shortLabel }
+ *
+ *   label      — the canonical option label (opt.label || opt.id)
+ *   longLabel  — group.statusFormat applied to label (or label if no format),
+ *                matches the modal's Conservation Status string
+ *   shortLabel — group.badgeFormat applied to (opt.shortLabel || opt.label
+ *                || opt.id), suitable for compact badges
+ *
+ * Skips groups flagged alwaysVisible (taxa today — those are shown elsewhere).
+ */
+export function* iterConservationStatuses(config, species) {
+  if (!species || !config?.speciesFilters) return;
+  const applyFormat = (tmpl, label) =>
+    tmpl ? tmpl.replace('{label}', label) : label;
+  for (const group of config.speciesFilters) {
+    if (group.alwaysVisible) continue;
+    if (group.field) {
+      const val = species[group.field];
+      if (!val) continue;
+      const opt = group.options.find(o => o.id === val);
+      const label = opt ? (opt.label || opt.id) : val;
+      const short = opt ? (opt.shortLabel || opt.label || opt.id) : val;
+      yield {
+        groupId: group.id,
+        group,
+        opt,
+        label,
+        longLabel: applyFormat(group.statusFormat, label),
+        shortLabel: applyFormat(group.badgeFormat, short),
+      };
+    } else {
+      for (const opt of group.options) {
+        if (!opt.field || !species[opt.field]) continue;
+        const label = opt.label || opt.id;
+        const short = opt.shortLabel || opt.label || opt.id;
+        yield {
+          groupId: group.id,
+          group,
+          opt,
+          label,
+          longLabel: applyFormat(group.statusFormat, label),
+          shortLabel: applyFormat(group.badgeFormat, short),
+        };
+      }
+    }
+  }
+}
+
+/**
+ * Comparator factory for sorting species by IUCN severity. Severity order
+ * comes from the position of each code in config.speciesFilters' iucn group
+ * options — no separate constant needed, the config is authoritative (RE
+ * first, DD last). Species without an iucnStatus sort to the end. Ties
+ * break by scientificName ascending.
+ */
+export function compareByIucnSeverity(config) {
+  const iucnGroup = config?.speciesFilters?.find(g => g.id === 'iucn');
+  const order = new Map();
+  if (iucnGroup) {
+    iucnGroup.options.forEach((opt, i) => order.set(opt.id, i));
+  }
+  const rankOf = (s) => {
+    const code = iucnGroup?.field ? s[iucnGroup.field] : null;
+    const r = order.get(code);
+    return r === undefined ? Number.MAX_SAFE_INTEGER : r;
+  };
+  return (a, b) => {
+    const ra = rankOf(a);
+    const rb = rankOf(b);
+    if (ra !== rb) return ra - rb;
+    return (a.scientificName || '').localeCompare(b.scientificName || '');
+  };
+}
+
+export function compareByName(a, b) {
+  return (a.scientificName || '').localeCompare(b.scientificName || '');
+}
+
+/**
  * Buckets a species' habitat IDs by hierarchy level. Returns an object keyed
  * by numeric level: { 1: [{id, label}, ...], 2: [...], ... }. Entry shape
  * carries extra context for category-shape and group-shape levels so the

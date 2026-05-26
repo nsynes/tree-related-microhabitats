@@ -917,6 +917,39 @@ body {
   }
 }
 
+/* Sort dropdown in species panel header — matches the view-toggle visual
+   weight (translucent track on the dark green title bar, white-ish text). */
+.species-sort-select {
+  height: 32px;
+  padding: 0 24px 0 8px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: rgba(0, 0, 0, 0.15);
+  color: white;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+}
+
+.species-sort-select:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.species-sort-select:focus-visible {
+  outline: 2px solid var(--forest-light);
+  outline-offset: 2px;
+}
+
+.species-sort-select option {
+  color: var(--forest-dark);
+  background: white;
+}
+
 /* View toggle in species panel header */
 .view-toggle {
   display: inline-flex;
@@ -1060,7 +1093,10 @@ body {
 
 .species-list-row {
   display: grid;
-  grid-template-columns: minmax(200px, 2fr) minmax(140px, 1.8fr) minmax(80px, 0.8fr);
+  /* Fixed width on the badges column so column boundaries don't shift
+     between rows — every row reserves space for the maximum possible
+     badge set (4 country priorities + 3 EIF + 1 IUCN). */
+  grid-template-columns: minmax(220px, 1fr) minmax(80px, 0.8fr) 360px;
   gap: var(--spacing-md);
   align-items: baseline;
   padding: var(--spacing-sm) var(--spacing-md);
@@ -1090,13 +1126,43 @@ body {
   color: var(--forest-dark);
 }
 
-.species-list-common {
-  color: var(--stone-grey);
-}
-
 .species-list-class {
   font-size: var(--font-size-sm);
   color: var(--bark-brown);
+}
+
+.species-list-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: flex-end;
+  align-self: center;
+}
+
+.species-list-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  background: rgba(74, 103, 65, 0.10);
+  color: var(--forest-dark);
+  border: 1px solid rgba(74, 103, 65, 0.18);
+  white-space: nowrap;
+}
+
+.species-list-badge--iucn {
+  background: rgba(176, 96, 50, 0.10);
+  color: var(--bark-brown);
+  border-color: rgba(176, 96, 50, 0.22);
+}
+
+.species-list-badge--eif {
+  background: rgba(122, 157, 114, 0.14);
+  color: var(--forest-dark);
+  border-color: rgba(122, 157, 114, 0.28);
 }
 
 @media (max-width: 768px) {
@@ -1104,6 +1170,10 @@ body {
     grid-template-columns: 1fr;
     gap: var(--spacing-xs);
     padding: var(--spacing-md);
+  }
+
+  .species-list-badges {
+    justify-self: start;
   }
 }
 

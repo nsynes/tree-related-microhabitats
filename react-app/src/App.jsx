@@ -3,6 +3,7 @@ import useFilterStore from './store/useFilterStore';
 import FilterPanel from './components/FilterPanel';
 import SpeciesGrid from './components/SpeciesGrid';
 import Modal from './components/Modal';
+import { useUrlSync } from './hooks/useUrlSync';
 import config from './data/config.json';
 import speciesData from './data/species.json';
 
@@ -20,6 +21,10 @@ function App() {
     setSpecies(speciesData);
     setLoading(false);
   }, [setConfig, setSpecies]);
+
+  // Two-way sync between the URL and the store. Only kicks in once the
+  // config has been applied so the codec has its code maps available.
+  useUrlSync(loading ? null : config);
 
   if (loading) {
     return (

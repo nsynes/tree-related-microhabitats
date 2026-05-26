@@ -1,6 +1,12 @@
 import { useMemo, useState, useEffect, useCallback } from 'react';
 import useFilterStore from '../store/useFilterStore';
-import { findGroupsLevel, iterLevelFilters } from '../utils/dataHelpers';
+import {
+  findGroupsLevel,
+  iterLevelFilters,
+  compareByIucnSeverity,
+  compareByName,
+} from '../utils/dataHelpers';
+import { slugifyScientificName } from '../utils/urlCodec';
 import SpeciesCard from './SpeciesCard';
 import SpeciesListItem from './SpeciesListItem';
 import SpeciesDetailModal from './SpeciesDetailModal';
@@ -27,10 +33,11 @@ function SpeciesGrid({ config }) {
     clearSpeciesFilterGroup,
     clearAllSpeciesFilters,
     speciesFiltersBreakdown,
+    sortKey, setSortKey,
+    selectedSpeciesSlug, openSpeciesBySlug, closeSpecies,
   } = useFilterStore();
 
   const [viewMode, setViewMode] = useState(readStoredViewMode);
-  const [selectedSpecies, setSelectedSpecies] = useState(null);
   const [moreFiltersOpen, setMoreFiltersOpen] = useState(false);
 
   useEffect(() => {
@@ -41,8 +48,27 @@ function SpeciesGrid({ config }) {
     }
   }, [viewMode]);
 
-  const handleSelect = useCallback((s) => setSelectedSpecies(s), []);
-  const handleClose = useCallback(() => setSelectedSpecies(null), []);
+  const handleSelect = useCallback(
+    (s) => openSpeciesBySlug(slugifyScientificName(s.scientificName)),
+    [openSpeciesBySlug]
+  );
+  // If we pushed the modal-open history entry, Back undoes it cleanly;
+  // otherwise (direct-load URL) just clear the store and let the URL-sync
+  // hook replaceState the slug away.
+  const handleClose = useCallback(() => {
+    if (window.history.state?.tremsModal) window.history.back();
+    else closeSpecies();
+  }, [closeSpecies]);
+
+  // Resolve slug → species object for the modal. Look in filteredSpecies
+  // (the modal-respects-filters invariant means a slug only stays set
+  // when its species passes the filters).
+  const selectedSpecies = useMemo(
+    () => (selectedSpeciesSlug
+      ? filteredSpecies.find(s => slugifyScientificName(s.scientificName) === selectedSpeciesSlug) || null
+      : null),
+    [selectedSpeciesSlug, filteredSpecies]
+  );
 
   const totalFilters = getTotalFiltersCount();
   const breakdown = speciesFiltersBreakdown();
@@ -76,6 +102,16 @@ function SpeciesGrid({ config }) {
     return n;
   }, [config, selectedFilterIds]);
 
+  // Sort is presentation-only: applied here on top of the already-filtered
+  // list so it doesn't trigger refilter, and so card and list views share
+  // the same ordering.
+  const sortedSpecies = useMemo(() => {
+    const comparator = sortKey === 'iucnSeverity'
+      ? compareByIucnSeverity(config)
+      : compareByName;
+    return [...filteredSpecies].sort(comparator);
+  }, [filteredSpecies, sortKey, config]);
+
   const resultsMessage = useMemo(() => {
     const parts = [];
     if (totalFilters === 0 && !searchQuery && selectedSpeciesFilters.size === 0) {
@@ -102,6 +138,15 @@ function SpeciesGrid({ config }) {
               Clear All ({selectedSpeciesFilters.size + (searchQuery.trim() ? 1 : 0)})
             </button>
           )}
+          <select
+            className="species-sort-select"
+            value={sortKey}
+            onChange={e => setSortKey(e.target.value)}
+            aria-label="Sort species"
+          >
+            <option value="name">Name (A → Z)</option>
+            <option value="iucnSeverity">IUCN severity (most threatened first)</option>
+          </select>
           <div className="view-toggle" role="group" aria-label="View mode">
           <button
             type="button"
@@ -210,14 +255,14 @@ function SpeciesGrid({ config }) {
         </div>
       ) : viewMode === 'card' ? (
         <div className="species-grid">
-          {filteredSpecies.map(s => (
+          {sortedSpecies.map(s => (
             <SpeciesCard key={s.id} species={s} onClick={handleSelect} />
           ))}
         </div>
       ) : (
         <div className="species-list">
-          {filteredSpecies.map(s => (
-            <SpeciesListItem key={s.id} species={s} onClick={handleSelect} />
+          {sortedSpecies.map(s => (
+            <SpeciesListItem key={s.id} config={config} species={s} onClick={handleSelect} />
           ))}
         </div>
       )}

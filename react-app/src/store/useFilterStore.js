@@ -6,6 +6,7 @@ import {
   speciesPassesExtras,
   speciesMatchesFilterOption,
 } from '../utils/dataHelpers';
+import { slugifyScientificName } from '../utils/urlCodec';
 
 /**
  * Filter store for the species explorer.
@@ -47,6 +48,18 @@ const useFilterStore = create((set, get) => ({
   selectedSpeciesFilters: new Set(),
   searchQuery: '',
   config: null,
+  // Presentation-only sort key for the species list/grid. 'name' (default)
+  // sorts ascending by scientificName; 'iucnSeverity' uses the IUCN-order
+  // comparator from dataHelpers. Sort doesn't participate in filterSpecies —
+  // the consumer applies it after reading filteredSpecies.
+  sortKey: 'name',
+
+  // Open species modal, addressed by slug (slugified scientificName) rather
+  // than numeric id — slugs are stable across spreadsheet reorders, so
+  // shared URLs keep pointing at the same species. The modal is open iff
+  // this is non-null AND the species with that slug is in filteredSpecies.
+  // filterSpecies enforces the second half of that invariant.
+  selectedSpeciesSlug: null,
 
   species: [],
   filteredSpecies: [],
@@ -68,6 +81,13 @@ const useFilterStore = create((set, get) => ({
     if (next.has(filterId)) next.delete(filterId);
     else next.add(filterId);
     set({ selectedFilterIds: next });
+    get().filterSpecies();
+  },
+
+  // Bulk replace — used by the URL-sync hook to apply a decoded URL in one
+  // shot. Accepts any iterable of filter ids.
+  setSelectedFilterIds: (ids) => {
+    set({ selectedFilterIds: new Set(ids) });
     get().filterSpecies();
   },
 
@@ -115,6 +135,28 @@ const useFilterStore = create((set, get) => ({
     return getGroupFilterIds(config, groupId).filter(id => selectedFilterIds.has(id)).length;
   },
 
+  setSortKey: (key) => set({ sortKey: key }),
+
+  // Modal control. openSpeciesBySlug only succeeds when the slug resolves
+  // to a species in the *current* filteredSpecies — same invariant the
+  // URL-share decode applies. This keeps the modal in lockstep with the
+  // visible list regardless of whether the open call comes from a card
+  // click or from the URL on load.
+  openSpeciesBySlug: (slug) => {
+    if (!slug) {
+      if (get().selectedSpeciesSlug !== null) set({ selectedSpeciesSlug: null });
+      return;
+    }
+    const found = get().filteredSpecies.some(
+      s => slugifyScientificName(s.scientificName) === slug
+    );
+    set({ selectedSpeciesSlug: found ? slug : null });
+  },
+
+  closeSpecies: () => {
+    if (get().selectedSpeciesSlug !== null) set({ selectedSpeciesSlug: null });
+  },
+
   // Right-panel narrowing
   setSearchQuery: (q) => {
     set({ searchQuery: q });
@@ -128,6 +170,12 @@ const useFilterStore = create((set, get) => ({
     if (next.has(id)) next.delete(id);
     else next.add(id);
     set({ selectedSpeciesFilters: next });
+    get().filterSpecies();
+  },
+
+  // Bulk replace — companion to setSelectedFilterIds for URL sync.
+  setSelectedSpeciesFilters: (ids) => {
+    set({ selectedSpeciesFilters: new Set(ids) });
     get().filterSpecies();
   },
 
@@ -180,37 +228,48 @@ const useFilterStore = create((set, get) => ({
   },
 
   // Core filtering — habitat-level guards (OR-within, AND-between), then
-  // search, then species-filter chips (OR-within, AND-between).
+  // search, then species-filter chips (OR-within, AND-between). After the
+  // filtered set is recomputed, if the modal-open species is no longer in
+  // it, the modal is closed automatically. This keeps the URL/state
+  // invariant "modal open ⇒ species passes filters" without needing a
+  // second sync pass.
   filterSpecies: () => {
-    const { selectedFilterIds, searchQuery, selectedSpeciesFilters, config, species } = get();
+    const { selectedFilterIds, searchQuery, selectedSpeciesFilters, config, species, selectedSpeciesSlug } = get();
     const q = searchQuery.trim().toLowerCase();
     const hasHabitatFilters = selectedFilterIds.size > 0;
     const hasSpeciesFilters = selectedSpeciesFilters.size > 0;
 
+    let filtered;
     if (!hasHabitatFilters && q === '' && !hasSpeciesFilters) {
-      set({ filteredSpecies: species });
-      return;
+      filtered = species;
+    } else {
+      // Pre-bucket the selected IDs per level so the per-species loop doesn't
+      // re-walk the config each time.
+      const buckets = config ? selectedByLevel(config, selectedFilterIds) : [];
+
+      filtered = species.filter(s => {
+        for (const { ids } of buckets) {
+          if (ids.length === 0) continue;
+          if (!s.habitats.some(h => ids.includes(h))) return false;
+        }
+        if (q !== '') {
+          const sci = s.scientificName && s.scientificName.toLowerCase().includes(q);
+          const com = s.commonName && s.commonName.toLowerCase().includes(q);
+          if (!sci && !com) return false;
+        }
+        if (!speciesPassesExtras(s, selectedSpeciesFilters, config?.speciesFilters)) return false;
+        return true;
+      });
     }
 
-    // Pre-bucket the selected IDs per level so the per-species loop doesn't
-    // re-walk the config each time.
-    const buckets = config ? selectedByLevel(config, selectedFilterIds) : [];
-
-    const filtered = species.filter(s => {
-      for (const { ids } of buckets) {
-        if (ids.length === 0) continue;
-        if (!s.habitats.some(h => ids.includes(h))) return false;
-      }
-      if (q !== '') {
-        const sci = s.scientificName && s.scientificName.toLowerCase().includes(q);
-        const com = s.commonName && s.commonName.toLowerCase().includes(q);
-        if (!sci && !com) return false;
-      }
-      if (!speciesPassesExtras(s, selectedSpeciesFilters, config?.speciesFilters)) return false;
-      return true;
-    });
-
-    set({ filteredSpecies: filtered });
+    const update = { filteredSpecies: filtered };
+    if (selectedSpeciesSlug) {
+      const stillVisible = filtered.some(
+        s => slugifyScientificName(s.scientificName) === selectedSpeciesSlug
+      );
+      if (!stillVisible) update.selectedSpeciesSlug = null;
+    }
+    set(update);
   },
 
   // Total selected count for the habitat panel's Clear All (N) button.

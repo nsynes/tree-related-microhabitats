@@ -1,6 +1,11 @@
 import { useMemo, useState } from 'react';
 import Modal from './Modal';
-import { isValidData, groupHabitatsByLevel, levelShape } from '../utils/dataHelpers';
+import {
+  isValidData,
+  groupHabitatsByLevel,
+  levelShape,
+  iterConservationStatuses,
+} from '../utils/dataHelpers';
 
 function DetailRow({ label, value }) {
   if (!isValidData(value)) return null;
@@ -37,38 +42,14 @@ function SpeciesDetailModal({ config, species, onClose }) {
     [config, species]
   );
 
-  // Conservation status list derived from config.speciesFilters: every
-  // non-alwaysVisible group contributes (taxa class is the alwaysVisible
-  // group today and shown in the Taxonomy section instead). Boolean
-  // fan-out groups contribute the labels of options whose field is truthy
-  // on this species; categorical groups contribute the species' value of
-  // the shared field (e.g. IUCN code).
-  //
-  // group.statusFormat is an optional "{label}"-template the modal applies
-  // so the flat list can carry context that the chip in the filter panel
-  // doesn't need (e.g. "Priority (England)" vs the chip's "England", or
-  // "Red List Status (IUCN): LC" vs the chip's "LC").
+  // Conservation status strings derived from config.speciesFilters via the
+  // shared iterator. iterConservationStatuses returns each applicable status
+  // already formatted as both a long and short form; the modal uses the
+  // long form (which applies any group.statusFormat template).
   const conservationStatuses = useMemo(() => {
-    if (!species || !config?.speciesFilters) return [];
-    const format = (group, label) =>
-      group.statusFormat ? group.statusFormat.replace('{label}', label) : label;
     const list = [];
-    for (const group of config.speciesFilters) {
-      if (group.alwaysVisible) continue;
-      if (group.field) {
-        const val = species[group.field];
-        if (val) {
-          const opt = group.options.find(o => o.id === val);
-          const display = opt ? (opt.label || opt.id) : val;
-          list.push(format(group, display));
-        }
-      } else {
-        for (const opt of group.options) {
-          if (opt.field && species[opt.field]) {
-            list.push(format(group, opt.label || opt.id));
-          }
-        }
-      }
+    for (const s of iterConservationStatuses(config, species)) {
+      list.push(s.longLabel);
     }
     return list;
   }, [config, species]);
