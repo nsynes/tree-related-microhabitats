@@ -16,6 +16,7 @@ Usage:
 
 import pandas as pd
 import json
+import re
 from pathlib import Path
 from typing import Dict, List, Any, Set
 
@@ -298,6 +299,63 @@ def main():
         raise SystemExit(
             "✗ speciesFilters references fields not present in speciesMetadataColumns:\n  "
             + "\n  ".join(invalid_refs)
+        )
+
+    # Validate shortCodes used by the URL-share codec. Two namespaces:
+    #   1. Habitat filters: a single global pool. Every filter MUST carry a
+    #      shortCode (no id fallback — habitat ids are too long to use as
+    #      URL codes).
+    #   2. Each speciesFilters group: its own per-group pool. shortCode is
+    #      optional and falls back to the option's id (so options whose ids
+    #      are already short and URL-safe — eif's "d4"/"tsra", iucn's "LC"
+    #      etc. — don't need a separate field).
+    # All effective codes must match [A-Za-z0-9]{2,4}.
+    code_pattern = re.compile(r'^[A-Za-z0-9]{2,4}$')
+    code_errors = []
+
+    habitat_seen: Dict[str, str] = {}  # code -> first filter id seen with it
+    for _, level_obj in iter_levels(hierarchy):
+        for filter_def in iter_level_filters(level_obj):
+            fid = filter_def.get('id', '<no-id>')
+            code = filter_def.get('shortCode')
+            if not code:
+                code_errors.append(f"habitat filter {fid!r}: missing shortCode")
+                continue
+            if not code_pattern.match(code):
+                code_errors.append(
+                    f"habitat filter {fid!r}: shortCode {code!r} fails [A-Za-z0-9]{{2,4}}"
+                )
+                continue
+            if code in habitat_seen:
+                code_errors.append(
+                    f"habitat shortCode {code!r} duplicated: {habitat_seen[code]!r} and {fid!r}"
+                )
+            else:
+                habitat_seen[code] = fid
+
+    for group in species_filters:
+        gid = group.get('id', '<no-id>')
+        group_seen: Dict[str, str] = {}
+        for opt in group.get('options', []):
+            oid = opt.get('id', '<no-id>')
+            code = opt.get('shortCode') or oid
+            if not code_pattern.match(str(code)):
+                code_errors.append(
+                    f"speciesFilters group {gid!r}, option {oid!r}: "
+                    f"effective code {code!r} fails [A-Za-z0-9]{{2,4}}"
+                )
+                continue
+            if code in group_seen:
+                code_errors.append(
+                    f"speciesFilters group {gid!r}: code {code!r} duplicated: "
+                    f"{group_seen[code]!r} and {oid!r}"
+                )
+            else:
+                group_seen[code] = oid
+
+    if code_errors:
+        raise SystemExit(
+            "✗ shortCode validation failed:\n  " + "\n  ".join(code_errors)
         )
 
     # Build config for React app — preserve hierarchy order via sorted keys,
