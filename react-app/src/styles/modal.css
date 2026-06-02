@@ -27,6 +27,15 @@
   animation: modalSlideIn 0.2s ease-out;
 }
 
+/* Large variant for read-heavy modals (Info, Help) — fills the viewport
+   except for the overlay's padding, so the dark backdrop still shows
+   around the edges as a "this is an overlay" affordance. */
+.modal-content--large {
+  max-width: none;
+  max-height: none;
+  height: 100%;
+}
+
 @keyframes modalSlideIn {
   from {
     opacity: 0;
@@ -98,6 +107,41 @@
   font-size: 1.25rem;
 }
 
+.modal-image {
+  float: right;
+  max-width: 50vw;
+  height: auto;
+  margin: 0 0 1rem 1.5rem;
+  border-radius: 6px;
+}
+
+/* Qualified with .modal-body so this beats the more-specific
+   `.modal-body a` rule that would otherwise override the colour. */
+.modal-body .modal-download-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #4a6741;
+  color: white;
+  border-radius: 6px;
+  border-bottom: none;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.15s;
+}
+
+.modal-body .modal-download-link:hover {
+  background-color: #2c3e2f;
+  color: white;
+  border-bottom: none;
+}
+
+.modal-download-link::before {
+  content: "↓";
+  font-weight: 700;
+}
+
 .modal-body h3:first-child {
   margin-top: 0;
 }
@@ -158,12 +202,20 @@
   .modal-overlay {
     padding: 0;
   }
-  
+
   .modal-content {
     max-width: 100%;
     max-height: 100vh;
     height: 100%;
     border-radius: 0;
+  }
+
+  /* On narrow screens the float-right layout becomes cramped; revert to
+     a full-width block image stacked above the next paragraph. */
+  .modal-image {
+    float: none;
+    max-width: 100%;
+    margin: 1rem 0;
   }
   
   .modal-header {

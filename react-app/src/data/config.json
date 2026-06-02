@@ -33,7 +33,7 @@
       "level": 2,
       "id": "woodland_tree_type",
       "title": "2. Woodland and Tree Characteristics",
-      "description": "Filter by woodland, tree type and age",
+      "description": "Filter by woodland and tree type",
       "categories": [
         {
           "title": "Woodland Type",
@@ -196,7 +196,7 @@
         },
         {
           "id": "injury",
-          "title": "Injuries & Exposed Wood",
+          "title": "Injuries and Exposed Wood",
           "description": "Sapwood or heartwood is exposed due to bark loss, splitting, or breakage.",
           "categories": [
             {
@@ -627,17 +627,20 @@
         {
           "id": "d4",
           "label": "D4",
-          "field": "d4"
+          "field": "d4",
+          "tooltip": "Relative abundance of species (EIF)"
         },
         {
           "id": "d5",
           "label": "D5",
-          "field": "d5"
+          "field": "d5",
+          "tooltip": "Conservation status of species (EIF)"
         },
         {
           "id": "tsra",
           "label": "TSRA",
-          "field": "tsra"
+          "field": "tsra",
+          "tooltip": "Threatened Species Recovery Actions"
         }
       ]
     },

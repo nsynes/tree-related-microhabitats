@@ -89,7 +89,7 @@ React App
 1. **Cavity** (16 filters)
    - Woodpecker features, Rot holes, Wood decay, Concavities
 
-2. **Injuries & Exposed Wood** (6 filters)
+2. **Injuries and Exposed Wood** (6 filters)
    - Exposed sapwood, Exposed heartwood
 
 3. **Crown Deadwood** (2 filters)
@@ -101,7 +101,7 @@ React App
 5. **Fungal Fruiting Bodies** (4 filters)
    - Polypores, Slime moulds, Crustose fungi
 
-6. **Epiphytic & Epixylic Structures** (7 filters)
+6. **Epiphytic and Epixylic Structures** (7 filters)
    - Nests, Ivy, Lichens, Moss, Mistletoe, Microsoils
 
 7. **Exudates** (2 filters)
@@ -138,7 +138,7 @@ React App
    - Truncation for long lists (e.g., "+5 more")
 
 3. **Species Cards**
-   - Scientific & common names
+   - Scientific and common names
    - Taxonomic info (Class, Order, Family)
    - Conservation status (Priority List, D4/D5, IUCN, Rarity)
    - Distribution info
@@ -358,7 +358,7 @@ The Python script includes validation:
 - Preserves text fields for display
 - Reports statistics (species count, avg habitats)
 
-## Contact & Support
+## Contact and Support
 
 **Developer:** Nick S  
 **Client:** Forest Research (Katty Baird)  

@@ -17,6 +17,7 @@ Usage:
 import pandas as pd
 import json
 import re
+import shutil
 from pathlib import Path
 from typing import Dict, List, Any, Set
 
@@ -209,6 +210,11 @@ def main():
     output_dir = Path('react-app/src/data')
     config_output = output_dir / 'config.json'
     species_output = output_dir / 'species.json'
+    # The source spreadsheet is exposed for download via the About modal.
+    # Served from public/ at a stable filename so the URL is independent of
+    # any version suffix on the source filename.
+    public_dir = Path('react-app/public')
+    public_spreadsheet = public_dir / 'trems-species-data.xlsx'
 
     # Ensure output directory exists
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -223,6 +229,12 @@ def main():
     excel_input = Path(column_config['pipeline']['speciesDataFile'])
     if not excel_input.exists():
         raise SystemExit(f"✗ Species data file not found: {excel_input}")
+
+    # Make the source spreadsheet downloadable from the app (About modal).
+    # Stable filename in public/ so the URL doesn't carry a version suffix.
+    public_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(excel_input, public_spreadsheet)
+    print(f"   ✓ Copied spreadsheet to {public_spreadsheet}")
 
     # Dynamically extract column whitelist from hierarchy + metadata mapping.
     print("\n🔍 Extracting column whitelist...")

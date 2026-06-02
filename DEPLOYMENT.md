@@ -109,7 +109,7 @@ sam deploy \
 After initial deployment, to update content:
 
 ```bash
-# Option 1: Full deployment (includes data processing & build)
+# Option 1: Full deployment (includes data processing and build)
 ./deploy.sh
 
 # Option 2: Just rebuild and upload (if data hasn't changed)
@@ -283,7 +283,7 @@ aws cloudwatch put-metric-alarm \
   --comparison-operator GreaterThanThreshold
 ```
 
-## Backup & Recovery
+## Backup and Recovery
 
 S3 versioning (optional):
 

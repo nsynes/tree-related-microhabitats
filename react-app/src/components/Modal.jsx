@@ -10,7 +10,7 @@ import '../styles/modal.css';
  * - Scrollable content
  * - Clean, professional styling matching forest theme
  */
-function Modal({ isOpen, onClose, title, children }) {
+function Modal({ isOpen, onClose, title, children, size = 'default' }) {
   // Close modal on Escape key
   useEffect(() => {
     const handleEscape = (e) => {
@@ -40,7 +40,10 @@ function Modal({ isOpen, onClose, title, children }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div
+        className={`modal-content${size === 'large' ? ' modal-content--large' : ''}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modal-header">
           <h2 className="modal-title">{title}</h2>
           <button 

@@ -96,7 +96,7 @@ tree-related-microhabitats/
   - Microhabitats (40 options across 7 categories)
 
 - **678 Species** with detailed information:
-  - Scientific & common names
+  - Scientific and common names
   - Taxonomic classification
   - Conservation status
   - Distribution

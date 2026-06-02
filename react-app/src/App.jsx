@@ -42,7 +42,7 @@ function App() {
           <button
             className="icon-btn"
             onClick={() => setIsInfoOpen(true)}
-            title="About this application"
+            title="About"
             aria-label="About"
           >
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -54,7 +54,7 @@ function App() {
           <button
             className="icon-btn"
             onClick={() => setIsHelpOpen(true)}
-            title="Help & instructions"
+            title="Help"
             aria-label="Help"
           >
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -72,66 +72,154 @@ function App() {
       </main>
 
       {/* Info Modal */}
-      <Modal 
-        isOpen={isInfoOpen} 
+      <Modal
+        isOpen={isInfoOpen}
         onClose={() => setIsInfoOpen(false)}
-        title="About This Application"
+        title="About"
+        size="large"
       >
+        
+        
+        <h2>What are Tree-related Microhabitats (TreMs)?</h2>
+        <img
+          className="modal-image"
+          src="/trems-overview-image.jpg"
+          alt="Overview of tree-related microhabitat categories"
+        />
         <p>
-          The Tree-Related Microhabitats Species Explorer helps you discover which species 
+          Tree-related Microhabitats are small-scale structural features on trees that provide
+          habitat for a wide range of species, including invertebrates, fungi, lichens, and birds.
+        </p>
+        <p>
+          The Tree-related Microhabitats Species Explorer helps you discover which species 
           are associated with specific tree features and habitats.
         </p>
         
-        <h3>What are Tree-Related Microhabitats (TreMs)?</h3>
+        <h2>Data Source</h2>
         <p>
-          Tree-Related Microhabitats are small-scale structural features on trees that provide 
-          habitat for a wide range of species, including invertebrates, fungi, lichens, and birds.
-        </p>
-        
-        <h3>Data Source</h3>
-        <p>
-          This application uses data from the Tree-Related Microhabitats species database, 
+          This application uses data from the Tree-related Microhabitats species database,
           which includes 635 priority species across multiple taxonomic groups.
         </p>
-        
-        <h3>Contact & Credits</h3>
         <p>
-          Developed by ...
+          <a
+            className="modal-download-link"
+            href="/trems-species-data.xlsx"
+            download="trems-species-data.xlsx"
+          >
+            Download the full spreadsheet (.xlsx)
+          </a>
         </p>
+        
+        <h2>Contact and Credits</h2>
         <p>
-          For more information, please contact ...
+          Researched and designed by <a target="_blank" rel="noopener noreferrer"
+          href="https://www.forestresearch.gov.uk/staff/katty-baird/">Katty Baird</a>,
+          developed by <a target="_blank" rel="noopener noreferrer"
+          href="https://nicksynes.com">Nick Synes</a>.
         </p>
         
       </Modal>
 
       {/* Help Modal */}
-      <Modal 
-        isOpen={isHelpOpen} 
+      <Modal
+        isOpen={isHelpOpen}
         onClose={() => setIsHelpOpen(false)}
-        title="How to Use This Tool"
+        title="Help"
+        size="large"
       >
-        <h3>Getting Started</h3>
+        <h2>Tree-related Microhabitats</h2>
+        <img
+          className="modal-image"
+          src="/trems-overview-image.jpg"
+          alt="Overview of tree-related microhabitat categories"
+        />
         <p>
-          Use the filter panel on the left to select habitat features and tree characteristics. 
-          The species list will update automatically to show matching species.
+          A Tree-related Microhabitat (TreM) is “<i>a morphological feature present on a tree,
+          which is used by sometimes highly specialised species during at least part of their
+          life cycle</i>” (
+            <a target="_blank" rel="noopener noreferrer" href="https://infoscience.epfl.ch/handle/20.500.14299/242133">Butler et al 2024</a>
+          ). TreMs are used as shelters, breeding sites or a
+          source of food. Different species use different TreMs and therefore the greater the
+          variety of TreM features on a tree, the greater the variety of species that can be
+          expected to be supported.
+        </p>
+
+        <h2>How to use the tool</h2>
+        <p>
+          This tool aims to provide an indication of some of the species that could be expected
+          to be using a tree, based on TreM features present. It is designed to be used in
+          conjunction with surveys of TreMs described in the Field
+          Guide to Tree-related Microhabitats (
+            <a target="_blank" rel="noopener noreferrer" href="https://infoscience.epfl.ch/handle/20.500.14299/242133">Butler et al 2024</a>
+          ).
+        </p>
+        <p>
+          It refers to UK species, with a focus on rare, priority and specialist species. The
+          output lists potential species that could be supported by the tree and
+          should only be used as a guide. Many organisms have specific requirements within
+          each microhabitat e.g. for tree species, humidity, fungal decay type, prey species
+          as well as requirements for resources beyond the tree e.g. water or nectar. Some are
+          also very restricted in range to just one or a few locations in the UK. This
+          information is given, where known, in the descriptions for each species, and should
+          be used to help interpret the outputs. However, where knowledge of the
+          presence/absence of particular species is important, targeted field surveys are
+          always recommended.
+        </p>
+        <p>
+          Recognising the broad scope and complexity of associations, we welcome feedback from
+          users on the species that have been included. Inaccuracies or omissions will be
+          corrected in future versions.
         </p>
         
-        <h3>Group Checkboxes</h3>
-        <p>
-          In the Microhabitats section, each group (Cavity, Injuries, etc.) has a checkbox
-          at the top. Click this to select or deselect all features within that group at once.
-        </p>
+        <h3>Habitat Filters</h3>
+          <h4>Region</h4>
+          <p>
+            A user can choose to filter on country (England, Wales or
+            Scotland). Where species are only known from part of a country, this is denoted in
+            the output by
+            “(part)”. For some species, more details of distribution are given in the species
+            description. Note that knowledge of species' distribution is often incomplete,
+            particularly for less-well studied taxa, and as distributions are changing, for
+            example in response to climate change, the literature sources used could be out of
+            date.
+          </p>
+          <h4>Woodland and Tree Characteristics</h4>
+          <p>
+            A user can choose to consider species associated with closed canopy or open grown
+            woodlands. Broadlead or conifer can also be
+            selected to see species associated with one of these tree types.
+          </p>
         
-        <h3>Filter Logic</h3>
+        <h3>Microhabitat Filters</h3>
         <p>
-          Filters within each level use <strong>OR</strong> logic (species matching any selected filter pass). 
-          Between levels, <strong>AND</strong> logic is used (species must match selections from all levels).
+          The TreMs are grouped into the seven categories described by <a
+          target="_blank" rel="noopener noreferrer" href="https://infoscience.epfl.ch/handle/20.500.14299/242133">
+            Butler et al (2024)</a>:
+          Cavities, Injuries, Crown deadwood, Excrescences, Epiphytic and epixylic structures,
+          Fungal Fruiting bodies, Exudates. Selecting any of these categories will return all
+          species associated with any of the TreMs within each.
         </p>
-        
-        <h3>Clearing Filters</h3>
         <p>
-          Click "Clear All" in the filter panel header to reset all filters and show all species.
+          Individual TreMs can also be selected. Information on species'
+          requirements for microhabitats in the literature does not always provide the same
+          detail as in <a
+          target="_blank" rel="noopener noreferrer" href="https://infoscience.epfl.ch/handle/20.500.14299/242133">
+            Butler et al (2024)</a> descriptions, in which case pragmatic decisions were
+          made e.g. both bark pocket and bark shelter microhabitats are used for species
+          “found under loose bark” without consideration of the size of the bark piece needed;
+          Hollow branch microhabitat needs to have a cavity entrance &gt;10cm to be included,
+          therefore for birds, only species likely to nest in a cavity of this size are scored
+          as associated with this TreM. 
         </p>
+
+        <h3>Output</h3>
+        <p>
+          As different fields are selected, the species list is filtered accordingly. The
+          species appear in the right hand panel. A user can toggle between a simple list and
+          species cards. Species cards provide more information about the species. Selecting
+          any of the species will show all of its associated attributes.
+        </p>
+
         
       </Modal>
     </>
