@@ -3,6 +3,7 @@ import useFilterStore from './store/useFilterStore';
 import FilterPanel from './components/FilterPanel';
 import SpeciesGrid from './components/SpeciesGrid';
 import Modal from './components/Modal';
+import PanelTabs from './components/PanelTabs';
 import { useUrlSync } from './hooks/useUrlSync';
 import config from './data/config.json';
 import speciesData from './data/species.json';
@@ -11,6 +12,10 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  // Mobile-only tab switcher. On desktop CSS hides the tab bar and shows
+  // both panels side-by-side regardless of this value; on mobile the
+  // active tab determines which panel is visible.
+  const [activeTab, setActiveTab] = useState('habitats');
   const setSpecies = useFilterStore(state => state.setSpecies);
   const setConfig = useFilterStore(state => state.setConfig);
 
@@ -66,7 +71,9 @@ function App() {
         </div>
       </header>
       
-      <main className="app-layout">
+      <PanelTabs activeTab={activeTab} onChange={setActiveTab} />
+
+      <main className={`app-layout app-layout--tab-${activeTab}`}>
         <FilterPanel config={config} />
         <SpeciesGrid config={config} />
       </main>

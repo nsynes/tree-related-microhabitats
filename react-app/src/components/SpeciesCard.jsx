@@ -48,11 +48,8 @@ function SpeciesCard({ species, onClick }) {
         <div className="species-common">{species.commonName}</div>
       )}
 
-      {(isValidData(species.class) || isValidData(species.order) || isValidData(species.family)) && (
+      {(isValidData(species.order) || isValidData(species.family)) && (
         <div className="species-tags">
-          {isValidData(species.class) && (
-            <span className="species-tag">{species.class}</span>
-          )}
           {isValidData(species.order) && (
             <span className="species-tag">{species.order}</span>
           )}

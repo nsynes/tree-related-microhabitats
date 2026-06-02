@@ -1,5 +1,5 @@
 {
-  "description": "Tree-Related Microhabitats - Filter Hierarchy Configuration",
+  "description": "Tree-related Microhabitats - Filter Hierarchy Configuration",
   "pipeline": {
     "speciesDataFile": "data/SpeciesTreMsPaper_v1_29April.xlsx",
     "speciesDataSheet": "version for publ",

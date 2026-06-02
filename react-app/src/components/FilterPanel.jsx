@@ -28,7 +28,7 @@ function FilterPanel({ config }) {
   return (
     <div className="panel filter-panel">
       <div className="panel-title">
-        <span>Habitat Features</span>
+        <span className="panel-title-text">Habitat Features</span>
         {totalFilters > 0 && (
           <button onClick={clearFilters} className="clear-filters-btn">
             Clear All ({totalFilters})

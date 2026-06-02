@@ -202,7 +202,7 @@ def count_filters(hierarchy: Dict[str, Any]) -> List[tuple]:
 
 def main():
     """Main processing function"""
-    print("🌳 Tree-Related Microhabitats - Data Processing")
+    print("🌳 Tree-related Microhabitats - Data Processing")
     print("=" * 50)
     
     # Paths
@@ -376,7 +376,7 @@ def main():
     print("\n⚙️  Generating config.json...")
     react_config = {
         'app': {
-            'title': 'Tree-Related Microhabitats Species Explorer'
+            'title': 'Tree-related Microhabitats Species Explorer'
         },
         'filterHierarchy': [
             {'level': i + 1, **level_obj}

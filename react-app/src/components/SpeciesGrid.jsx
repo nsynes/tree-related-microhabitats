@@ -126,9 +126,9 @@ function SpeciesGrid({ config }) {
   }, [filteredSpecies.length, totalFilters, species.length, searchQuery, selectedSpeciesFilters, microhabitatCount]);
 
   return (
-    <div className="panel">
+    <div className="panel species-panel">
       <div className="panel-title">
-        <span>Associated Species</span>
+        <span className="panel-title-text">Associated Species</span>
         <div className="panel-title-actions">
           {(selectedSpeciesFilters.size > 0 || searchQuery.trim()) && (
             <button

@@ -192,6 +192,103 @@ body {
     height: auto;
     min-height: auto;
   }
+
+  /* Tabs are the only thing showing one panel at a time on mobile.
+     The non-active panel stays in the DOM (preserving state) but is
+     hidden from view. */
+  .app-layout--tab-habitats > .species-panel,
+  .app-layout--tab-species > .filter-panel {
+    display: none;
+  }
+}
+
+/* Mobile-only tab switcher between Habitat Features and Associated
+   Species. Hidden on desktop where both panels show side-by-side.
+   Styled as classic filing-folder tabs: rounded top corners, the
+   active tab uses the panel's white background and overlaps the
+   panel's top edge so the two read as one continuous surface. */
+.panel-tabs {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .panel-tabs {
+    display: flex;
+    gap: 4px;
+    padding: var(--spacing-md) var(--spacing-lg) 0;
+    max-width: 1800px;
+    margin: 0 auto;
+    width: 100%;
+    /* Negative margin pulls the strip down so the active tab's bottom
+       edge overlaps the panel-title bar's top edge by 1 px — the join
+       reads as seamless because the active tab and the panel-title
+       bar share the same green background. */
+    margin-bottom: -1px;
+  }
+
+  /* Drop the app-layout's top padding so the panel sits flush against
+     the tab strip; otherwise spacing-lg of padding creates a visible
+     gap between the active tab and the panel-title bar below. */
+  .app-layout {
+    padding-top: 0;
+  }
+
+  .panel-tab {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    background: var(--white);
+    border: none;
+    /* Rounded top corners only so the tab "stands up" out of the
+       strip and into the panel surface below. */
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    color: var(--forest-medium);
+    font: inherit;
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+    /* Inset shadow at the bottom edge — reads as the raised active
+       tab and panel-title bar casting a shadow back onto the recessed
+       inactive tab. Negative spread keeps the shadow tight against
+       the bottom edge instead of bleeding up into the tab face. */
+    box-shadow: inset 0 -8px 8px -6px rgba(0, 0, 0, 0.25);
+  }
+
+  .panel-tab:hover {
+    background: rgba(74, 103, 65, 0.08);
+    color: var(--forest-dark);
+  }
+
+  .panel-tab:focus-visible {
+    outline: 2px solid var(--forest-light);
+    outline-offset: -2px;
+  }
+
+  /* Active tab is the same green as the panel-title bar; with the
+     1 px overlap above, the two read as one continuous green band
+     extending up into the tab. No shadow — the active tab is
+     "forward" and sits flush with the panel below. */
+  .panel-tab.active {
+    background: var(--forest-medium);
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+    box-shadow: none;
+  }
+
+  /* Hide the in-panel title text on mobile — the tab buttons above
+     already label which panel is showing. Action buttons (Clear All,
+     sort, view toggle) are siblings of the title text inside
+     .panel-title, so they keep their place. */
+  .panel-title-text {
+    display: none;
+  }
+
+  /* Flatten the panel's top corners so the active tab merges cleanly
+     into the panel-title bar below. The actual override is below in
+     the later @media block alongside the other .panel mobile rules
+     — placing it there ensures it sits after the base .panel rule and
+     wins the cascade. */
 }
 
 /* Panel Styles */
@@ -212,8 +309,13 @@ body {
     max-height: none;
     overflow: visible;
     margin-bottom: var(--spacing-lg);
+    /* Squared top so the active tab above merges seamlessly into the
+       panel-title bar — no visible rounded corner peeking out beside
+       the active tab. */
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
-  
+
   .panel:last-child {
     margin-bottom: 0;
   }
@@ -231,13 +333,30 @@ body {
   gap: var(--spacing-sm);
 }
 
+@media (max-width: 1024px) {
+  /* On narrow screens the actions cluster on the right (sort + view
+     toggle, plus Clear All when present) can't fit on the same row as
+     the title. Wrap to a second row instead of clipping. Also tighten
+     the vertical padding — with the title text hidden by the tabs
+     above, the bar otherwise looks like a thick empty band. */
+  .panel-title {
+    flex-wrap: wrap;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+}
+
 /* Right-side cluster in the species panel title: Clear All sits left of the
-   view-mode toggle. Both are right-aligned in the title row via the parent's
-   space-between layout. */
+   view-mode toggle. margin-left: auto right-aligns the cluster regardless of
+   whether the title text is visible — on mobile the text is hidden via
+   .panel-title-text { display: none }, so without the explicit margin the
+   cluster would otherwise slide to the left. */
 .panel-title-actions {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  margin-left: auto;
+  justify-content: flex-end;
 }
 
 .clear-filters-btn {
@@ -247,6 +366,11 @@ body {
   padding: 0.25rem 0.75rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
+  /* The Habitat panel uses Clear All as a direct child of .panel-title
+     (no surrounding .panel-title-actions). With the title text hidden
+     on mobile this is the only child, so without an explicit auto
+     margin it would sit at flex-start instead of right-aligning. */
+  margin-left: auto;
   font-size: var(--font-size-sm);
   white-space: nowrap;
   transition: background 0.2s;
@@ -319,6 +443,32 @@ body {
   align-items: center;
 }
 
+@media (max-width: 1024px) {
+  /* On mobile, the Active Filters section gets a single horizontal
+     scroll at the bottom of the whole body, not per row. Each
+     summary row stays single-line and sizes to its own content;
+     the body becomes the scroll container so one scrollbar covers
+     every level (Geographic / Woodland / Microhabitats) at once. */
+  .active-filters-body {
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .filter-summary-row {
+    flex-wrap: nowrap;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .filter-chips {
+    flex-wrap: nowrap;
+  }
+
+  .filter-chip {
+    flex-shrink: 0;
+  }
+}
+
 .logic-separator {
   text-align: center;
   color: var(--forest-medium);
@@ -365,6 +515,7 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
+  white-space: nowrap;
 }
 
 .filter-chip:hover {
