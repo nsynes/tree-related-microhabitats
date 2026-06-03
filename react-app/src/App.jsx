@@ -15,7 +15,15 @@ function App() {
   // Mobile-only tab switcher. On desktop CSS hides the tab bar and shows
   // both panels side-by-side regardless of this value; on mobile the
   // active tab determines which panel is visible.
-  const [activeTab, setActiveTab] = useState('habitats');
+  //
+  // Initial value reads the URL: if it carries a species-modal slug
+  // (?m=<slug>), start on the Species tab so a shared link with a modal
+  // doesn't land mobile users on the Habitats tab with the modal
+  // invisibly behind it. Desktop is unaffected — the tab state is
+  // ignored when both panels are visible.
+  const [activeTab, setActiveTab] = useState(() =>
+    new URLSearchParams(window.location.search).has('m') ? 'species' : 'habitats'
+  );
   const setSpecies = useFilterStore(state => state.setSpecies);
   const setConfig = useFilterStore(state => state.setConfig);
 
