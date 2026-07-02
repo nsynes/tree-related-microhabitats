@@ -1,8 +1,8 @@
 {
   "description": "Tree-related Microhabitats - Filter Hierarchy Configuration",
   "pipeline": {
-    "speciesDataFile": "data/SpeciesTreMsPaper_v1_29April.xlsx",
-    "speciesDataSheet": "version for publ",
+    "speciesDataFile": "data/TreM_Explorer_v1_01Jul26.xlsx",
+    "speciesDataSheet": "Full Data",
     "speciesDataHeaderRow": 6
   },
   "hierarchy": {
@@ -55,7 +55,7 @@
                 {"id": "medium_woodpecker_nest", "label": "Medium Woodpecker Nesthole", "column": "MediumWoodpeckerNesthole", "shortCode": "mwn"},
                 {"id": "small_woodpecker_nest",  "label": "Small Woodpecker Nesthole",  "column": "SmallWoodpeckerNesthole",  "shortCode": "swn"},
                 {"id": "large_woodpecker_nest",  "label": "Large Woodpecker Nesthole",  "column": "LargeWoodpeckerNesthole",  "shortCode": "lwn"},
-                {"id": "other_nest_hole",        "label": "Other Nesthole",             "column": "OtherNestHole",            "shortCode": "onh"}
+                {"id": "woodpecker_flute",        "label": "Woodpecker Flute",             "column": "Woodpecker Flute",            "shortCode": "wfl"}
               ]
             },
             {
@@ -216,7 +216,7 @@
             {
               "title": "Alluvial Deposits",
               "filters": [
-                {"id": "lay_silt_deposit", "label": "Lay Silt Deposit", "column": "LaySiltDeposit", "shortCode": "lsd"}
+                {"id": "clay_silt_deposit", "label": "Clay or Silt Deposit", "column": "Clay or Silt Deposit", "shortCode": "csd"}
               ]
             }
           ]
@@ -243,18 +243,18 @@
     {"key": "scientificName",      "column": "Scientific name"},
     {"key": "commonName",          "column": "Common name"},
     {"key": "class",                "column": "Taxa for filters"},
-    {"key": "order",                "column": "Order"},
-    {"key": "family",               "column": "Family"},
-    {"key": "iucnStatus",           "column": "Red List Status (IUCN)"},
-    {"key": "distribution",         "column": "Distribution"},
+    {"key": "order",                "column": "Taxon:Order"},
+    {"key": "family",               "column": "Taxon:Family"},
+    {"key": "iucnStatus",           "column": "Red List (GB)"},
+    {"key": "distribution",         "column": "GreatBritain"},
     {"key": "habitatRequirements",  "column": "Description"},
     {"key": "priorityEngland",      "column": "Priority (England)",         "type": "yes_blank"},
     {"key": "priorityScotland",     "column": "Priority (Scotland)",        "type": "yes_blank"},
     {"key": "priorityWales",        "column": "Priority_Wales",             "type": "yes_blank"},
     {"key": "priorityNI",           "column": "Priority_NI",                "type": "yes_blank"},
+    {"key": "priorityEurope",       "column": "Priority_Europe",            "type": "yes_blank"},
     {"key": "d4",                   "column": "D4",                         "type": "yes_blank"},
-    {"key": "d5",                   "column": "D5",                         "type": "yes_blank"},
-    {"key": "tsra",                 "column": "TSRA",                       "type": "yes_blank"}
+    {"key": "d5",                   "column": "D5",                         "type": "yes_blank"}
   ],
 
   "speciesFilters": [
@@ -294,8 +294,7 @@
       "title": "Environmental Indicator Frameworks",
       "options": [
         {"id": "d4",   "label": "D4",   "field": "d4", "tooltip": "Relative abundance of species (EIF)"},
-        {"id": "d5",   "label": "D5",   "field": "d5", "tooltip": "Conservation status of species (EIF)"},
-        {"id": "tsra", "label": "TSRA", "field": "tsra", "tooltip": "Threatened Species Recovery Actions"}
+        {"id": "d5",   "label": "D5",   "field": "d5", "tooltip": "Conservation status of species (EIF)"}
       ]
     },
     {

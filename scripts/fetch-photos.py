@@ -49,6 +49,7 @@ USABLE_LICENSES = frozenset({
 
 SPECIES_PATH = Path("react-app/src/data/species.json")
 CACHE_PATH = Path("data/inaturalist-photos.json")
+OVERRIDES_PATH = Path("data/photo-overrides.json")
 
 # Classes worth pilot-sampling, in rough proportion to dataset size (635 total).
 PILOT_STRATIFICATION = {
@@ -85,6 +86,15 @@ def save_cache(cache):
     )
 
 
+def load_overrides():
+    """Per-species photo overrides, keyed by scientificName.
+    See data/photo-overrides.json's _readme for shape and semantics.
+    Missing file → no overrides; _readme keys are ignored at lookup time."""
+    if not OVERRIDES_PATH.exists():
+        return {}
+    return json.loads(OVERRIDES_PATH.read_text(encoding="utf-8"))
+
+
 def pilot_sample(species):
     """Stratified sample across classes to gauge coverage."""
     by_class = defaultdict(list)
@@ -96,7 +106,7 @@ def pilot_sample(species):
     return sample
 
 
-def _fetch_exact(session, query):
+def _fetch_exact(session, query, rank="species"):
     """Single iNaturalist lookup; exact case-insensitive name match required.
 
     We include `is_active=any` so renamed species (e.g. Corvus monedula →
@@ -106,8 +116,14 @@ def _fetch_exact(session, query):
     store photo fields for it (photos belong to whatever the current
     accepted taxon is; the client can update the name in the source data
     and we refetch for real photos).
+
+    rank=None drops the rank filter so subspecies queries (e.g.
+    "Aegithalos caudatus rosaceus") can resolve to iNat's subspecies-rank
+    taxon. Used by the photo-override path.
     """
-    params = {"q": query, "rank": "species", "is_active": "any", "per_page": 5}
+    params = {"q": query, "is_active": "any", "per_page": 5}
+    if rank:
+        params["rank"] = rank
     backoff = 2
     while True:
         resp = session.get(API_URL, params=params, timeout=TIMEOUT_S)
@@ -198,9 +214,18 @@ def _find_cc_photo(session, taxon_id):
     return None
 
 
-def fetch_one(session, scientific_name):
+def fetch_one(session, scientific_name, override=None):
     """Fetch with two fallbacks: binomial retry for trinomial names, and
-    taxon-photos lookup when iNat's default photo is all-rights-reserved."""
+    taxon-photos lookup when iNat's default photo is all-rights-reserved.
+
+    If `override` is supplied (from data/photo-overrides.json), the photo
+    fields on the returned entry come from a second lookup using the
+    override's inatQuery — but the species-level taxon_id is kept, so the
+    "View on iNaturalist" link still points at the species page rather
+    than the subspecies. The override is applied after the ARR fallback
+    so it always wins for the photo, whatever the species-level default
+    turned out to be.
+    """
     entry = _fetch_exact(session, scientific_name)
 
     # Binomial fallback for subspecies-style trinomial queries that missed.
@@ -229,6 +254,25 @@ def fetch_one(session, scientific_name):
             entry["license_code"] = cc_photo.get("license_code")
             entry["used_taxon_photos_fallback"] = True
 
+    # Photo override — replace only the photo fields, keep species taxon_id.
+    override_query = (override or {}).get("inatQuery")
+    if override_query and not entry.get("not_found"):
+        time.sleep(REQUEST_DELAY_S)
+        override_entry = _fetch_exact(session, override_query, rank=None)
+        override_photo_url = override_entry.get("photo_medium_url")
+        override_license = override_entry.get("license_code")
+        if override_photo_url and override_license in USABLE_LICENSES:
+            entry["photo_square_url"] = override_entry.get("photo_square_url")
+            entry["photo_small_url"] = override_entry.get("photo_small_url")
+            entry["photo_medium_url"] = override_photo_url
+            entry["photo_large_url"] = override_entry.get("photo_large_url")
+            entry["attribution"] = override_entry.get("attribution")
+            entry["license_code"] = override_license
+            entry["photo_override_query"] = override_query
+            # An ARR-fallback photo on the species is now irrelevant since
+            # we've overwritten the photo fields with the subspecies pick.
+            entry.pop("used_taxon_photos_fallback", None)
+
     return entry
 
 
@@ -248,6 +292,7 @@ def main():
 
     all_species = load_species()
     cache = load_cache()
+    overrides = load_overrides()
 
     if args.species:
         targets = [{"scientificName": args.species, "class": "?"}]
@@ -267,6 +312,16 @@ def main():
     def _entry_is_arr(entry):
         return bool(entry) and bool(entry.get("photo_medium_url")) and not entry.get("license_code")
 
+    def _override_out_of_date(name):
+        """A species with a new/changed override should refetch even if
+        cached — otherwise the user has to remember --refresh whenever
+        they edit photo-overrides.json."""
+        override = overrides.get(name)
+        if not override or not override.get("inatQuery"):
+            return False
+        cached = cache.get(name) or {}
+        return cached.get("photo_override_query") != override["inatQuery"]
+
     if args.refresh_arr:
         to_fetch = [
             s for s in targets
@@ -276,7 +331,9 @@ def main():
         to_fetch = [
             s for s in targets
             if s.get("scientificName")
-            and (args.refresh or s["scientificName"] not in cache)
+            and (args.refresh
+                 or s["scientificName"] not in cache
+                 or _override_out_of_date(s["scientificName"]))
         ]
     skipped = len(targets) - len(to_fetch)
 
@@ -286,7 +343,7 @@ def main():
         name = species["scientificName"]
         cls = species.get("class", "")
         try:
-            entry = fetch_one(session, name)
+            entry = fetch_one(session, name, override=overrides.get(name))
         except Exception as exc:  # noqa: BLE001
             entry = {"error": str(exc), "fetched_at": now_iso()}
 

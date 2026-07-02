@@ -113,7 +113,7 @@ function App() {
         <h2>Data Source</h2>
         <p>
           This application uses data from the Tree-related Microhabitats species database,
-          which includes 665 species across multiple taxonomic groups.
+          which includes {speciesData.length} species across multiple taxonomic groups.
         </p>
         
         <h2>Contact and Credits</h2>

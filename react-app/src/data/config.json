@@ -104,10 +104,10 @@
                   "shortCode": "lwn"
                 },
                 {
-                  "id": "other_nest_hole",
-                  "label": "Other Nesthole",
-                  "column": "OtherNestHole",
-                  "shortCode": "onh"
+                  "id": "woodpecker_flute",
+                  "label": "Woodpecker Flute",
+                  "column": "Woodpecker Flute",
+                  "shortCode": "wfl"
                 }
               ]
             },
@@ -495,10 +495,10 @@
               "title": "Alluvial Deposits",
               "filters": [
                 {
-                  "id": "lay_silt_deposit",
-                  "label": "Lay Silt Deposit",
-                  "column": "LaySiltDeposit",
-                  "shortCode": "lsd"
+                  "id": "clay_silt_deposit",
+                  "label": "Clay or Silt Deposit",
+                  "column": "Clay or Silt Deposit",
+                  "shortCode": "csd"
                 }
               ]
             }
@@ -635,12 +635,6 @@
           "label": "D5",
           "field": "d5",
           "tooltip": "Conservation status of species (EIF)"
-        },
-        {
-          "id": "tsra",
-          "label": "TSRA",
-          "field": "tsra",
-          "tooltip": "Threatened Species Recovery Actions"
         }
       ]
     },

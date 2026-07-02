@@ -319,7 +319,7 @@ def main():
     #      URL codes).
     #   2. Each speciesFilters group: its own per-group pool. shortCode is
     #      optional and falls back to the option's id (so options whose ids
-    #      are already short and URL-safe — eif's "d4"/"tsra", iucn's "LC"
+    #      are already short and URL-safe — eif's "d4"/"d5", iucn's "LC"
     #      etc. — don't need a separate field).
     # All effective codes must match [A-Za-z0-9]{2,4}.
     code_pattern = re.compile(r'^[A-Za-z0-9]{2,4}$')
