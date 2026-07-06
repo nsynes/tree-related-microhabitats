@@ -24,6 +24,10 @@ function App() {
   const [activeTab, setActiveTab] = useState(() =>
     new URLSearchParams(window.location.search).has('m') ? 'species' : 'habitats'
   );
+  // Simple lightbox for the tree overview image in the About/Help
+  // modals. Clicking the image sets the src; the overlay renders while
+  // it's set, and any click on the overlay clears it.
+  const [enlargedImageSrc, setEnlargedImageSrc] = useState(null);
   const setSpecies = useFilterStore(state => state.setSpecies);
   const setConfig = useFilterStore(state => state.setConfig);
 
@@ -100,6 +104,8 @@ function App() {
           className="modal-image"
           src="/trems-overview-image.jpg"
           alt="Overview of tree-related microhabitat categories"
+          onClick={() => setEnlargedImageSrc("/trems-overview-image.jpg")}
+          title="Click to enlarge"
         />
         <p>
           Tree-related Microhabitats are morphological features on trees that provide
@@ -118,9 +124,13 @@ function App() {
         
         <h2>Contact and Credits</h2>
         <p>
+          This work was funded by the Forestry Commission Science and Innovation Strategy Research
+          Programme 3 and the UK Government through Defra's Nature for Climate Fund programme.
+        </p>
+        <p>
           Researched and designed by <a target="_blank" rel="noopener noreferrer"
-          href="https://www.forestresearch.gov.uk/staff/katty-baird/">Katty Baird</a>,
-          developed by <a target="_blank" rel="noopener noreferrer"
+          href="https://www.forestresearch.gov.uk/staff/katty-baird/">Katty Baird</a>;
+          web app developed by <a target="_blank" rel="noopener noreferrer"
           href="https://nicksynes.com">Nick Synes</a>.
         </p>
         
@@ -138,12 +148,14 @@ function App() {
           className="modal-image"
           src="/trems-overview-image.jpg"
           alt="Overview of tree-related microhabitat categories"
+          onClick={() => setEnlargedImageSrc("/trems-overview-image.jpg")}
+          title="Click to enlarge"
         />
         <p>
           A Tree-related Microhabitat (TreM) is “<i>a morphological feature present on a tree,
           which is used by sometimes highly specialised species during at least part of their
           life cycle</i>” (
-            <a target="_blank" rel="noopener noreferrer" href="https://infoscience.epfl.ch/handle/20.500.14299/242133">Butler et al 2024</a>
+            <a target="_blank" rel="noopener noreferrer" href="https://www.wsl.ch/en/publications/field-guide-to-tree-related-microhabitats-2nd-ed/">Bütler et al 2024</a>
           ). TreMs are used as shelters, breeding sites or a
           source of food. Different species use different TreMs and therefore the greater the
           variety of TreM features on a tree, the greater the variety of species that can be
@@ -156,7 +168,7 @@ function App() {
           to be using a tree, based on TreM features present. It is designed to be used in
           conjunction with surveys of TreMs described in the Field
           Guide to Tree-related Microhabitats (
-            <a target="_blank" rel="noopener noreferrer" href="https://infoscience.epfl.ch/handle/20.500.14299/242133">Butler et al 2024</a>
+            <a target="_blank" rel="noopener noreferrer" href="https://www.wsl.ch/en/publications/field-guide-to-tree-related-microhabitats-2nd-ed/">Bütler et al 2024</a>
           ).
         </p>
         <p>
@@ -178,8 +190,10 @@ function App() {
         </p>
         
         <h3>Habitat Filters</h3>
-          <h4>Region</h4>
-          <p>
+        <h4>Woodland Characteristics</h4>
+        <dl>
+          <dt>Location</dt>
+          <dd>
             A user can choose to filter on country (England, Wales or
             Scotland). Where species are only known from part of a country, this is denoted in
             the output by
@@ -188,21 +202,24 @@ function App() {
             particularly for less-well studied taxa, and as distributions are changing, for
             example in response to climate change, the literature sources used could be out of
             date.
-          </p>
-          <h4>Woodland and Tree Characteristics</h4>
-          <p>
-            A user can choose to consider species associated with closed canopy or open grown
-            woodlands. Broadleaf or conifer can also be
-            selected to see species associated with these tree types.
-          </p>
+          </dd>
+          <dt>Woodland Type</dt>
+          <dd>
+            A user can choose to consider species associated with closed canopy or open grown woodlands.
+          </dd>
+          <dt>Tree Type</dt>
+          <dd>
+            Broadleaf or conifer can also be selected to see species associated with these tree types.
+          </dd>
+        </dl>
         
-        <h3>Tree-related Microhabitat Filters</h3>
+        <h4>Tree-related Microhabitat Filters</h4>
         <p>
           The TreMs are grouped into the seven forms described by <a
-          target="_blank" rel="noopener noreferrer" href="https://infoscience.epfl.ch/handle/20.500.14299/242133">
-            Butler et al (2024)</a>:
+          target="_blank" rel="noopener noreferrer" href="https://www.wsl.ch/en/publications/field-guide-to-tree-related-microhabitats-2nd-ed/">
+            Bütler et al (2024)</a>:
           Cavities, Injuries, Crown deadwood, Excrescences, Epiphytic and epixylic structures,
-          Fungal Fruiting bodies, Exudates. Selecting any of these categories will return all
+          Fungal Fruiting bodies, Exudates. Selecting any of these will return all
           species associated with the TreM types within each. Individual TreM types can also be selected.
         </p>
 
@@ -212,11 +229,36 @@ function App() {
           species appear in the right hand panel. A user can toggle between a simple list and
           species cards. Species cards provide more information about the species. Selecting
           any of the species will show all of its associated attributes. The list can be further
-          filtered using the More Filters button and selecting the fields of interest.
+          filtered using the <strong>More Filters</strong> button and selecting the fields of interest.
+        </p>
+
+        <h3>Taxon designation and indicators</h3>
+        <p>
+          These provide information on the conservation status of species. More information on Priority
+          Species and IUCN red list status can be found in Conservation designations for UK taxa 2023
+          (JNCC). D4 and D5 species are those listed in Defra's Environmental Indicator Framework
+          (Wildlife) and refer to England only.
         </p>
 
         
       </Modal>
+
+      {enlargedImageSrc && (
+        <div
+          className="image-lightbox"
+          role="button"
+          tabIndex={0}
+          aria-label="Close enlarged image"
+          onClick={() => setEnlargedImageSrc(null)}
+          onKeyDown={e => {
+            if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+              setEnlargedImageSrc(null);
+            }
+          }}
+        >
+          <img src={enlargedImageSrc} alt="" />
+        </div>
+      )}
     </>
   );
 }

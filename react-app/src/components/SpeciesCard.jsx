@@ -89,7 +89,7 @@ function SpeciesCard({ species, onClick }) {
 
       {isValidData(species.distribution) && (
         <div className="species-info-row">
-          <span className="species-info-label">Distribution:</span>
+          <span className="species-info-label">Distribution (GB):</span>
           <span className="species-info-value">{species.distribution}</span>
         </div>
       )}

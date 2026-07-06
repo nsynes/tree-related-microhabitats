@@ -27,13 +27,18 @@
   animation: modalSlideIn 0.2s ease-out;
 }
 
-/* Large variant for read-heavy modals (Info, Help) — fills the viewport
-   except for the overlay's padding, so the dark backdrop still shows
-   around the edges as a "this is an overlay" affordance. */
+/* Large variant for read-heavy modals (Info, Help) — sized as a "big
+   dialog" rather than a full-viewport takeover. 90rem is roughly the
+   sweet spot for the content: wide enough to sit the image alongside
+   the text at desktop widths, capped so it doesn't stretch across
+   4K displays with a lot of empty modal in the middle. Below ~1440 px
+   viewport the modal fills naturally down to the mobile breakpoint. */
 .modal-content--large {
-  max-width: none;
-  max-height: none;
-  height: 100%;
+  max-width: 90rem;
+  /* Size to content so short pages (About) don't have a big empty
+     lower half. Cap the max at 90vh so the taller Help modal still
+     scrolls internally rather than pushing the modal off-screen. */
+  max-height: 90vh;
 }
 
 @keyframes modalSlideIn {
@@ -95,59 +100,151 @@
 .modal-body {
   padding: 24px;
   overflow-y: auto;
+  /* Safety net: text should always scale to the screen — an image or
+     over-wide element should never introduce a horizontal scrollbar. */
+  overflow-x: hidden;
   flex: 1;
   color: #2c3e2f;
   line-height: 1.6;
 }
 
-.modal-body h3 {
+/* Main section headings — visually distinct with a horizontal divider
+   above each so the reader knows they're crossing into a new topic. */
+.modal-body h2 {
   color: #2c3e2f;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #d5dad0;
+}
+
+.modal-body h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* Subsection headings — mid-tier, coloured for the forest theme so
+   they read as clearly subordinate to h2 but still stand out. */
+.modal-body h3 {
+  color: #4a6741;
+  font-size: 1.15rem;
+  font-weight: 700;
   margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Sub-subsection headings — same forest-medium green as h3 to keep
+   them in the "heading family" but a size step down for hierarchy.
+   No uppercase — the caps treatment was making them read as louder
+   than the h3 above them. Distinguished from dt (also 1rem bold) by
+   the green colour. */
+.modal-body h4 {
+  color: #4a6741;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Click-to-enlarge overlay for the tree overview image. Renders above
+   all modals (z-index 2000 > modal-overlay 1000) so it works even when
+   opened from inside a modal. Any click on the overlay clears it. */
+.image-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 32px;
+  cursor: zoom-out;
+}
+
+.image-lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
 }
 
 .modal-image {
   float: right;
-  max-width: 50vw;
+  /* Capped in absolute units so the image doesn't scale endlessly on
+     very wide screens; without the cap, 50vw at 1920 px viewport is
+     ~960 px, which visually dominates and pushes the text into a
+     thin column on the left. */
+  max-width: min(50vw, 32rem);
   height: auto;
-  margin: 0 0 1rem 1.5rem;
+  /* Negative right margin pushes the image past the text-column right
+     edge into the empty space on the right of the modal, giving the
+     text room to wrap around its left side. Uses vw so it scales with
+     viewport width. The mobile media query below cancels the float
+     entirely, so this doesn't apply on phones. */
+  margin: 0 -7vw 1rem 1.5rem;
   border-radius: 6px;
+  cursor: zoom-in;
 }
 
-/* Qualified with .modal-body so this beats the more-specific
-   `.modal-body a` rule that would otherwise override the colour. */
-.modal-body .modal-download-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #4a6741;
-  color: white;
-  border-radius: 6px;
-  border-bottom: none;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background-color 0.15s;
+/* Cap line length for readability — the near-fullscreen modal is much
+   wider than a comfortable reading width, and unrestrained paragraphs
+   are the main cause of the "wall of text" feeling. */
+.modal-body p {
+  margin-bottom: 1rem;
+  max-width: 70ch;
 }
 
-.modal-body .modal-download-link:hover {
-  background-color: #2c3e2f;
-  color: white;
-  border-bottom: none;
+/* Description list — used for "term: description" content like the
+   Habitat Filter entries (Location / Woodland Type / Tree Type). The
+   left border + generous indent visually recesses the whole block as
+   a subsection, addressing the "indent smaller subsections" request. */
+.modal-body dl {
+  margin: 0 0 1rem 0;
+  padding-left: 2rem;
+  border-left: 3px solid #d5dad0;
 }
 
-.modal-download-link::before {
-  content: "↓";
+.modal-body dt {
   font-weight: 700;
+  color: #2c3e2f;
+  margin-top: 0.75rem;
 }
 
-.modal-body h3:first-child {
+.modal-body dt:first-child {
   margin-top: 0;
 }
 
-.modal-body p {
-  margin-bottom: 1rem;
+.modal-body dd {
+  margin: 0.25rem 0 0 0;
+  max-width: 70ch;
+}
+
+/* Large modals only (About / Help) — centre their contents in a
+   comfortable reading column via horizontal padding. Using padding
+   (rather than max-width + margin-auto on the body itself) keeps the
+   modal-body at full width, so its vertical scrollbar sits at the
+   modal's right edge — not floating inside the modal at the 75% mark
+   the way max-width would place it. */
+.modal-content--large .modal-body {
+  padding-inline: 12.5%;
+}
+
+/* Cap the text-column width and centre it so on very wide screens the
+   text isn't stranded against the left edge of the wide content area.
+   Excludes .modal-image so the image can still float freely to the
+   right and extend past the text column. */
+.modal-content--large .modal-body > *:not(.modal-image) {
+  max-width: 55rem;
+  margin-inline: auto;
+}
+
+@media (max-width: 768px) {
+  .modal-content--large .modal-body {
+    padding-inline: 24px;
+  }
 }
 
 .modal-body ul, .modal-body ol {

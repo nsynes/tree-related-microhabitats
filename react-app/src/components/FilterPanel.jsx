@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import useFilterStore from '../store/useFilterStore';
 import {
   getFilterLabel as resolveFilterLabel,
+  groupBySection,
   iterLevelFilters,
   levelShape,
 } from '../utils/dataHelpers';
@@ -36,40 +37,132 @@ function FilterPanel({ config }) {
         )}
       </div>
 
-      {/* Active Filters Summary - one row per hierarchy level */}
+      {/* Active Filters Summary — grouped by the same sections as the
+          filter panel below. Level rows with no selections are hidden;
+          sections whose levels are all empty are hidden entirely; when
+          no filter is set anywhere, a single "No filters applied"
+          placeholder replaces the block. Each section renders its
+          title in a left column with the level rows on the right; the
+          AND separator sits between visible sections. */}
       <div className="active-filters-summary">
         <div className="active-filters-label" aria-hidden="true">
           <span>Active Filters</span>
         </div>
         <div className="active-filters-body">
-          {config.filterHierarchy.map((level, idx) => (
-            <Fragment key={level.level}>
-              <FilterSummaryRow
-                level={level}
-                selectedFilterIds={selectedFilterIds}
-                getFilterLabel={getFilterLabel}
-              />
-              {idx < config.filterHierarchy.length - 1 && (
-                <div className="logic-separator">AND</div>
-              )}
-            </Fragment>
-          ))}
+          <ActiveFiltersBody
+            config={config}
+            selectedFilterIds={selectedFilterIds}
+            getFilterLabel={getFilterLabel}
+          />
         </div>
       </div>
 
-      {/* Filter tree - one block per hierarchy level */}
+      {/* Filter tree - levels grouped into visual sections by the
+          optional `section` field on each level. Section grouping is
+          presentation-only: filter/logic behaviour is per-level as
+          before (OR within, AND between). Consecutive levels sharing
+          a section title collapse under one <h2>; levels without a
+          section fall back to their own title acting as the section
+          title (so any legacy config still renders sensibly). */}
       <div className="filter-groups">
-        {config.filterHierarchy.map(level => (
-          <div key={level.id} className="hierarchy-level">
-            <h2 className="hierarchy-level-title">{level.title}</h2>
-            {level.description && (
-              <p className="hierarchy-level-description">{level.description}</p>
-            )}
-            <HierarchyLevel level={level} />
+        {groupBySection(config.filterHierarchy).map(section => (
+          <div key={section.title} className="filter-section">
+            <h2 className="filter-section-title">{section.title}</h2>
+            <div className="filter-section-levels">
+              {section.levels.map(level => (
+                <div key={level.id} className="hierarchy-level">
+                  {section.levels.length > 1 && level.title && (
+                    <h3 className="hierarchy-level-title">{level.title}</h3>
+                  )}
+                  {level.description && (
+                    <p className="hierarchy-level-description">{level.description}</p>
+                  )}
+                  <HierarchyLevel level={level} />
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
     </div>
+  );
+}
+
+/**
+ * Active Filters body. Computes which sections/levels have any
+ * selections and renders only those. Empty everywhere → placeholder.
+ * A level has a selection when at least one of its filters is in
+ * selectedFilterIds — checked via the shape-agnostic iterLevelFilters.
+ */
+function ActiveFiltersBody({ config, selectedFilterIds, getFilterLabel }) {
+  const activeSections = [];
+  for (const section of groupBySection(config.filterHierarchy)) {
+    const activeLevels = section.levels.filter(level => {
+      for (const f of iterLevelFilters(level)) {
+        if (selectedFilterIds.has(f.id)) return true;
+      }
+      return false;
+    });
+    if (activeLevels.length > 0) {
+      activeSections.push({
+        title: section.title,
+        levels: activeLevels,
+        // Keep the ORIGINAL level count so per-row-label suppression only
+        // fires for sections that are intrinsically single-level
+        // (Tree-related Microhabitats). A multi-level section with only
+        // one level currently active still needs its row label so the
+        // user knows *which* of Location / Woodland Type / Tree Type
+        // has the selection.
+        totalLevels: section.levels.length,
+      });
+    }
+  }
+
+  if (activeSections.length === 0) {
+    return <div className="active-filters-empty">No filters applied</div>;
+  }
+
+  // Flatten sections into a single list of body children so every AND
+  // separator (whether between two levels of the same section, or
+  // between two sections) is a direct child of .active-filters-body.
+  // That way every separator gets the same full-body width and
+  // centers at the same horizontal position. The section title only
+  // renders on the first level row of its section; subsequent level
+  // rows leave the label column empty so alignment is preserved.
+  const items = [];
+  activeSections.forEach((section, sIdx) => {
+    const suppressRowLabel = section.totalLevels === 1;
+    section.levels.forEach((level, lIdx) => {
+      if (lIdx > 0) {
+        items.push({ type: 'sep', key: `and-${sIdx}-${lIdx}` });
+      }
+      items.push({
+        type: 'row',
+        key: `row-${sIdx}-${lIdx}`,
+        sectionTitle: lIdx === 0 ? section.title : '',
+        level,
+        hideRowLabel: suppressRowLabel,
+      });
+    });
+    if (sIdx < activeSections.length - 1) {
+      items.push({ type: 'sep', key: `end-${sIdx}` });
+    }
+  });
+
+  return items.map(item =>
+    item.type === 'sep' ? (
+      <div key={item.key} className="logic-separator">AND</div>
+    ) : (
+      <div key={item.key} className="active-filters-section">
+        <div className="active-filters-section-label">{item.sectionTitle}</div>
+        <FilterSummaryRow
+          level={item.level}
+          selectedFilterIds={selectedFilterIds}
+          getFilterLabel={getFilterLabel}
+          hideLabel={item.hideRowLabel}
+        />
+      </div>
+    )
   );
 }
 
@@ -79,7 +172,7 @@ function FilterPanel({ config }) {
  * group with the count-pill pattern: bare title when fully selected,
  * "Group (N)" when partially selected.
  */
-function FilterSummaryRow({ level, selectedFilterIds, getFilterLabel }) {
+function FilterSummaryRow({ level, selectedFilterIds, getFilterLabel, hideLabel = false }) {
   const shape = levelShape(level);
   // Collect this level's selected filter IDs in hierarchy order.
   const selected = [];
@@ -90,7 +183,9 @@ function FilterSummaryRow({ level, selectedFilterIds, getFilterLabel }) {
 
   return (
     <div className="filter-summary-row">
-      <span className="filter-summary-label">{summaryLabel}:</span>
+      {!hideLabel && (
+        <span className="filter-summary-label">{summaryLabel}:</span>
+      )}
       {selected.length === 0 ? (
         <span className="filter-summary-all">ALL</span>
       ) : shape === 'groups' ? (

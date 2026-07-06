@@ -72,8 +72,15 @@ function SpeciesDetailModal({ config, species, onClose }) {
 
   if (!species) return null;
 
+  // Geographic Location (level id `geographic_location`) is deliberately
+  // excluded from the Habitat Associations section — its content overlaps
+  // with the Distribution in Great Britain prose above, and showing both
+  // is redundant per the client's dataset guidance.
+  const habitatAssociationLevels = config.filterHierarchy.filter(
+    l => l.id !== 'geographic_location'
+  );
   const totalGrouped = grouped
-    ? config.filterHierarchy.reduce((sum, l) => sum + (grouped[l.level]?.length || 0), 0)
+    ? habitatAssociationLevels.reduce((sum, l) => sum + (grouped[l.level]?.length || 0), 0)
     : 0;
 
   return (
@@ -106,14 +113,18 @@ function SpeciesDetailModal({ config, species, onClose }) {
 
         {conservationStatuses.length > 0 && (
           <section className="species-detail-section">
-            <h3>Conservation Status</h3>
-            <p className="species-detail-prose">{conservationStatuses.join(', ')}</p>
+            <h3>Taxon designations and indicators</h3>
+            <ul className="species-detail-status-list">
+              {conservationStatuses.map(s => (
+                <li key={s}>{s}</li>
+              ))}
+            </ul>
           </section>
         )}
 
         {isValidData(species.distribution) && (
           <section className="species-detail-section">
-            <h3>Distribution</h3>
+            <h3>Distribution in Great Britain</h3>
             <p className="species-detail-prose">{species.distribution}</p>
           </section>
         )}
@@ -129,7 +140,7 @@ function SpeciesDetailModal({ config, species, onClose }) {
           <section className="species-detail-section">
             <h3>Habitat Associations</h3>
 
-            {config.filterHierarchy.map(level => {
+            {habitatAssociationLevels.map(level => {
               const entries = grouped[level.level] || [];
               if (entries.length === 0) return null;
               const shape = levelShape(level);

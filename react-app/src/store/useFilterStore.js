@@ -308,18 +308,32 @@ const useFilterStore = create((set, get) => ({
       return true;
     });
 
-    // For each group, build a Set of selectedSpeciesFilters that exclude
-    // the group's own selections — used to evaluate "would this option pass
-    // if I switched to it".
+    // For each group, build a Set of selectedSpeciesFilters that excludes
+    // every selection belonging to a group in the *same section*. This
+    // matches the new filter logic: groups sharing a section are OR-combined
+    // (Priority + EIF + IUCN all sit inside "Taxon designations and
+    // indicators"), so the chip count for one option must not be capped by
+    // any of its section-mates. Groups without a section still just strip
+    // their own — the fallback in sectionOf() gives them a unique key.
+    const sectionOf = (g) => g.section || g.id;
+    // Pre-index which group prefixes belong to each section so we don't
+    // walk the whole speciesFilters list per selection.
+    const groupPrefixesBySection = new Map();
+    for (const g of config.speciesFilters) {
+      const key = sectionOf(g);
+      if (!groupPrefixesBySection.has(key)) groupPrefixesBySection.set(key, []);
+      groupPrefixesBySection.get(key).push(`${g.id}:`);
+    }
+
     const result = new Map();
     for (const group of config.speciesFilters) {
-      const prefix = `${group.id}:`;
+      const sectionPrefixes = groupPrefixesBySection.get(sectionOf(group));
       const otherSelections = new Set();
       for (const id of selectedSpeciesFilters) {
-        if (!id.startsWith(prefix)) otherSelections.add(id);
+        if (!sectionPrefixes.some(p => id.startsWith(p))) otherSelections.add(id);
       }
 
-      // Base set = habitat+search pass, AND extras except this group
+      // Base set = habitat+search pass, AND extras except this section
       const baseSet = habitatSearchPass.filter(s =>
         speciesPassesExtras(s, otherSelections, config.speciesFilters)
       );

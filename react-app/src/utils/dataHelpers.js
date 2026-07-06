@@ -74,6 +74,29 @@ export function* iterLevelFilters(levelObj) {
 }
 
 /**
+ * Bucket consecutive hierarchy levels by their `section` field into
+ * `[{title, levels: [...]}, ...]`. Levels without a `section` fall
+ * back to their own title so ungrouped configs still render one
+ * visual block per level.
+ *
+ * Presentation-only — the filter store and URL codec still treat each
+ * level independently.
+ */
+export function groupBySection(levels) {
+  const sections = [];
+  for (const level of levels) {
+    const title = level.section || level.title;
+    const last = sections[sections.length - 1];
+    if (last && last.title === title) {
+      last.levels.push(level);
+    } else {
+      sections.push({ title, levels: [level] });
+    }
+  }
+  return sections;
+}
+
+/**
  * Resolves a habitat filter ID to its display label.
  */
 export function getFilterLabel(config, filterId) {
@@ -145,19 +168,37 @@ export function speciesPassesExtras(species, selectedSpeciesFilters, speciesFilt
   if (!selectedSpeciesFilters || selectedSpeciesFilters.size === 0) return true;
   if (!speciesFilters) return true;
 
+  // Groups that share a `section` field are combined together with OR
+  // (they appear as one visual bucket in the UI, so users read them as
+  // one logical bucket too — e.g. Priority + EIF + IUCN all under
+  // "Taxon designations and indicators"). Between sections it's still
+  // AND. Groups without a section (like Taxa) fall back to their own id
+  // as the section key, so they remain independent AND-groups.
+  const bySection = new Map();
   for (const group of speciesFilters) {
-    const prefix = `${group.id}:`;
-    const selectedOptions = [];
-    for (const id of selectedSpeciesFilters) {
-      if (id.startsWith(prefix)) {
-        const optId = id.slice(prefix.length);
-        const opt = group.options.find(o => o.id === optId);
-        if (opt) selectedOptions.push(opt);
+    const key = group.section || group.id;
+    if (!bySection.has(key)) bySection.set(key, []);
+    bySection.get(key).push(group);
+  }
+
+  for (const groups of bySection.values()) {
+    // Collect every selection across every group in this section.
+    const selections = [];
+    for (const group of groups) {
+      const prefix = `${group.id}:`;
+      for (const id of selectedSpeciesFilters) {
+        if (id.startsWith(prefix)) {
+          const optId = id.slice(prefix.length);
+          const opt = group.options.find(o => o.id === optId);
+          if (opt) selections.push({ group, opt });
+        }
       }
     }
-    if (selectedOptions.length === 0) continue;
-    // OR within group: any matching option means the species passes this group
-    if (!selectedOptions.some(opt => speciesMatchesFilterOption(species, group, opt))) {
+    if (selections.length === 0) continue;
+    // OR across every selection in this section.
+    if (!selections.some(({ group, opt }) =>
+      speciesMatchesFilterOption(species, group, opt)
+    )) {
       return false;
     }
   }
@@ -182,6 +223,12 @@ export function* iterConservationStatuses(config, species) {
   if (!species || !config?.speciesFilters) return;
   const applyFormat = (tmpl, label) =>
     tmpl ? tmpl.replace('{label}', label) : label;
+  // longLabel prefers opt.tooltip when defined (that's the "long form" the
+  // client wants shown in the modal), and falls back to the older
+  // statusFormat template so any option without an explicit tooltip still
+  // renders sensibly.
+  const longFormFor = (group, opt, fallbackLabel) =>
+    opt?.tooltip || applyFormat(group.statusFormat, fallbackLabel);
   for (const group of config.speciesFilters) {
     if (group.alwaysVisible) continue;
     if (group.field) {
@@ -195,7 +242,7 @@ export function* iterConservationStatuses(config, species) {
         group,
         opt,
         label,
-        longLabel: applyFormat(group.statusFormat, label),
+        longLabel: longFormFor(group, opt, label),
         shortLabel: applyFormat(group.badgeFormat, short),
       };
     } else {
@@ -208,7 +255,7 @@ export function* iterConservationStatuses(config, species) {
           group,
           opt,
           label,
-          longLabel: applyFormat(group.statusFormat, label),
+          longLabel: longFormFor(group, opt, label),
           shortLabel: applyFormat(group.badgeFormat, short),
         };
       }

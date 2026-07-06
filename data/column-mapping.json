@@ -8,8 +8,8 @@
   "hierarchy": {
     "level1": {
       "id": "geographic_location",
-      "title": "1. Geographic Location",
-      "description": "Filter by geographic location",
+      "section": "Woodland Characteristics",
+      "title": "Location",
       "filters": [
         {"id": "england",  "label": "England",  "column": "England",  "shortCode": "eng"},
         {"id": "scotland", "label": "Scotland", "column": "Scotland", "shortCode": "sco"},
@@ -18,31 +18,29 @@
     },
 
     "level2": {
-      "id": "woodland_tree_type",
-      "title": "2. Woodland and Tree Characteristics",
-      "description": "Filter by woodland and tree type",
-      "categories": [
-        {
-          "title": "Woodland Type",
-          "filters": [
-            {"id": "closed_canopy", "label": "Closed Canopy", "column": "ClosedCanopy", "shortCode": "ccp"},
-            {"id": "open_grown",    "label": "Open Grown",    "column": "OpenGrown",    "shortCode": "ogn"}
-          ]
-        },
-        {
-          "title": "Tree Type",
-          "filters": [
-            {"id": "conifer",     "label": "Conifer",     "column": "Conifer",     "shortCode": "con"},
-            {"id": "broadleaved", "label": "Broadleaved", "column": "Broadleaved", "shortCode": "brd"}
-          ]
-        }
+      "id": "woodland_type",
+      "section": "Woodland Characteristics",
+      "title": "Woodland Type",
+      "filters": [
+        {"id": "closed_canopy", "label": "Closed Canopy", "column": "ClosedCanopy", "shortCode": "ccp"},
+        {"id": "open_grown",    "label": "Open Grown",    "column": "OpenGrown",    "shortCode": "ogn"}
       ]
     },
-    
+
     "level3": {
+      "id": "tree_type",
+      "section": "Woodland Characteristics",
+      "title": "Tree Type",
+      "filters": [
+        {"id": "conifer",     "label": "Conifer",     "column": "Conifer",     "shortCode": "con"},
+        {"id": "broadleaved", "label": "Broadleaved", "column": "Broadleaved", "shortCode": "brd"}
+      ]
+    },
+
+    "level4": {
       "id": "microhabitats",
-      "title": "3. Tree-related Microhabitats",
-      "description": "Filter by tree-related microhabitats",
+      "section": "Tree-related Microhabitats",
+      "title": "Tree-related Microhabitats",
       "groups": [
         {
           "id": "cavity",
@@ -158,7 +156,7 @@
         {
           "id": "fungal_fruiting",
           "title": "Fungal fruiting bodies and slime moulds",
-          "description": "The reproductive structures of saproxylic fungi or slime mould plasmodia, lasting from a few days to several weeks. ",
+          "description": "The reproductive structures of saproxylic fungi or slime mould plasmodia, lasting from a few days to at least several weeks. ",
           "categories": [
             {
               "title": "Perennial fungal fruiting bodies",
@@ -264,52 +262,53 @@
       "field": "class",
       "alwaysVisible": true,
       "options": [
-        {"id": "Coleoptera",   "shortCode": "col"},
-        {"id": "Diptera",      "shortCode": "dip"},
-        {"id": "Lepidoptera",  "shortCode": "lep"},
-        {"id": "Other insect", "shortCode": "oin"},
-        {"id": "Vertebrate",   "shortCode": "ver"},
-        {"id": "Arachnid",     "shortCode": "ara"},
-        {"id": "Lichen",       "shortCode": "lic"},
-        {"id": "Mollusc",      "shortCode": "mol"},
-        {"id": "Millipede",    "shortCode": "mil"},
-        {"id": "Fungi",        "shortCode": "fun"},
-        {"id": "Bryophyte",    "shortCode": "bry"}
+        {"id": "Mammals",                "shortCode": "mam"},
+        {"id": "Birds",                  "shortCode": "bir"},
+        {"id": "Amphibians & Reptiles",  "shortCode": "amr"},
+        {"id": "Beetles",                "shortCode": "bee"},
+        {"id": "Flies",                  "shortCode": "fly"},
+        {"id": "Moths",                  "shortCode": "mot"},
+        {"id": "Spiders",                "shortCode": "spi"},
+        {"id": "Other invertebrates",    "shortCode": "inv"},
+        {"id": "Fungi",                  "shortCode": "fun"},
+        {"id": "Lichens",                "shortCode": "lic"},
+        {"id": "Plants",                 "shortCode": "pla"}
       ]
     },
     {
       "id": "priority",
+      "section": "Taxon designations and indicators",
       "title": "Conservation Priority",
-      "statusFormat": "Priority ({label})",
       "badgeFormat": "P-{label}",
       "options": [
-        {"id": "england",  "label": "England",          "shortLabel": "Eng", "shortCode": "eng", "field": "priorityEngland"},
-        {"id": "scotland", "label": "Scotland",         "shortLabel": "Sco", "shortCode": "sco", "field": "priorityScotland"},
-        {"id": "wales",    "label": "Wales",            "shortLabel": "Wal", "shortCode": "wal", "field": "priorityWales"},
-        {"id": "ni",       "label": "Northern Ireland", "shortLabel": "NI",  "shortCode": "ni",  "field": "priorityNI"}
+        {"id": "england",  "label": "P-Eng", "shortLabel": "Eng", "shortCode": "eng", "field": "priorityEngland",  "tooltip": "Conservation Priority: England"},
+        {"id": "scotland", "label": "P-Sco", "shortLabel": "Sco", "shortCode": "sco", "field": "priorityScotland", "tooltip": "Conservation Priority: Scotland"},
+        {"id": "wales",    "label": "P-Wal", "shortLabel": "Wal", "shortCode": "wal", "field": "priorityWales",    "tooltip": "Conservation Priority: Wales"},
+        {"id": "ni",       "label": "P-NI",  "shortLabel": "NI",  "shortCode": "ni",  "field": "priorityNI",       "tooltip": "Conservation Priority: Northern Ireland"}
       ]
     },
     {
       "id": "eif",
+      "section": "Taxon designations and indicators",
       "title": "Environmental Indicator Frameworks",
       "options": [
-        {"id": "d4",   "label": "D4",   "field": "d4", "tooltip": "Relative abundance of species (EIF)"},
-        {"id": "d5",   "label": "D5",   "field": "d5", "tooltip": "Conservation status of species (EIF)"}
+        {"id": "d4",   "label": "D4",   "field": "d4", "tooltip": "D4: Relative abundance and/or distribution of species"},
+        {"id": "d5",   "label": "D5",   "field": "d5", "tooltip": "D5: Conservation status of our native species"}
       ]
     },
     {
       "id": "iucn",
+      "section": "Taxon designations and indicators",
       "title": "IUCN Red List Status",
       "field": "iucnStatus",
-      "statusFormat": "Red List Status (IUCN): {label}",
       "options": [
-        {"id": "RE", "tooltip": "Regionally Extinct"},
-        {"id": "CR", "tooltip": "Critically Endangered"},
-        {"id": "EN", "tooltip": "Endangered"},
-        {"id": "VU", "tooltip": "Vulnerable"},
-        {"id": "NT", "tooltip": "Near Threatened"},
-        {"id": "LC", "tooltip": "Least Concern"},
-        {"id": "DD", "tooltip": "Data Deficient"}
+        {"id": "RE", "label": "IUCN: RE", "shortLabel": "RE", "tooltip": "IUCN: Regionally Extinct"},
+        {"id": "CR", "label": "IUCN: CR", "shortLabel": "CR", "tooltip": "IUCN: Critically Endangered"},
+        {"id": "EN", "label": "IUCN: EN", "shortLabel": "EN", "tooltip": "IUCN: Endangered"},
+        {"id": "VU", "label": "IUCN: VU", "shortLabel": "VU", "tooltip": "IUCN: Vulnerable"},
+        {"id": "NT", "label": "IUCN: NT", "shortLabel": "NT", "tooltip": "IUCN: Near Threatened"},
+        {"id": "LC", "label": "IUCN: LC", "shortLabel": "LC", "tooltip": "IUCN: Least Concern"},
+        {"id": "DD", "label": "IUCN: DD", "shortLabel": "DD", "tooltip": "IUCN: Data Deficient"}
       ]
     }
   ]

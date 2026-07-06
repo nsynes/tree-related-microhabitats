@@ -1,4 +1,5 @@
 import useFilterStore from '../store/useFilterStore';
+import { groupBySection } from '../utils/dataHelpers';
 
 /**
  * Collapsible "More filters" panel for the species (right) panel.
@@ -6,6 +7,11 @@ import useFilterStore from '../store/useFilterStore';
  * Driven entirely by config.speciesFilters from data/column-mapping.json.
  * Only renders groups *without* the alwaysVisible flag — alwaysVisible groups
  * are rendered by SpeciesGrid directly above the search bar.
+ *
+ * Consecutive groups that share a `section` are collapsed under a single
+ * section heading (e.g. priority/eif/iucn all render together under
+ * "Taxon designations and indicators"). Groups without a section still
+ * render one heading per group via groupBySection's title fallback.
  *
  * Both evaluation modes — boolean fan-out (each option backs its own field)
  * and categorical (one shared field per group) — render as the same chip
@@ -22,6 +28,12 @@ function MoreFiltersPanel({ config, breakdown, onClose }) {
   const groups = allGroups.filter(g => !g.alwaysVisible);
   if (groups.length === 0) return null;
 
+  // groupBySection is generic — it treats each item as "give me a section
+  // string, fall back to the item's title". It was originally written for
+  // filterHierarchy levels; the returned `.levels` array here is really
+  // "groups in this section".
+  const sections = groupBySection(groups);
+
   return (
     <div className="more-filters-panel" role="region" aria-label="Additional filters">
       {onClose && (
@@ -35,34 +47,36 @@ function MoreFiltersPanel({ config, breakdown, onClose }) {
         </button>
       )}
       <div className="more-filters-body">
-        {groups.map(group => (
-          <FilterGroup key={group.id} group={group}>
-            {group.options.map(opt => {
-              const id = `${group.id}:${opt.id}`;
-              const count = breakdown?.get(group.id)?.counts.get(opt.id);
-              return (
-                <FilterChip
-                  key={opt.id}
-                  id={id}
-                  label={opt.label || opt.id}
-                  tooltip={opt.tooltip}
-                  count={count}
-                  active={selectedSpeciesFilters.has(id)}
-                  onToggle={toggleSpeciesFilter}
-                />
-              );
-            })}
-          </FilterGroup>
+        {sections.map(section => (
+          <FilterSection key={section.title} title={section.title}>
+            {section.levels.flatMap(group =>
+              group.options.map(opt => {
+                const id = `${group.id}:${opt.id}`;
+                const count = breakdown?.get(group.id)?.counts.get(opt.id);
+                return (
+                  <FilterChip
+                    key={id}
+                    id={id}
+                    label={opt.label || opt.id}
+                    tooltip={opt.tooltip}
+                    count={count}
+                    active={selectedSpeciesFilters.has(id)}
+                    onToggle={toggleSpeciesFilter}
+                  />
+                );
+              })
+            )}
+          </FilterSection>
         ))}
       </div>
     </div>
   );
 }
 
-function FilterGroup({ group, children }) {
+function FilterSection({ title, children }) {
   return (
     <div className="more-filters-group">
-      <div className="more-filters-group-title">{group.title}</div>
+      <div className="more-filters-group-title">{title}</div>
       <div className="more-filters-chips">{children}</div>
     </div>
   );

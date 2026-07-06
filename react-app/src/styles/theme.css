@@ -415,25 +415,90 @@ body {
   flex: 1;
   min-width: 0;
   padding: var(--spacing-md) var(--spacing-lg);
+  /* One shared grid across the whole body so every row's label column
+     is the same width. The fixed 12rem column is sized to fit the
+     current widest section title ("Tree-related Microhabitats") with
+     a small breathing margin; the small column gap keeps the section
+     title from crowding the level labels without leaving a canyon
+     between the two columns. Bump the 12rem or the gap if a future
+     section title exceeds the current widest. */
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr);
+  gap: 0 var(--spacing-sm);
+  align-items: center;
+  /* position:relative anchors the vertical column divider below. */
+  position: relative;
+}
+
+/* Continuous vertical divider between the label column and the row
+   column. Positioned at the label column's right edge (not in the
+   middle of the CSS gap) so that with left-aligned labels the natural
+   empty space at the end of column 1 for the widest title (Woodland
+   Characteristics / Tree-related Microhabitats) roughly mirrors the
+   CSS gap on the right side of the divider — visually balanced for
+   the widest case. Absolutely positioned so it spans continuously
+   across the AND separator rows too. */
+.active-filters-body::before {
+  content: '';
+  position: absolute;
+  top: var(--spacing-md);
+  bottom: var(--spacing-md);
+  left: calc(var(--spacing-lg) + 12rem);
+  width: 1px;
+  background: var(--forest-light);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Suppress the divider when Active Filters is showing the empty-state
+   placeholder — a divider through "No filters applied" looks like a
+   split heading rather than a column separator. */
+.active-filters-body:has(.active-filters-empty)::before {
+  display: none;
+}
+
+/* Wrapper for a section title + level row pair. `display: contents`
+   flattens it into the parent grid so the label and the row become
+   direct grid items — that's how the shared column widths apply. */
+.active-filters-section {
+  display: contents;
+}
+
+.active-filters-section-label {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--forest-dark);
+  white-space: nowrap;
+}
+
+/* Separators span both columns so they always centre at the same
+   horizontal position (body midpoint), regardless of which side of
+   the grid the neighbouring rows fall on. */
+.logic-separator {
+  grid-column: 1 / -1;
+}
+
+/* The "No filters applied" placeholder — replaces every section block
+   and separator when nothing at all is selected. */
+.active-filters-empty {
+  font-size: var(--font-size-sm);
+  color: var(--stone-grey);
+  font-style: italic;
 }
 
 .filter-summary-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-sm);
+  padding: 4px 0;
   font-size: var(--font-size-sm);
-}
-
-.filter-summary-row:last-child {
-  margin-bottom: 0;
+  min-height: 28px;
 }
 
 .filter-summary-label {
   font-weight: 600;
   color: var(--forest-medium);
   white-space: nowrap;
-  padding-top: 2px;
 }
 
 .filter-chips {
@@ -472,12 +537,12 @@ body {
 .logic-separator {
   text-align: center;
   color: var(--forest-medium);
-  font-size: 0.8rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  padding: 8px 0;
-  margin: 4px 0;
-  opacity: 0.8;
+  padding: 2px 0;
+  margin: 0;
+  opacity: 0.55;
   letter-spacing: 1px;
   user-select: none;
   position: relative;
@@ -592,23 +657,61 @@ body {
   }
 }
 
-/* Hierarchy Levels */
-.hierarchy-level {
+/* Filter section — one shared heading over one or more consecutive
+   hierarchy levels. Section grouping is presentation-only; each level
+   inside still has its own OR-within-AND-between filtering behaviour. */
+.filter-section {
   margin-bottom: var(--spacing-xl);
   padding-bottom: var(--spacing-xl);
   border-bottom: 3px solid var(--light-grey);
 }
 
-.hierarchy-level:last-child {
-  border-bottom: none;
+.filter-section:last-child {
   margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
-.hierarchy-level-title {
+.filter-section-title {
   font-size: var(--font-size-lg);
   font-weight: 700;
   color: var(--forest-dark);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+/* Levels within a section: wrap horizontally when they're small
+   (Location / Woodland Type / Tree Type all sit on one row at wider
+   widths; drop to fewer per row as the panel narrows). */
+.filter-section-levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md) var(--spacing-xl);
+  align-content: start;
+}
+
+/* Hierarchy Levels */
+.hierarchy-level {
+  /* flex-basis 160px lets the three narrow levels sit together on a
+     wide panel, wrap to two-and-one as it narrows, and fully stack on
+     phones. */
+  flex: 1 1 160px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* The microhabitat groups level has its own dense multi-column layout;
+   force it to a full row regardless of flex-basis. */
+.hierarchy-level:has(.microhabitat-groups) {
+  flex-basis: 100%;
+}
+
+.hierarchy-level-title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--forest-medium);
+  margin-bottom: var(--spacing-xs);
 }
 
 .hierarchy-level-description {
@@ -618,24 +721,25 @@ body {
   font-style: italic;
 }
 
-/* Level 1: Simple row layout */
+/* Flat-shape levels stack their checkboxes vertically — trades some
+   vertical space for the ability to sit side-by-side with peer levels
+   under a section heading (see .filter-section-levels). */
 .filter-options-row {
   display: flex;
-  gap: var(--spacing-md);
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: var(--spacing-xs);
 }
 
 /* Microhabitat Groups (Level 3) */
 .microhabitat-groups {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  /* Each top-level TreM (Cavity, Injuries, …) always takes its own
+     full row. Subcategories inside — Woodpecker breeding cavities,
+     Rot Holes, etc. — then have the full panel width to wrap into
+     via .filter-categories, without the awkward intermediate widths
+     where a two-column outer grid crammed the subcategories. */
+  grid-template-columns: 1fr;
   gap: var(--spacing-lg);
-}
-
-@media (max-width: 768px) {
-  .microhabitat-groups {
-    grid-template-columns: 1fr; /* Single column on mobile to prevent overflow */
-  }
 }
 
 .filter-group {
@@ -677,14 +781,10 @@ body {
 
 .filter-categories {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Responsive grid - fits more subcategories per row */
+  /* auto-fit + 120px minimum handles narrow containers on its own —
+     drops to fewer columns then a single column as space shrinks. */
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: var(--spacing-lg);
-}
-
-@media (max-width: 768px) {
-  .filter-categories {
-    grid-template-columns: 1fr; /* Stack vertically on mobile */
-  }
 }
 
 .filter-category {
@@ -702,15 +802,11 @@ body {
 
 .filter-options {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Multi-column layout for filter options */
+  /* 150px minimum is low enough that the auto-fill naturally reduces
+     to a single column on narrow containers — no viewport MQ needed. */
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: var(--spacing-xs);
   column-gap: var(--spacing-md);
-}
-
-@media (max-width: 768px) {
-  .filter-options {
-    grid-template-columns: 1fr; /* Single column for better mobile UX */
-  }
 }
 
 /* For smaller categories with few filters, use single column */
@@ -1474,6 +1570,20 @@ body {
   margin: 0;
   color: var(--stone-grey);
   line-height: 1.6;
+}
+
+/* One-per-line list for the Taxon designations and indicators section
+   in the species detail modal. Bulletless, tight spacing. */
+.species-detail-status-list {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  color: var(--stone-grey);
+  line-height: 1.6;
+}
+
+.species-detail-status-list li {
+  padding: 2px 0;
 }
 
 .species-detail-habitat-level {
