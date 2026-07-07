@@ -278,6 +278,7 @@
     {
       "id": "priority",
       "section": "Taxon designations and indicators",
+      "sectionId": "tdi",
       "title": "Conservation Priority",
       "badgeFormat": "P-{label}",
       "options": [
@@ -290,6 +291,7 @@
     {
       "id": "eif",
       "section": "Taxon designations and indicators",
+      "sectionId": "tdi",
       "title": "Environmental Indicator Frameworks",
       "options": [
         {"id": "d4",   "label": "D4",   "field": "d4", "tooltip": "D4: Relative abundance and/or distribution of species"},
@@ -299,6 +301,7 @@
     {
       "id": "iucn",
       "section": "Taxon designations and indicators",
+      "sectionId": "tdi",
       "title": "IUCN Red List Status",
       "field": "iucnStatus",
       "options": [

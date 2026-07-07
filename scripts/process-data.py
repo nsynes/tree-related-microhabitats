@@ -333,9 +333,16 @@ def main():
             else:
                 habitat_seen[code] = fid
 
+    # Codes must be unique per SECTION (not just per group). Groups sharing
+    # a sectionId (or, absent that, a section display string) collapse into
+    # one URL param at encode time, so their codes share a namespace.
+    # Groups without either fall back to their own id (backwards compatible:
+    # ungrouped groups still get their own namespace).
+    section_seen: Dict[str, Dict[str, str]] = {}
     for group in species_filters:
         gid = group.get('id', '<no-id>')
-        group_seen: Dict[str, str] = {}
+        section_key = group.get('sectionId') or group.get('section') or gid
+        seen = section_seen.setdefault(section_key, {})
         for opt in group.get('options', []):
             oid = opt.get('id', '<no-id>')
             code = opt.get('shortCode') or oid
@@ -345,13 +352,13 @@ def main():
                     f"effective code {code!r} fails [A-Za-z0-9]{{2,4}}"
                 )
                 continue
-            if code in group_seen:
+            if code in seen:
                 code_errors.append(
-                    f"speciesFilters group {gid!r}: code {code!r} duplicated: "
-                    f"{group_seen[code]!r} and {oid!r}"
+                    f"speciesFilters section {section_key!r}: code {code!r} "
+                    f"duplicated: {seen[code]!r} and {gid!r}/{oid!r}"
                 )
             else:
-                group_seen[code] = oid
+                seen[code] = f"{gid}/{oid}"
 
     if code_errors:
         raise SystemExit(

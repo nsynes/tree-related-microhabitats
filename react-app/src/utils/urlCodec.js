@@ -31,10 +31,23 @@ const VALUE_SEPARATOR = ',';
  * Build code↔id reverse maps for one config. Memoised by config reference;
  * the React data is immutable so identity check is sufficient.
  *
+ * Species-filter groups sharing a `sectionId` (or, absent that, a
+ * `section` display string) collapse into a single URL param — so all
+ * chips inside "Taxon designations and indicators" ride under one `tdi`
+ * param rather than separate `priority` / `eif` / `iucn` params. Groups
+ * with neither field fall back to their `id` (e.g. Taxa → `?class=…`),
+ * so ungrouped groups keep their existing URL shape.
+ *
+ * Values stored in the section maps are composite ids of the form
+ * `${groupId}:${optionId}` — that way the decoder can hand them back
+ * directly to the store's `selectedSpeciesFilters` set without needing
+ * to know which group each code came from.
+ *
  * Returns:
  *   {
- *     habitat: { byCode: Map<code, id>, byId: Map<id, code> },
- *     groups:  Map<groupId, { byCode: Map, byId: Map }>,
+ *     habitat:  { byCode: Map<code, id>, byId: Map<id, code> },
+ *     sections: Map<sectionKey, { byCode: Map<code, composite>,
+ *                                 byId:   Map<composite, code> }>,
  *   }
  */
 const _mapsCache = new WeakMap();
@@ -53,21 +66,29 @@ export function buildCodecMaps(config) {
     }
   }
 
-  const groups = new Map();
+  const sections = new Map();
   for (const group of config.speciesFilters || []) {
-    const byCode = new Map();
-    const byId = new Map();
+    const sectionKey = group.sectionId || group.section || group.id;
+    if (!sections.has(sectionKey)) {
+      sections.set(sectionKey, { byCode: new Map(), byId: new Map() });
+    }
+    const { byCode, byId } = sections.get(sectionKey);
     for (const opt of group.options || []) {
       const code = opt.shortCode || opt.id;
-      byCode.set(code, opt.id);
-      byId.set(opt.id, code);
+      const composite = `${group.id}:${opt.id}`;
+      byCode.set(code, composite);
+      byId.set(composite, code);
     }
-    groups.set(group.id, { byCode, byId });
   }
 
-  const maps = { habitat: { byCode: habitatByCode, byId: habitatById }, groups };
+  const maps = { habitat: { byCode: habitatByCode, byId: habitatById }, sections };
   _mapsCache.set(config, maps);
   return maps;
+}
+
+/** Same fallback resolution as buildCodecMaps — kept in one place. */
+function sectionKeyOf(group) {
+  return group.sectionId || group.section || group.id;
 }
 
 /**
@@ -110,23 +131,24 @@ export function encodeStateToUrl({ filterIds, speciesFilters, modalSlug }, maps,
     parts.push(`${HABITAT_PARAM}=${habitatCodes.join(VALUE_SEPARATOR)}`);
   }
 
-  // Species filters: bucket composite ids by group, look up codes, emit one
-  // param per group in config order so URLs are deterministic.
+  // Species filters: one param per section in config order (deduping
+  // groups that share a sectionKey so we don't emit `?tdi=…` three times).
   if (speciesFilters && speciesFilters.size > 0 && config?.speciesFilters) {
+    const emittedSections = new Set();
     for (const group of config.speciesFilters) {
-      const groupMaps = maps.groups.get(group.id);
-      if (!groupMaps) continue;
-      const prefix = `${group.id}:`;
+      const sectionKey = sectionKeyOf(group);
+      if (emittedSections.has(sectionKey)) continue;
+      emittedSections.add(sectionKey);
+      const sectionMaps = maps.sections.get(sectionKey);
+      if (!sectionMaps) continue;
       const codes = [];
       for (const composite of speciesFilters) {
-        if (!composite.startsWith(prefix)) continue;
-        const optId = composite.slice(prefix.length);
-        const code = groupMaps.byId.get(optId);
+        const code = sectionMaps.byId.get(composite);
         if (code) codes.push(code);
       }
       if (codes.length) {
         codes.sort();
-        parts.push(`${group.id}=${codes.join(VALUE_SEPARATOR)}`);
+        parts.push(`${sectionKey}=${codes.join(VALUE_SEPARATOR)}`);
       }
     }
   }
@@ -157,14 +179,18 @@ export function decodeUrlToState(params, maps, config) {
   }
 
   if (config?.speciesFilters) {
+    const readSections = new Set();
     for (const group of config.speciesFilters) {
-      const raw = params.get(group.id);
+      const sectionKey = sectionKeyOf(group);
+      if (readSections.has(sectionKey)) continue;
+      readSections.add(sectionKey);
+      const raw = params.get(sectionKey);
       if (!raw) continue;
-      const groupMaps = maps.groups.get(group.id);
-      if (!groupMaps) continue;
+      const sectionMaps = maps.sections.get(sectionKey);
+      if (!sectionMaps) continue;
       for (const code of raw.split(VALUE_SEPARATOR)) {
-        const optId = groupMaps.byCode.get(code);
-        if (optId) speciesFilters.add(`${group.id}:${optId}`);
+        const composite = sectionMaps.byCode.get(code);
+        if (composite) speciesFilters.add(composite);
       }
     }
   }
