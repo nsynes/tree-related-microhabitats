@@ -56,7 +56,7 @@ rsync -avz --delete react-app/dist/ \
     $DEPLOY_USER@$DEPLOY_HOST:/home/$DEPLOY_USER/trem-explorer/dist/
 
 # Ship the nginx config
-scp trem-explorer.org.uk-nginx \
+scp ../deploy/nginx-prod/trem-explorer.org.uk-nginx \
     $DEPLOY_USER@$DEPLOY_HOST:/tmp/trem-explorer.org.uk
 
 # On the server - install and enable the site
