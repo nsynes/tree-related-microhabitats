@@ -25,7 +25,22 @@ import { iterLevelFilters } from './dataHelpers';
 // Wire-format constants. Single source of truth.
 const HABITAT_PARAM = 'h';
 const MODAL_PARAM = 'm';
+const SORT_PARAM = 'sort';
 const VALUE_SEPARATOR = ',';
+
+/**
+ * Whitelist of sort URL codes. `name` is the default sort and is
+ * deliberately absent so the default view produces a clean URL. Unknown
+ * codes at decode time fall through to the default too.
+ */
+const SORT_KEY_TO_CODE = {
+  iucnSeverity: 'iucn',
+  order: 'order',
+};
+const SORT_CODE_TO_KEY = new Map(
+  Object.entries(SORT_KEY_TO_CODE).map(([key, code]) => [code, key])
+);
+const DEFAULT_SORT_KEY = 'name';
 
 /**
  * Build code↔id reverse maps for one config. Memoised by config reference;
@@ -116,7 +131,7 @@ export function slugifyScientificName(name) {
  * so no escaping is needed for them; the slug gets a defensive
  * encodeURIComponent for belt-and-braces.
  */
-export function encodeStateToUrl({ filterIds, speciesFilters, modalSlug }, maps, config) {
+export function encodeStateToUrl({ filterIds, speciesFilters, modalSlug, sortKey }, maps, config) {
   if (!maps) return '';
   const parts = [];
 
@@ -153,6 +168,12 @@ export function encodeStateToUrl({ filterIds, speciesFilters, modalSlug }, maps,
     }
   }
 
+  // Sort: whitelist lookup drops the default automatically (name has no
+  // entry in the map), so `?sort=…` only shows up when the reader has
+  // deliberately picked a non-default order.
+  const sortCode = SORT_KEY_TO_CODE[sortKey];
+  if (sortCode) parts.push(`${SORT_PARAM}=${sortCode}`);
+
   if (modalSlug) parts.push(`${MODAL_PARAM}=${encodeURIComponent(modalSlug)}`);
 
   return parts.join('&');
@@ -167,8 +188,18 @@ export function decodeUrlToState(params, maps, config) {
   const filterIds = new Set();
   const speciesFilters = new Set();
   let modalSlug = null;
+  let sortKey = DEFAULT_SORT_KEY;
 
-  if (!maps) return { filterIds, speciesFilters, modalSlug };
+  // Read sort before the early-return so URLs still round-trip sort even
+  // when the codec has no maps (unlikely, but keeps the return shape
+  // consistent).
+  const sortRaw = params.get(SORT_PARAM);
+  if (sortRaw) {
+    const decoded = SORT_CODE_TO_KEY.get(sortRaw);
+    if (decoded) sortKey = decoded;
+  }
+
+  if (!maps) return { filterIds, speciesFilters, modalSlug, sortKey };
 
   const habitatRaw = params.get(HABITAT_PARAM);
   if (habitatRaw) {
@@ -198,7 +229,7 @@ export function decodeUrlToState(params, maps, config) {
   const m = params.get(MODAL_PARAM);
   if (m) modalSlug = m;
 
-  return { filterIds, speciesFilters, modalSlug };
+  return { filterIds, speciesFilters, modalSlug, sortKey };
 }
 
 /**

@@ -47,6 +47,7 @@ export function useUrlSync(config) {
       const s = store.getState();
       s.setSelectedFilterIds(decoded.filterIds);
       s.setSelectedSpeciesFilters(decoded.speciesFilters);
+      s.setSortKey(decoded.sortKey);
       // openSpeciesBySlug applies the "modal only opens if species passes
       // current filters" invariant. By this point filterSpecies has run
       // twice (once per setter above), so filteredSpecies is current.
@@ -66,6 +67,7 @@ export function useUrlSync(config) {
           filterIds: store.getState().selectedFilterIds,
           speciesFilters: store.getState().selectedSpeciesFilters,
           modalSlug: store.getState().selectedSpeciesSlug,
+          sortKey: store.getState().sortKey,
         },
         maps,
         config,
@@ -86,7 +88,8 @@ export function useUrlSync(config) {
       if (
         state.selectedFilterIds === prev.selectedFilterIds &&
         state.selectedSpeciesFilters === prev.selectedSpeciesFilters &&
-        state.selectedSpeciesSlug === prev.selectedSpeciesSlug
+        state.selectedSpeciesSlug === prev.selectedSpeciesSlug &&
+        state.sortKey === prev.sortKey
       ) {
         return;
       }
@@ -95,6 +98,7 @@ export function useUrlSync(config) {
           filterIds: state.selectedFilterIds,
           speciesFilters: state.selectedSpeciesFilters,
           modalSlug: state.selectedSpeciesSlug,
+          sortKey: state.sortKey,
         },
         maps,
         config,

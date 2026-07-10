@@ -1259,7 +1259,10 @@ body {
    weight (translucent track on the dark green title bar, white-ish text). */
 .species-sort-select {
   height: 32px;
-  padding: 0 24px 0 8px;
+  /* Extra left padding reserves space for the sort icon (up-and-down
+     chevrons) that signals what the dropdown controls; right padding
+     is for the existing dropdown caret. */
+  padding: 0 24px 0 24px;
   border: none;
   border-radius: var(--radius-sm);
   background-color: rgba(0, 0, 0, 0.15);
@@ -1269,9 +1272,14 @@ body {
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 6px center;
+  /* Two background images: the sort-arrows glyph on the left tells the
+     user this control changes ordering; the chevron on the right is the
+     standard "this is a dropdown" hint. */
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'><line x1='4' y1='6' x2='20' y2='6'/><line x1='4' y1='12' x2='14' y2='12'/><line x1='4' y1='18' x2='9' y2='18'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat, no-repeat;
+  background-position: left 6px center, right 6px center;
 }
 
 .species-sort-select:hover {

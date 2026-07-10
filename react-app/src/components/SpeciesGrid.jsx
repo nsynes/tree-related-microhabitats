@@ -145,6 +145,7 @@ function SpeciesGrid({ config }) {
             value={sortKey}
             onChange={e => setSortKey(e.target.value)}
             aria-label="Sort species"
+            title="Sort species by..."
           >
             <option value="name">Name (A → Z)</option>
             <option value="order">Taxon:Order (A → Z)</option>
