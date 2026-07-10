@@ -13,7 +13,7 @@
  *   'groups'       groups           level.groups[].categories[].filters[]
  *
  * Everywhere that needs to walk filters generically uses iterLevelFilters().
- * Code that branches on layout — e.g. how to render the filter tree — uses
+ * Code that branches on layout - e.g. how to render the filter tree - uses
  * levelShape() and dispatches on the returned string.
  */
 
@@ -79,7 +79,7 @@ export function* iterLevelFilters(levelObj) {
  * back to their own title so ungrouped configs still render one
  * visual block per level.
  *
- * Presentation-only — the filter store and URL codec still treat each
+ * Presentation-only - the filter store and URL codec still treat each
  * level independently.
  */
 export function groupBySection(levels) {
@@ -152,7 +152,7 @@ export function speciesMatchesFilterOption(species, group, opt) {
 
 /**
  * Right-panel chip predicate. Driven entirely by
- * config.speciesFilters — no hardcoded knowledge of which fields exist or
+ * config.speciesFilters - no hardcoded knowledge of which fields exist or
  * which group is "priority" vs "iucn". OR within each group, AND between
  * groups; empty groups pass.
  *
@@ -170,7 +170,7 @@ export function speciesPassesExtras(species, selectedSpeciesFilters, speciesFilt
 
   // Groups that share a `section` field are combined together with OR
   // (they appear as one visual bucket in the UI, so users read them as
-  // one logical bucket too — e.g. Priority + EIF + IUCN all under
+  // one logical bucket too - e.g. Priority + EIF + IUCN all under
   // "Taxon designations and indicators"). Between sections it's still
   // AND. Groups without a section (like Taxa) fall back to their own id
   // as the section key, so they remain independent AND-groups.
@@ -211,20 +211,20 @@ export function speciesPassesExtras(species, selectedSpeciesFilters, speciesFilt
  *
  *   { groupId, group, opt, label, longLabel, shortLabel }
  *
- *   label      — the canonical option label (opt.label || opt.id)
- *   longLabel  — group.statusFormat applied to label (or label if no format),
+ *   label      - the canonical option label (opt.label || opt.id)
+ *   longLabel  - group.statusFormat applied to label (or label if no format),
  *                matches the modal's Conservation Status string
- *   shortLabel — group.badgeFormat applied to (opt.shortLabel || opt.label
+ *   shortLabel - group.badgeFormat applied to (opt.shortLabel || opt.label
  *                || opt.id), suitable for compact badges
  *
- * Skips groups flagged alwaysVisible (taxa today — those are shown elsewhere).
+ * Skips groups flagged alwaysVisible (taxa today - those are shown elsewhere).
  */
 export function* iterConservationStatuses(config, species) {
   if (!species || !config?.speciesFilters) return;
   const applyFormat = (tmpl, label) =>
     tmpl ? tmpl.replace('{label}', label) : label;
-  // longLabel prefers opt.tooltip when defined (that's the "long form" the
-  // client wants shown in the modal), and falls back to the older
+  // longLabel prefers opt.tooltip when defined (that's the "long form",
+  // preferred for the modal), and falls back to the older
   // statusFormat template so any option without an explicit tooltip still
   // renders sensibly.
   const longFormFor = (group, opt, fallbackLabel) =>
@@ -266,7 +266,7 @@ export function* iterConservationStatuses(config, species) {
 /**
  * Comparator factory for sorting species by IUCN severity. Severity order
  * comes from the position of each code in config.speciesFilters' iucn group
- * options — no separate constant needed, the config is authoritative (RE
+ * options - no separate constant needed, the config is authoritative (RE
  * first, DD last). Species without an iucnStatus sort to the end. Ties
  * break by scientificName ascending.
  */
@@ -291,6 +291,22 @@ export function compareByIucnSeverity(config) {
 
 export function compareByName(a, b) {
   return (a.scientificName || '').localeCompare(b.scientificName || '');
+}
+
+/**
+ * Alphabetical sort by Taxon:Order (species.order). Empty / missing order
+ * sinks to the end so the sort still reads cleanly for the ~1% of species
+ * whose spreadsheet row has no order value. Ties break by scientificName.
+ */
+export function compareByOrder(a, b) {
+  const oa = (a.order || '').trim();
+  const ob = (b.order || '').trim();
+  if (!oa && !ob) return compareByName(a, b);
+  if (!oa) return 1;
+  if (!ob) return -1;
+  const cmp = oa.localeCompare(ob);
+  if (cmp !== 0) return cmp;
+  return compareByName(a, b);
 }
 
 /**

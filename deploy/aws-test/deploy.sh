@@ -3,6 +3,13 @@
 
 set -e  # Exit on error
 
+# Resolve the script's own directory so this works regardless of the caller's
+# cwd, then cd to repo root - every other path in this script (scripts/,
+# react-app/, data/) is repo-root-relative.
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+REPO_ROOT=$(cd "$SCRIPT_DIR/../.." && pwd)
+cd "$REPO_ROOT"
+
 echo "🌳 Tree-Related Microhabitats - Deployment Script"
 echo "=================================================="
 echo ""
@@ -99,12 +106,13 @@ deploy_infrastructure() {
         --stack-name "$STACK_NAME" \
         --region "$REGION" 2>&1 || true)
     
-    # Capture output so we can distinguish "no infrastructure changes" (fine —
+    # Capture output so we can distinguish "no infrastructure changes" (fine -
     # content-only updates are expected) from a real failure (not fine).
     set +e
     if [[ $STACK_EXISTS == *"does not exist"* ]]; then
         echo "Creating new stack..."
         SAM_OUTPUT=$(sam deploy \
+            --template-file "$SCRIPT_DIR/template.yaml" \
             --stack-name "$STACK_NAME" \
             --region "$REGION" \
             --capabilities CAPABILITY_IAM \
@@ -117,6 +125,7 @@ deploy_infrastructure() {
     else
         echo "Updating existing stack..."
         SAM_OUTPUT=$(sam deploy \
+            --template-file "$SCRIPT_DIR/template.yaml" \
             --stack-name "$STACK_NAME" \
             --region "$REGION" \
             --capabilities CAPABILITY_IAM \
@@ -129,7 +138,7 @@ deploy_infrastructure() {
     echo "$SAM_OUTPUT"
 
     if [[ "$SAM_OUTPUT" == *"No changes to deploy"* ]]; then
-        echo -e "${YELLOW}ℹ Stack already up to date — continuing to content upload${NC}"
+        echo -e "${YELLOW}ℹ Stack already up to date - continuing to content upload${NC}"
     elif [ $SAM_EXIT -ne 0 ]; then
         echo -e "${RED}❌ Infrastructure deployment failed${NC}"
         exit 1
@@ -191,7 +200,7 @@ invalidate_cloudfront() {
         --output text 2>/dev/null || echo "")
 
     if [ -z "$CF_DOMAIN" ]; then
-        echo -e "${YELLOW}⚠ No CloudFront distribution in stack outputs — skipping invalidation${NC}"
+        echo -e "${YELLOW}⚠ No CloudFront distribution in stack outputs - skipping invalidation${NC}"
         echo ""
         return
     fi
@@ -201,7 +210,7 @@ invalidate_cloudfront() {
         --output text)
 
     if [ -z "$DIST_ID" ]; then
-        echo -e "${YELLOW}⚠ Could not resolve distribution ID for $CF_DOMAIN — skipping invalidation${NC}"
+        echo -e "${YELLOW}⚠ Could not resolve distribution ID for $CF_DOMAIN - skipping invalidation${NC}"
         echo ""
         return
     fi
@@ -252,7 +261,7 @@ show_info() {
     echo "💡 To update the site:"
     echo "   1. Update data: python scripts/process-data.py"
     echo "   2. Rebuild: cd react-app && npm run build"
-    echo "   3. Deploy: ./deploy.sh"
+    echo "   3. Deploy: ./deploy/aws-test/deploy.sh"
 }
 
 # Main deployment flow
@@ -283,7 +292,7 @@ main() {
                 shift 2
                 ;;
             --help)
-                echo "Usage: ./deploy.sh [OPTIONS]"
+                echo "Usage: ./deploy/aws-test/deploy.sh [OPTIONS]"
                 echo ""
                 echo "Options:"
                 echo "  --skip-data       Skip data processing step"

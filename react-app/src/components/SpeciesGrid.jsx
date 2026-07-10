@@ -5,6 +5,7 @@ import {
   iterLevelFilters,
   compareByIucnSeverity,
   compareByName,
+  compareByOrder,
 } from '../utils/dataHelpers';
 import { slugifyScientificName } from '../utils/urlCodec';
 import SpeciesCard from './SpeciesCard';
@@ -44,7 +45,7 @@ function SpeciesGrid({ config }) {
     try {
       localStorage.setItem(VIEW_MODE_KEY, viewMode);
     } catch {
-      /* localStorage unavailable — tolerate silently */
+      /* localStorage unavailable - tolerate silently */
     }
   }, [viewMode]);
 
@@ -79,7 +80,7 @@ function SpeciesGrid({ config }) {
   const alwaysVisibleGroups = allGroups.filter(g => g.alwaysVisible);
   const hiddenGroups = allGroups.filter(g => !g.alwaysVisible);
 
-  // Counter for the "More filters" button reflects only the hidden groups —
+  // Counter for the "More filters" button reflects only the hidden groups -
   // alwaysVisible groups (taxa) have their own always-visible UI feedback.
   const hiddenSelectionsCount = useMemo(() => {
     let n = 0;
@@ -106,9 +107,10 @@ function SpeciesGrid({ config }) {
   // list so it doesn't trigger refilter, and so card and list views share
   // the same ordering.
   const sortedSpecies = useMemo(() => {
-    const comparator = sortKey === 'iucnSeverity'
-      ? compareByIucnSeverity(config)
-      : compareByName;
+    let comparator;
+    if (sortKey === 'iucnSeverity') comparator = compareByIucnSeverity(config);
+    else if (sortKey === 'order') comparator = compareByOrder;
+    else comparator = compareByName;
     return [...filteredSpecies].sort(comparator);
   }, [filteredSpecies, sortKey, config]);
 
@@ -145,6 +147,7 @@ function SpeciesGrid({ config }) {
             aria-label="Sort species"
           >
             <option value="name">Name (A → Z)</option>
+            <option value="order">Taxon:Order (A → Z)</option>
             <option value="iucnSeverity">IUCN severity (most threatened first)</option>
           </select>
           <div className="view-toggle" role="group" aria-label="View mode">
@@ -180,7 +183,7 @@ function SpeciesGrid({ config }) {
       </div>
       <div className="results-info">{resultsMessage}</div>
 
-      {/* Always-visible filter rows — typically just Taxa today. Sits above
+      {/* Always-visible filter rows - typically just Taxa today. Sits above
           the search bar because it's the most-used filter and the breakdown
           counts double as a taxonomic overview of the current dataset. */}
       {alwaysVisibleGroups.map(group => (

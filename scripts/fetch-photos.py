@@ -39,8 +39,8 @@ MAX_BACKOFF_S = 60
 TIMEOUT_S = 15
 
 # Creative Commons licences we can use (includes non-commercial since this is
-# a public-sector research tool). Anything outside this set — notably None,
-# which iNat uses for "all rights reserved" — is unusable and triggers the
+# a public-sector research tool). Anything outside this set - notably None,
+# which iNat uses for "all rights reserved" - is unusable and triggers the
 # taxon-photos fallback.
 USABLE_LICENSES = frozenset({
     "cc0", "pd", "cc-by", "cc-by-sa",
@@ -67,7 +67,7 @@ PILOT_STRATIFICATION = {
 def load_species():
     if not SPECIES_PATH.exists():
         sys.exit(
-            f"✗ {SPECIES_PATH} not found — run scripts/process-data.py first."
+            f"✗ {SPECIES_PATH} not found - run scripts/process-data.py first."
         )
     return json.loads(SPECIES_PATH.read_text(encoding="utf-8"))
 
@@ -111,10 +111,10 @@ def _fetch_exact(session, query, rank="species"):
 
     We include `is_active=any` so renamed species (e.g. Corvus monedula →
     Coloeus monedula) still resolve to an iNat taxon id. When the matched
-    taxon is inactive we still record the id — the UI can link through to
-    the iNat page, which shows the rename — but we intentionally don't
+    taxon is inactive we still record the id - the UI can link through to
+    the iNat page, which shows the rename - but we intentionally don't
     store photo fields for it (photos belong to whatever the current
-    accepted taxon is; the client can update the name in the source data
+    accepted taxon is; the name can be updated in the source spreadsheet
     and we refetch for real photos).
 
     rank=None drops the rank filter so subspecies queries (e.g.
@@ -159,7 +159,7 @@ def _fetch_exact(session, query, rank="species"):
 
     if match.get("is_active") is False:
         # Keep the taxon_id for the UI link (iNat's inactive-taxon page shows
-        # the rename) but skip photo fields — we don't want to present photos
+        # the rename) but skip photo fields - we don't want to present photos
         # attached to deprecated taxonomy.
         entry["inactive_taxon"] = True
         return entry
@@ -220,7 +220,7 @@ def fetch_one(session, scientific_name, override=None):
 
     If `override` is supplied (from data/photo-overrides.json), the photo
     fields on the returned entry come from a second lookup using the
-    override's inatQuery — but the species-level taxon_id is kept, so the
+    override's inatQuery - but the species-level taxon_id is kept, so the
     "View on iNaturalist" link still points at the species page rather
     than the subspecies. The override is applied after the ARR fallback
     so it always wins for the photo, whatever the species-level default
@@ -254,7 +254,7 @@ def fetch_one(session, scientific_name, override=None):
             entry["license_code"] = cc_photo.get("license_code")
             entry["used_taxon_photos_fallback"] = True
 
-    # Photo override — replace only the photo fields, keep species taxon_id.
+    # Photo override - replace only the photo fields, keep species taxon_id.
     override_query = (override or {}).get("inatQuery")
     if override_query and not entry.get("not_found"):
         time.sleep(REQUEST_DELAY_S)
@@ -314,7 +314,7 @@ def main():
 
     def _override_out_of_date(name):
         """A species with a new/changed override should refetch even if
-        cached — otherwise the user has to remember --refresh whenever
+        cached - otherwise the user has to remember --refresh whenever
         they edit photo-overrides.json."""
         override = overrides.get(name)
         if not override or not override.get("inatQuery"):

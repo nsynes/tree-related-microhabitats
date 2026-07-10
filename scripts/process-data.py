@@ -30,7 +30,7 @@ def iter_level_filters(level_obj: Dict[str, Any]):
       - groups:     level.groups[].categories[].filters[]
 
     Any future hierarchy levels with one of these shapes are handled
-    automatically without code changes — see column-mapping.json.
+    automatically without code changes - see column-mapping.json.
     """
     if 'filters' in level_obj:
         yield from level_obj['filters']
@@ -135,7 +135,7 @@ def attach_photos(species_list: List[Dict[str, Any]], photo_cache: Dict[str, Any
     """
     Attach photo info from the iNaturalist cache to each species that has a
     usable entry. A usable entry has a photo URL and a CC license code (any
-    variant — we filter out 'all rights reserved' which iNat returns as
+    variant - we filter out 'all rights reserved' which iNat returns as
     license_code=None).
 
     Returns a small stats dict for logging.
@@ -150,7 +150,7 @@ def attach_photos(species_list: List[Dict[str, Any]], photo_cache: Dict[str, Any
         if entry is None:
             stats['missing'] += 1
             continue
-        # Capture the iNat taxon id whenever we have one — enables "View on
+        # Capture the iNat taxon id whenever we have one - enables "View on
         # iNaturalist" links even for species without a usable photo.
         taxon_id = entry.get('taxon_id')
         if taxon_id:
@@ -172,11 +172,11 @@ def attach_photos(species_list: List[Dict[str, Any]], photo_cache: Dict[str, Any
             continue
         license_code = entry.get('license_code')
         if not license_code:
-            # iNat returns None for 'all rights reserved' — unusable
+            # iNat returns None for 'all rights reserved' - unusable
             stats['all_rights_reserved'] += 1
             continue
         medium_url = entry['photo_medium_url']
-        # iNat serves every photo at /photos/<id>/<size>.jpg — API only returns
+        # iNat serves every photo at /photos/<id>/<size>.jpg - API only returns
         # square and medium, but the small/large/original variants exist and
         # we derive them here.
         species['photo'] = {
@@ -275,7 +275,7 @@ def main():
                 msg.append(f"    … and {len(missing_habitats) - 20} more")
         raise SystemExit("\n".join(msg))
 
-    # Trim the frame to just the columns we care about — saves memory and
+    # Trim the frame to just the columns we care about - saves memory and
     # makes downstream row.get() lookups faster.
     available_cols = [col for col in df.columns if col in all_columns]
     df = df[available_cols]
@@ -303,12 +303,12 @@ def main():
 
     # Validate shortCodes used by the URL-share codec. Two namespaces:
     #   1. Habitat filters: a single global pool. Every filter MUST carry a
-    #      shortCode (no id fallback — habitat ids are too long to use as
+    #      shortCode (no id fallback - habitat ids are too long to use as
     #      URL codes).
     #   2. Each speciesFilters group: its own per-group pool. shortCode is
     #      optional and falls back to the option's id (so options whose ids
-    #      are already short and URL-safe — eif's "d4"/"d5", iucn's "LC"
-    #      etc. — don't need a separate field).
+    #      are already short and URL-safe - eif's "d4"/"d5", iucn's "LC"
+    #      etc. - don't need a separate field).
     # All effective codes must match [A-Za-z0-9]{2,4}.
     code_pattern = re.compile(r'^[A-Za-z0-9]{2,4}$')
     code_errors = []
@@ -365,7 +365,7 @@ def main():
             "✗ shortCode validation failed:\n  " + "\n  ".join(code_errors)
         )
 
-    # Build config for React app — preserve hierarchy order via sorted keys,
+    # Build config for React app - preserve hierarchy order via sorted keys,
     # tagging each level with its numeric position so the frontend has a
     # stable level identifier independent of the key name.
     print("\n⚙️  Generating config.json...")
@@ -405,7 +405,7 @@ def main():
     avg_habitats = sum(len(s['habitats']) for s in species_data) / len(species_data) if species_data else 0
     print(f"   ✓ Average {avg_habitats:.1f} habitats per species")
 
-    # Merge iNaturalist photo cache if present (optional — script is usable without it)
+    # Merge iNaturalist photo cache if present (optional - script is usable without it)
     photo_cache_path = Path('data/inaturalist-photos.json')
     photo_cache = load_photo_cache(photo_cache_path)
     if photo_cache:
@@ -419,7 +419,7 @@ def main():
         print(f"   ✓ Not yet fetched:      {photo_stats['missing']}")
         print(f"   ✓ With iNat taxon id:   {photo_stats['with_taxon_id']}")
     else:
-        print(f"\n📷 No photo cache at {photo_cache_path} — skipping.")
+        print(f"\n📷 No photo cache at {photo_cache_path} - skipping.")
         for s in species_data:
             s['photo'] = None
 

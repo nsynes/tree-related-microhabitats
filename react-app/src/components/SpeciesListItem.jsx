@@ -13,8 +13,8 @@ function SpeciesListItem({ config, species, onClick }) {
       onClick={() => onClick(species)}
     >
       <span className="species-list-name">{species.scientificName}</span>
-      <span className="species-list-class">
-        {isValidData(species.class) ? species.class : ''}
+      <span className="species-list-order">
+        {isValidData(species.order) ? species.order : ''}
       </span>
       {badges.length > 0 && (
         <span className="species-list-badges">

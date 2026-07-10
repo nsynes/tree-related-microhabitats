@@ -13,7 +13,7 @@
  *
  * shortCodes are authored in data/column-mapping.json and validated for
  * uniqueness + format by scripts/process-data.py. No code, group id, or
- * filter id is hardcoded here — everything is derived from `config`.
+ * filter id is hardcoded here - everything is derived from `config`.
  *
  * Unknown codes are silently dropped at decode time so stale URLs degrade
  * gracefully (a renamed filter just drops out of the view; everything else
@@ -32,14 +32,14 @@ const VALUE_SEPARATOR = ',';
  * the React data is immutable so identity check is sufficient.
  *
  * Species-filter groups sharing a `sectionId` (or, absent that, a
- * `section` display string) collapse into a single URL param — so all
+ * `section` display string) collapse into a single URL param - so all
  * chips inside "Taxon designations and indicators" ride under one `tdi`
  * param rather than separate `priority` / `eif` / `iucn` params. Groups
  * with neither field fall back to their `id` (e.g. Taxa → `?class=…`),
  * so ungrouped groups keep their existing URL shape.
  *
  * Values stored in the section maps are composite ids of the form
- * `${groupId}:${optionId}` — that way the decoder can hand them back
+ * `${groupId}:${optionId}` - that way the decoder can hand them back
  * directly to the store's `selectedSpeciesFilters` set without needing
  * to know which group each code came from.
  *
@@ -86,7 +86,7 @@ export function buildCodecMaps(config) {
   return maps;
 }
 
-/** Same fallback resolution as buildCodecMaps — kept in one place. */
+/** Same fallback resolution as buildCodecMaps - kept in one place. */
 function sectionKeyOf(group) {
   return group.sectionId || group.section || group.id;
 }
@@ -110,7 +110,7 @@ export function slugifyScientificName(name) {
  * shouldn't happen at runtime since both sides read the same config).
  *
  * Built manually rather than via URLSearchParams so that the comma
- * separator survives unescaped — URLSearchParams.toString() encodes
+ * separator survives unescaped - URLSearchParams.toString() encodes
  * commas as %2C, which is correct but ugly and longer. Our codes and
  * slugs are constrained to safe characters by build-time validation,
  * so no escaping is needed for them; the slug gets a defensive
@@ -160,7 +160,7 @@ export function encodeStateToUrl({ filterIds, speciesFilters, modalSlug }, maps,
 
 /**
  * Parse URL params back to state. Unknown codes are dropped silently.
- * The modal slug is returned as a raw string — the caller is responsible
+ * The modal slug is returned as a raw string - the caller is responsible
  * for resolving it to a species and applying the "passes filters" guard.
  */
 export function decodeUrlToState(params, maps, config) {

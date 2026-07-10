@@ -28,18 +28,18 @@ aws route53 list-hosted-zones-by-name --dns-name nicksynes.com
 The deployment script handles everything automatically:
 
 ```bash
-./deploy.sh
+./deploy/aws-test/deploy.sh
 ```
 
 This will:
-1. ✅ Process data (Excel → JSON)
-2. ✅ Build React app
-3. ✅ Create/update CloudFormation stack with:
+1. Process data (Excel → JSON)
+2. Build React app
+3. Create/update CloudFormation stack with:
    - S3 bucket for website hosting
    - ACM SSL/TLS certificate for trems.nicksynes.com
    - CloudFront CDN distribution
    - Route53 DNS record (A record pointing to CloudFront)
-4. ✅ Upload built files to S3
+4. Upload built files to S3
 
 ### Step 3: Certificate Validation
 
@@ -76,7 +76,7 @@ Once deployment completes:
 2. **Test the URLs:**
    - S3 direct: `http://tree-microhabitats-explorer.s3-website-us-east-1.amazonaws.com`
    - CloudFront: `https://d1234567890abc.cloudfront.net`
-   - **Custom domain: `https://trems.nicksynes.com`** ✨
+   - **Custom domain: `https://trems.nicksynes.com`**
 
 3. **DNS propagation:**
    ```bash
@@ -98,6 +98,7 @@ To change these, edit `template.yaml` or override during deployment:
 
 ```bash
 sam deploy \
+  --template-file deploy/aws-test/template.yaml \
   --parameter-overrides \
     DomainName=trems.nicksynes.com \
     HostedZoneName=nicksynes.com \
@@ -110,10 +111,10 @@ After initial deployment, to update content:
 
 ```bash
 # Option 1: Full deployment (includes data processing and build)
-./deploy.sh
+./deploy/aws-test/deploy.sh
 
 # Option 2: Just rebuild and upload (if data hasn't changed)
-./deploy.sh --skip-data
+./deploy/aws-test/deploy.sh --skip-data
 
 # Option 3: Manual update (if you've already built)
 cd react-app && npm run build
@@ -250,12 +251,12 @@ Monthly AWS costs (approximate):
 
 The deployment includes:
 
-- ✅ **HTTPS enforced** (CloudFront redirects HTTP → HTTPS)
-- ✅ **TLS 1.2+** minimum protocol version
-- ✅ **ACM certificate** auto-renewed
-- ✅ **S3 public access** limited to website hosting
-- ✅ **CloudFront CDN** protects origin
-- ✅ **CORS configured** for API requests (if needed)
+- **HTTPS enforced** (CloudFront redirects HTTP → HTTPS)
+- **TLS 1.2+** minimum protocol version
+- **ACM certificate** auto-renewed
+- **S3 public access** limited to website hosting
+- **CloudFront CDN** protects origin
+- **CORS configured** for API requests (if needed)
 
 ## Monitoring
 
@@ -297,12 +298,12 @@ aws s3api put-bucket-versioning \
 
 After successful deployment:
 
-1. ✅ Test site at https://trems.nicksynes.com
-2. ✅ Verify SSL certificate (green padlock in browser)
-3. ✅ Test all filtering functionality
-4. ✅ Share URL with Forest Research team
-5. ✅ Set up monitoring alerts (optional)
-6. ✅ Configure CloudWatch logs (optional)
+1. Test site at https://trems.nicksynes.com
+2. Verify SSL certificate (green padlock in browser)
+3. Test all filtering functionality
+4. Share URL with Forest Research team
+5. Set up monitoring alerts (optional)
+6. Configure CloudWatch logs (optional)
 
 ## Support
 

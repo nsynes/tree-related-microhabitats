@@ -4,10 +4,9 @@ One-off investigation: for each species cached as "not_found", query the
 iNaturalist taxa endpoint with is_active=any to see whether an inactive
 taxon exists under that name. When one does, follow iNat's
 current_synonymous_taxon_ids (if present) to find the active replacement
-and report what the client should likely rename the species to.
+and report what the species should be renamed to.
 
-Output: a CSV-ish table to stdout plus data/inactive-taxa-report.json for
-the client.
+Output: a CSV-ish table to stdout plus data/inactive-taxa-report.json.
 """
 
 import json
@@ -97,13 +96,13 @@ def main():
         taxon_id = hit.get("id")
         rank = hit.get("rank")
         if is_active:
-            # Odd — was reported not_found before but now active. Log and move on.
+            # Odd - was reported not_found before but now active. Log and move on.
             print(f"{i:>3}  ?       {name:38}  active      {taxon_id:>8}  (rank={rank}; worth refetching)")
             report.append({"name": name, "status": "active_now", "taxon_id": taxon_id, "rank": rank})
             time.sleep(REQUEST_DELAY_S)
             continue
 
-        # Inactive taxon — try to find its current accepted replacement
+        # Inactive taxon - try to find its current accepted replacement
         time.sleep(REQUEST_DELAY_S)
         try:
             replacement = fetch_active_replacement(session, taxon_id)

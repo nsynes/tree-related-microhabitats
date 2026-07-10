@@ -56,15 +56,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# R
-.RData
-.Rhistory
-.Rproj.user/
-*.Rproj
-
-# Local notes / inherited chat transcripts (not part of repo)
-old-chat-history/
-
 # LibreOffice / OpenOffice lock files
 .~lock.*#
 
@@ -77,6 +68,5 @@ coverage/
 *.temp
 .cache/
 
-# Generated data files (comment out if you want to track generated JSON)
-# react-app/src/data/config.json
-# react-app/src/data/species.json
+# Raw data sources (spreadsheets, PDFs, docs) - not committed
+/data/sources/

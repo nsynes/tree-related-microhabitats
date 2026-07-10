@@ -1,0 +1,31 @@
+# nginx config for trem-explorer.org.uk - TReM Explorer.
+#
+# This is the INITIAL config (HTTP-only, port 80). Copy it to
+# /etc/nginx/sites-available/trem-explorer.org.uk on the server, then
+# run Certbot as described in the deploy steps below. Certbot will:
+#   - obtain a Let's Encrypt certificate for the domain
+#   - rewrite this file to add the `listen 443 ssl` block
+#   - add a second server block that redirects HTTP → HTTPS
+
+server {
+    root /home/<deploy-user>/trem-explorer/dist;
+    server_name trem-explorer.org.uk;
+    index index.html;
+    location / {
+        try_files $uri /index.html =404;
+    }
+
+    # Cache hashed assets for a year (Vite content-hashes filenames on
+    # build, so any change ships with a new URL). index.html itself
+    # stays short-lived so a redeploy is picked up immediately.
+    location ~* \.(js|css|jpg|jpeg|png|gif|svg|ico|woff2?)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location = /index.html {
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+    }
+
+    listen 80;
+}

@@ -37,7 +37,7 @@ function FilterPanel({ config }) {
         )}
       </div>
 
-      {/* Active Filters Summary — grouped by the same sections as the
+      {/* Active Filters Summary - grouped by the same sections as the
           filter panel below. Level rows with no selections are hidden;
           sections whose levels are all empty are hidden entirely; when
           no filter is set anywhere, a single "No filters applied"
@@ -92,7 +92,7 @@ function FilterPanel({ config }) {
  * Active Filters body. Computes which sections/levels have any
  * selections and renders only those. Empty everywhere → placeholder.
  * A level has a selection when at least one of its filters is in
- * selectedFilterIds — checked via the shape-agnostic iterLevelFilters.
+ * selectedFilterIds - checked via the shape-agnostic iterLevelFilters.
  */
 function ActiveFiltersBody({ config, selectedFilterIds, getFilterLabel }) {
   const activeSections = [];
@@ -232,7 +232,7 @@ function GroupChipsSummary({ level, selectedFilterIds }) {
       full: isGroupSelected(group.id),
     });
   }
-  // suppress unused-prop warning — selectedFilterIds is read indirectly via the store
+  // suppress unused-prop warning - selectedFilterIds is read indirectly via the store
   void selectedFilterIds;
 
   return (
@@ -259,7 +259,7 @@ function GroupChipsSummary({ level, selectedFilterIds }) {
 
 /**
  * Renders the filter tree for one hierarchy level. Dispatches on the level's
- * shape — flat / categories / groups — and renders the appropriate markup.
+ * shape - flat / categories / groups - and renders the appropriate markup.
  */
 function HierarchyLevel({ level }) {
   const shape = levelShape(level);

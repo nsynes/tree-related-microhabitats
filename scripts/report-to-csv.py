@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Convert data/inactive-taxa-report.json into data/inactive-taxa.csv so the
-client can review renames in a spreadsheet. One row per species; the
+renames can be reviewed in a spreadsheet. One row per species; the
 status column distinguishes renamed-on-iNat ("inactive") from
 not-on-iNat ("absent").
 """

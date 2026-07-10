@@ -1,7 +1,7 @@
 {
   "description": "Tree-related Microhabitats - Filter Hierarchy Configuration",
   "pipeline": {
-    "speciesDataFile": "data/TreM_Explorer_v1_01Jul26.xlsx",
+    "speciesDataFile": "data/sources/TreM_Explorer_v1_01Jul26.xlsx",
     "speciesDataSheet": "Full Data",
     "speciesDataHeaderRow": 6
   },

@@ -15,7 +15,7 @@ import {
  * changes. Reads the URL on mount and on browser back/forward (popstate)
  * and applies it to the store.
  *
- * Modal opens use history.pushState — the entry sits on the browser back
+ * Modal opens use history.pushState - the entry sits on the browser back
  * stack, so the Back button closes the modal. Filter changes use
  * history.replaceState, keeping the history flat (per filter click would
  * otherwise create a deep, useless back stack).

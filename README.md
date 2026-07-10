@@ -57,16 +57,11 @@ npm run build
 
 ### Deploy to AWS S3
 
-```bash
-# Using AWS SAM (recommended)
-sam build
-sam deploy --guided
-
-# Or manually upload dist/ folder to S3 bucket
-aws s3 sync react-app/dist/ s3://your-bucket-name/ --delete
-```
-
-See [Deployment Guide](react-app/PROJECT_SUMMARY.md#deployment) for details.
+Two separate deployments live under [`deploy/`](deploy/):
+- [`deploy/nginx-prod/`](deploy/nginx-prod/) — the production nginx setup at
+  `trem-explorer.org.uk` (see `prod-deployment.md`).
+- [`deploy/aws-test/`](deploy/aws-test/) — a legacy AWS SAM setup used for
+  test at `trems.nicksynes.com` (see `DEPLOYMENT.md` and `deploy.sh`).
 
 ## Project Structure
 

@@ -27,7 +27,7 @@
   animation: modalSlideIn 0.2s ease-out;
 }
 
-/* Large variant for read-heavy modals (Info, Help) — sized as a "big
+/* Large variant for read-heavy modals (Info, Help) - sized as a "big
    dialog" rather than a full-viewport takeover. 90rem is roughly the
    sweet spot for the content: wide enough to sit the image alongside
    the text at desktop widths, capped so it doesn't stretch across
@@ -100,7 +100,7 @@
 .modal-body {
   padding: 24px;
   overflow-y: auto;
-  /* Safety net: text should always scale to the screen — an image or
+  /* Safety net: text should always scale to the screen - an image or
      over-wide element should never introduce a horizontal scrollbar. */
   overflow-x: hidden;
   flex: 1;
@@ -108,7 +108,7 @@
   line-height: 1.6;
 }
 
-/* Main section headings — visually distinct with a horizontal divider
+/* Main section headings - visually distinct with a horizontal divider
    above each so the reader knows they're crossing into a new topic. */
 .modal-body h2 {
   color: #2c3e2f;
@@ -126,7 +126,7 @@
   border-top: none;
 }
 
-/* Subsection headings — mid-tier, coloured for the forest theme so
+/* Subsection headings - mid-tier, coloured for the forest theme so
    they read as clearly subordinate to h2 but still stand out. */
 .modal-body h3 {
   color: #4a6741;
@@ -136,9 +136,9 @@
   margin-bottom: 0.5rem;
 }
 
-/* Sub-subsection headings — same forest-medium green as h3 to keep
+/* Sub-subsection headings - same forest-medium green as h3 to keep
    them in the "heading family" but a size step down for hierarchy.
-   No uppercase — the caps treatment was making them read as louder
+   No uppercase - the caps treatment was making them read as louder
    than the h3 above them. Distinguished from dt (also 1rem bold) by
    the green colour. */
 .modal-body h4 {
@@ -189,7 +189,7 @@
   cursor: zoom-in;
 }
 
-/* Cap line length for readability — the near-fullscreen modal is much
+/* Cap line length for readability - the near-fullscreen modal is much
    wider than a comfortable reading width, and unrestrained paragraphs
    are the main cause of the "wall of text" feeling. */
 .modal-body p {
@@ -197,7 +197,7 @@
   max-width: 70ch;
 }
 
-/* Description list — used for "term: description" content like the
+/* Description list - used for "term: description" content like the
    Habitat Filter entries (Location / Woodland Type / Tree Type). The
    left border + generous indent visually recesses the whole block as
    a subsection, addressing the "indent smaller subsections" request. */
@@ -222,11 +222,11 @@
   max-width: 70ch;
 }
 
-/* Large modals only (About / Help) — centre their contents in a
+/* Large modals only (About / Help) - centre their contents in a
    comfortable reading column via horizontal padding. Using padding
    (rather than max-width + margin-auto on the body itself) keeps the
    modal-body at full width, so its vertical scrollbar sits at the
-   modal's right edge — not floating inside the modal at the 75% mark
+   modal's right edge - not floating inside the modal at the 75% mark
    the way max-width would place it. */
 .modal-content--large .modal-body {
   padding-inline: 12.5%;

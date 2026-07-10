@@ -50,12 +50,12 @@ const useFilterStore = create((set, get) => ({
   config: null,
   // Presentation-only sort key for the species list/grid. 'name' (default)
   // sorts ascending by scientificName; 'iucnSeverity' uses the IUCN-order
-  // comparator from dataHelpers. Sort doesn't participate in filterSpecies —
+  // comparator from dataHelpers. Sort doesn't participate in filterSpecies -
   // the consumer applies it after reading filteredSpecies.
   sortKey: 'name',
 
   // Open species modal, addressed by slug (slugified scientificName) rather
-  // than numeric id — slugs are stable across spreadsheet reorders, so
+  // than numeric id - slugs are stable across spreadsheet reorders, so
   // shared URLs keep pointing at the same species. The modal is open iff
   // this is non-null AND the species with that slug is in filteredSpecies.
   // filterSpecies enforces the second half of that invariant.
@@ -74,7 +74,7 @@ const useFilterStore = create((set, get) => ({
     set({ species: speciesData, filteredSpecies: speciesData });
   },
 
-  // Habitat filter actions — level-agnostic. The filter's ID is enough; its
+  // Habitat filter actions - level-agnostic. The filter's ID is enough; its
   // level is looked up from config when filtering.
   toggleFilter: (filterId) => {
     const next = new Set(get().selectedFilterIds);
@@ -84,14 +84,14 @@ const useFilterStore = create((set, get) => ({
     get().filterSpecies();
   },
 
-  // Bulk replace — used by the URL-sync hook to apply a decoded URL in one
+  // Bulk replace - used by the URL-sync hook to apply a decoded URL in one
   // shot. Accepts any iterable of filter ids.
   setSelectedFilterIds: (ids) => {
     set({ selectedFilterIds: new Set(ids) });
     get().filterSpecies();
   },
 
-  // Group-level helpers — operate on the (one) groups-shape level today.
+  // Group-level helpers - operate on the (one) groups-shape level today.
   // They locate that level dynamically via findGroupsLevel so the same code
   // keeps working if the hierarchy ever reorders.
   toggleGroup: (groupId) => {
@@ -138,7 +138,7 @@ const useFilterStore = create((set, get) => ({
   setSortKey: (key) => set({ sortKey: key }),
 
   // Modal control. openSpeciesBySlug only succeeds when the slug resolves
-  // to a species in the *current* filteredSpecies — same invariant the
+  // to a species in the *current* filteredSpecies - same invariant the
   // URL-share decode applies. This keeps the modal in lockstep with the
   // visible list regardless of whether the open call comes from a card
   // click or from the URL on load.
@@ -163,7 +163,7 @@ const useFilterStore = create((set, get) => ({
     get().filterSpecies();
   },
 
-  // Species filters (right panel) — single Set keyed by composite
+  // Species filters (right panel) - single Set keyed by composite
   // `${groupId}:${optionId}` IDs. Same shape as selectedFilterIds.
   toggleSpeciesFilter: (id) => {
     const next = new Set(get().selectedSpeciesFilters);
@@ -173,7 +173,7 @@ const useFilterStore = create((set, get) => ({
     get().filterSpecies();
   },
 
-  // Bulk replace — companion to setSelectedFilterIds for URL sync.
+  // Bulk replace - companion to setSelectedFilterIds for URL sync.
   setSelectedSpeciesFilters: (ids) => {
     set({ selectedSpeciesFilters: new Set(ids) });
     get().filterSpecies();
@@ -220,14 +220,14 @@ const useFilterStore = create((set, get) => ({
 
   getSpeciesFiltersCount: () => get().selectedSpeciesFilters.size,
 
-  // Scoped to the habitat panel's Clear All button — search and the
+  // Scoped to the habitat panel's Clear All button - search and the
   // species-filter chips have their own inline clears.
   clearFilters: () => {
     set({ selectedFilterIds: new Set() });
     get().filterSpecies();
   },
 
-  // Core filtering — habitat-level guards (OR-within, AND-between), then
+  // Core filtering - habitat-level guards (OR-within, AND-between), then
   // search, then species-filter chips (OR-within, AND-between). After the
   // filtered set is recomputed, if the modal-open species is no longer in
   // it, the modal is closed automatically. This keeps the URL/state
@@ -280,7 +280,7 @@ const useFilterStore = create((set, get) => ({
    *   Map<groupId, { total, counts: Map<optionId, count> }>
    *
    * For each option in a group, `count` is the number of species that would
-   * remain if only that option were selected in this group — i.e. we ignore
+   * remain if only that option were selected in this group - i.e. we ignore
    * this group's own current selections (so users see "what would I get if
    * I picked this") but apply every other filter normally.
    *
@@ -314,7 +314,7 @@ const useFilterStore = create((set, get) => ({
     // (Priority + EIF + IUCN all sit inside "Taxon designations and
     // indicators"), so the chip count for one option must not be capped by
     // any of its section-mates. Groups without a section still just strip
-    // their own — the fallback in sectionOf() gives them a unique key.
+    // their own - the fallback in sectionOf() gives them a unique key.
     const sectionOf = (g) => g.section || g.id;
     // Pre-index which group prefixes belong to each section so we don't
     // walk the whole speciesFilters list per selection.

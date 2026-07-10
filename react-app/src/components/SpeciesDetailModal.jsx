@@ -73,9 +73,9 @@ function SpeciesDetailModal({ config, species, onClose }) {
   if (!species) return null;
 
   // Geographic Location (level id `geographic_location`) is deliberately
-  // excluded from the Habitat Associations section — its content overlaps
+  // excluded from the Habitat Associations section - its content overlaps
   // with the Distribution in Great Britain prose above, and showing both
-  // is redundant per the client's dataset guidance.
+  // is redundant.
   const habitatAssociationLevels = config.filterHierarchy.filter(
     l => l.id !== 'geographic_location'
   );

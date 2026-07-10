@@ -5,7 +5,7 @@ import { groupBySection } from '../utils/dataHelpers';
  * Collapsible "More filters" panel for the species (right) panel.
  *
  * Driven entirely by config.speciesFilters from data/column-mapping.json.
- * Only renders groups *without* the alwaysVisible flag — alwaysVisible groups
+ * Only renders groups *without* the alwaysVisible flag - alwaysVisible groups
  * are rendered by SpeciesGrid directly above the search bar.
  *
  * Consecutive groups that share a `section` are collapsed under a single
@@ -13,8 +13,8 @@ import { groupBySection } from '../utils/dataHelpers';
  * "Taxon designations and indicators"). Groups without a section still
  * render one heading per group via groupBySection's title fallback.
  *
- * Both evaluation modes — boolean fan-out (each option backs its own field)
- * and categorical (one shared field per group) — render as the same chip
+ * Both evaluation modes - boolean fan-out (each option backs its own field)
+ * and categorical (one shared field per group) - render as the same chip
  * control. The store's speciesPassesExtras helper picks the evaluation
  * mode by inspecting the group's config shape (see utils/dataHelpers.js).
  */
@@ -28,7 +28,7 @@ function MoreFiltersPanel({ config, breakdown, onClose }) {
   const groups = allGroups.filter(g => !g.alwaysVisible);
   if (groups.length === 0) return null;
 
-  // groupBySection is generic — it treats each item as "give me a section
+  // groupBySection is generic - it treats each item as "give me a section
   // string, fall back to the item's title". It was originally written for
   // filterHierarchy levels; the returned `.levels` array here is really
   // "groups in this section".

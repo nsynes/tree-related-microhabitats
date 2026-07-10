@@ -12,10 +12,10 @@
   --stone-grey: #5a5a5a;
   --light-grey: #e8e8e8;
   --white: #ffffff;
-  /* Subtle wash used behind panel summary / filter bars — consistent across
+  /* Subtle wash used behind panel summary / filter bars - consistent across
      the habitat Active Filters strip and the species search + class bar. */
   --panel-summary-bg: rgba(122, 157, 114, 0.08);
-  /* Slightly stronger wash used as the "filter group surface" — applied to
+  /* Slightly stronger wash used as the "filter group surface" - applied to
      the Taxa row and to the per-group cards inside the More filters panel,
      so the translucent-white chips pop the same way in both contexts. */
   --filter-group-bg: rgba(74, 103, 65, 0.12);
@@ -83,7 +83,7 @@ body {
     height: auto;
     -webkit-overflow-scrolling: touch;
   }
-  
+
   #root {
     overflow: auto;
     height: auto;
@@ -91,7 +91,50 @@ body {
   }
 }
 
-/* Main Title — grid keeps the h1 centered while icons live in flow on the
+/* Floating "back to top" button - only rendered by React when scrolled
+   past its threshold, only styled to appear at the mobile breakpoint
+   (where tabs live at the top of the page and users need a fast way
+   back). Hidden by default so desktop never sees it. */
+.back-to-top {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .back-to-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--forest-medium);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    z-index: 100;
+    transition: background-color 0.15s, transform 0.15s;
+  }
+
+  .back-to-top:hover {
+    background: var(--forest-dark);
+  }
+
+  .back-to-top:active {
+    transform: scale(0.95);
+  }
+
+  .back-to-top:focus-visible {
+    outline: 2px solid var(--forest-light);
+    outline-offset: 2px;
+  }
+}
+
+/* Main Title - grid keeps the h1 centered while icons live in flow on the
    right, so they can never overlap the title when it wraps on mobile. */
 .main-title {
   background: linear-gradient(135deg, var(--forest-dark) 0%, var(--forest-medium) 100%);
@@ -220,7 +263,7 @@ body {
     margin: 0 auto;
     width: 100%;
     /* Negative margin pulls the strip down so the active tab's bottom
-       edge overlaps the panel-title bar's top edge by 1 px — the join
+       edge overlaps the panel-title bar's top edge by 1 px - the join
        reads as seamless because the active tab and the panel-title
        bar share the same green background. */
     margin-bottom: -1px;
@@ -247,7 +290,7 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.15s, color 0.15s;
-    /* Inset shadow at the bottom edge — reads as the raised active
+    /* Inset shadow at the bottom edge - reads as the raised active
        tab and panel-title bar casting a shadow back onto the recessed
        inactive tab. Negative spread keeps the shadow tight against
        the bottom edge instead of bleeding up into the tab face. */
@@ -266,7 +309,7 @@ body {
 
   /* Active tab is the same green as the panel-title bar; with the
      1 px overlap above, the two read as one continuous green band
-     extending up into the tab. No shadow — the active tab is
+     extending up into the tab. No shadow - the active tab is
      "forward" and sits flush with the panel below. */
   .panel-tab.active {
     background: var(--forest-medium);
@@ -276,7 +319,7 @@ body {
     box-shadow: none;
   }
 
-  /* Hide the in-panel title text on mobile — the tab buttons above
+  /* Hide the in-panel title text on mobile - the tab buttons above
      already label which panel is showing. Action buttons (Clear All,
      sort, view toggle) are siblings of the title text inside
      .panel-title, so they keep their place. */
@@ -287,7 +330,7 @@ body {
   /* Flatten the panel's top corners so the active tab merges cleanly
      into the panel-title bar below. The actual override is below in
      the later @media block alongside the other .panel mobile rules
-     — placing it there ensures it sits after the base .panel rule and
+     - placing it there ensures it sits after the base .panel rule and
      wins the cascade. */
 }
 
@@ -310,7 +353,7 @@ body {
     overflow: visible;
     margin-bottom: var(--spacing-lg);
     /* Squared top so the active tab above merges seamlessly into the
-       panel-title bar — no visible rounded corner peeking out beside
+       panel-title bar - no visible rounded corner peeking out beside
        the active tab. */
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -337,7 +380,7 @@ body {
   /* On narrow screens the actions cluster on the right (sort + view
      toggle, plus Clear All when present) can't fit on the same row as
      the title. Wrap to a second row instead of clipping. Also tighten
-     the vertical padding — with the title text hidden by the tabs
+     the vertical padding - with the title text hidden by the tabs
      above, the bar otherwise looks like a thick empty band. */
   .panel-title {
     flex-wrap: wrap;
@@ -347,7 +390,7 @@ body {
 
 /* Right-side cluster in the species panel title: Clear All sits left of the
    view-mode toggle. margin-left: auto right-aligns the cluster regardless of
-   whether the title text is visible — on mobile the text is hidden via
+   whether the title text is visible - on mobile the text is hidden via
    .panel-title-text { display: none }, so without the explicit margin the
    cluster would otherwise slide to the left. */
 .panel-title-actions {
@@ -435,7 +478,7 @@ body {
    middle of the CSS gap) so that with left-aligned labels the natural
    empty space at the end of column 1 for the widest title (Woodland
    Characteristics / Tree-related Microhabitats) roughly mirrors the
-   CSS gap on the right side of the divider — visually balanced for
+   CSS gap on the right side of the divider - visually balanced for
    the widest case. Absolutely positioned so it spans continuously
    across the AND separator rows too. */
 .active-filters-body::before {
@@ -451,7 +494,7 @@ body {
 }
 
 /* Suppress the divider when Active Filters is showing the empty-state
-   placeholder — a divider through "No filters applied" looks like a
+   placeholder - a divider through "No filters applied" looks like a
    split heading rather than a column separator. */
 .active-filters-body:has(.active-filters-empty)::before {
   display: none;
@@ -459,7 +502,7 @@ body {
 
 /* Wrapper for a section title + level row pair. `display: contents`
    flattens it into the parent grid so the label and the row become
-   direct grid items — that's how the shared column widths apply. */
+   direct grid items - that's how the shared column widths apply. */
 .active-filters-section {
   display: contents;
 }
@@ -478,7 +521,7 @@ body {
   grid-column: 1 / -1;
 }
 
-/* The "No filters applied" placeholder — replaces every section block
+/* The "No filters applied" placeholder - replaces every section block
    and separator when nothing at all is selected. */
 .active-filters-empty {
   font-size: var(--font-size-sm);
@@ -531,6 +574,23 @@ body {
 
   .filter-chip {
     flex-shrink: 0;
+  }
+
+  /* Confine the AND separators to the chips column and left-align them.
+     Otherwise they span both grid columns and their centred text lands
+     right on the label-column / chips-column boundary - which reads as
+     "these ANDs belong to the section labels", not "these ANDs sit
+     between the chip rows below". Drop the ::before / ::after horizontal
+     rules too since they'd be squeezed into the narrow column. */
+  .logic-separator {
+    grid-column: 2;
+    text-align: left;
+    padding-left: var(--spacing-sm);
+  }
+
+  .logic-separator::before,
+  .logic-separator::after {
+    display: none;
   }
 }
 
@@ -657,7 +717,7 @@ body {
   }
 }
 
-/* Filter section — one shared heading over one or more consecutive
+/* Filter section - one shared heading over one or more consecutive
    hierarchy levels. Section grouping is presentation-only; each level
    inside still has its own OR-within-AND-between filtering behaviour. */
 .filter-section {
@@ -721,7 +781,7 @@ body {
   font-style: italic;
 }
 
-/* Flat-shape levels stack their checkboxes vertically — trades some
+/* Flat-shape levels stack their checkboxes vertically - trades some
    vertical space for the ability to sit side-by-side with peer levels
    under a section heading (see .filter-section-levels). */
 .filter-options-row {
@@ -734,8 +794,8 @@ body {
 .microhabitat-groups {
   display: grid;
   /* Each top-level TreM (Cavity, Injuries, …) always takes its own
-     full row. Subcategories inside — Woodpecker breeding cavities,
-     Rot Holes, etc. — then have the full panel width to wrap into
+     full row. Subcategories inside - Woodpecker breeding cavities,
+     Rot Holes, etc. - then have the full panel width to wrap into
      via .filter-categories, without the awkward intermediate widths
      where a two-column outer grid crammed the subcategories. */
   grid-template-columns: 1fr;
@@ -781,7 +841,7 @@ body {
 
 .filter-categories {
   display: grid;
-  /* auto-fit + 120px minimum handles narrow containers on its own —
+  /* auto-fit + 120px minimum handles narrow containers on its own -
      drops to fewer columns then a single column as space shrinks. */
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: var(--spacing-lg);
@@ -803,7 +863,7 @@ body {
 .filter-options {
   display: grid;
   /* 150px minimum is low enough that the auto-fill naturally reduces
-     to a single column on narrow containers — no viewport MQ needed. */
+     to a single column on narrow containers - no viewport MQ needed. */
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: var(--spacing-xs);
   column-gap: var(--spacing-md);
@@ -988,7 +1048,7 @@ body {
   background-color: var(--panel-summary-bg);
   padding: var(--spacing-md) var(--spacing-lg);
   border-bottom: 1px solid var(--light-grey);
-  /* Defensive height cap — panel can never eat more than ~40% of the
+  /* Defensive height cap - panel can never eat more than ~40% of the
      viewport. Scrolls internally if the chip rows ever grow past that. */
   max-height: 40vh;
   overflow-y: auto;
@@ -1055,6 +1115,30 @@ body {
   min-width: 0;
 }
 
+/* Narrow-phone layout - the "Taxon designations and indicators" title
+   is long enough that keeping it in-line with the chips squeezes every
+   chip onto its own line, which then wraps its own label and forces a
+   vertical scrollbar on top of the horizontal one. On small screens
+   stack the title above and let the chips sit as a single horizontal
+   scroll strip. */
+@media (max-width: 640px) {
+  .more-filters-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-xs);
+  }
+
+  .more-filters-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .more-filters-chip {
+    flex-shrink: 0;
+  }
+}
+
 .more-filters-chip {
   display: inline-flex;
   align-items: baseline;
@@ -1102,11 +1186,18 @@ body {
   }
   .more-filters-button {
     width: 100%;
-    justify-content: space-between;
+    /* Keep "More filters" and its count tucked together on the left
+       (single flex-gap apart) and let the caret sit on the far right -
+       space-between would have spread all three children apart, which
+       left the count marooned in the middle. */
+    justify-content: flex-start;
+  }
+  .more-filters-button .more-filters-button-caret {
+    margin-left: auto;
   }
 }
 
-/* Class-filter tab strip — inactive tabs are borderless text, only the
+/* Class-filter tab strip - inactive tabs are borderless text, only the
    active tab gets the filled "pill" treatment so the strip stays compact. */
 .species-class-tabs {
   display: flex;
@@ -1164,7 +1255,7 @@ body {
   }
 }
 
-/* Sort dropdown in species panel header — matches the view-toggle visual
+/* Sort dropdown in species panel header - matches the view-toggle visual
    weight (translucent track on the dark green title bar, white-ish text). */
 .species-sort-select {
   height: 32px;
@@ -1244,7 +1335,7 @@ body {
   min-width: 0;
   overflow-y: auto;
   flex: 1;
-  /* Default grid align-items: stretch — cards in a row match the tallest. */
+  /* Default grid align-items: stretch - cards in a row match the tallest. */
 }
 
 @media (max-width: 1024px) {
@@ -1340,10 +1431,14 @@ body {
 
 .species-list-row {
   display: grid;
-  /* Fixed width on the badges column so column boundaries don't shift
-     between rows — every row reserves space for the maximum possible
-     badge set (4 country priorities + 3 EIF + 1 IUCN). */
-  grid-template-columns: minmax(220px, 1fr) minmax(80px, 0.8fr) 360px;
+  /* Badges column ideally reserves 360 px so column boundaries stay
+     consistent between rows, but is allowed to shrink (down to 0) so
+     the row's box never exceeds its parent - the badges already have
+     flex-wrap:wrap and will spill onto a second line inside the row
+     when the column runs short. That way the row's background/hover
+     always covers the full visible row and no horizontal scrollbar
+     ever appears on the panel. */
+  grid-template-columns: minmax(220px, 1fr) minmax(80px, 0.8fr) minmax(0, 360px);
   gap: var(--spacing-md);
   align-items: baseline;
   padding: var(--spacing-sm) var(--spacing-md);
@@ -1373,7 +1468,7 @@ body {
   color: var(--forest-dark);
 }
 
-.species-list-class {
+.species-list-order {
   font-size: var(--font-size-sm);
   color: var(--bark-brown);
 }

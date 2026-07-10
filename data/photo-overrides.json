@@ -1,0 +1,8 @@
+{
+  "_readme": "Per-species photo overrides. Keyed by scientificName (must match column-mapping's speciesMetadataColumns → scientificName column exactly). Each entry may include 'inatQuery' (an alternate iNaturalist search string, e.g. a trinomial for a subspecies) and/or a 'note' explaining why the override exists. When present, fetch-photos.py fetches the override taxon's photo but keeps the species-level taxon_id - so the app still links to the species (not subspecies) page. Adding or changing an override forces a refetch on the next run (no --refresh flag needed).",
+
+  "Aegithalos caudatus": {
+    "inatQuery": "Aegithalos caudatus rosaceus",
+    "note": "iNat default shows the northern nominate form (white head); UK birds are the rosaceus subspecies with a pink-tinged, striped face."
+  }
+}

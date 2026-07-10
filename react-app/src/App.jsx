@@ -4,6 +4,7 @@ import FilterPanel from './components/FilterPanel';
 import SpeciesGrid from './components/SpeciesGrid';
 import Modal from './components/Modal';
 import PanelTabs from './components/PanelTabs';
+import BackToTop from './components/BackToTop';
 import { useUrlSync } from './hooks/useUrlSync';
 import config from './data/config.json';
 import speciesData from './data/species.json';
@@ -19,7 +20,7 @@ function App() {
   // Initial value reads the URL: if it carries a species-modal slug
   // (?m=<slug>), start on the Species tab so a shared link with a modal
   // doesn't land mobile users on the Habitats tab with the modal
-  // invisibly behind it. Desktop is unaffected — the tab state is
+  // invisibly behind it. Desktop is unaffected - the tab state is
   // ignored when both panels are visible.
   const [activeTab, setActiveTab] = useState(() =>
     new URLSearchParams(window.location.search).has('m') ? 'species' : 'habitats'
@@ -218,8 +219,8 @@ function App() {
           The TreMs are grouped into the seven forms described by <a
           target="_blank" rel="noopener noreferrer" href="https://www.wsl.ch/en/publications/field-guide-to-tree-related-microhabitats-2nd-ed/">
             Bütler et al (2024)</a>:
-          Cavities, Injuries, Crown deadwood, Excrescences, Epiphytic and epixylic structures,
-          Fungal Fruiting bodies, Exudates. Selecting any of these will return all
+          Cavities, Injuries, Crown deadwood, Excrescences, Fungal Fruiting bodies,
+          Epiphytic and epixylic structures, Exudates. Selecting any of these will return all
           species associated with the TreM types within each. Individual TreM types can also be selected.
         </p>
 
@@ -242,6 +243,8 @@ function App() {
 
         
       </Modal>
+
+      <BackToTop />
 
       {enlargedImageSrc && (
         <div
