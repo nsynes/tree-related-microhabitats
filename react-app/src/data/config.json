@@ -12,19 +12,19 @@
         {
           "id": "england",
           "label": "England",
-          "column": "England",
+          "column": "Distribution_England",
           "shortCode": "eng"
         },
         {
           "id": "scotland",
           "label": "Scotland",
-          "column": "Scotland",
+          "column": "Distribution_Scotland",
           "shortCode": "sco"
         },
         {
           "id": "wales",
           "label": "Wales",
-          "column": "Wales",
+          "column": "Distribution_Wales",
           "shortCode": "wal"
         }
       ]
@@ -38,13 +38,13 @@
         {
           "id": "closed_canopy",
           "label": "Closed Canopy",
-          "column": "ClosedCanopy",
+          "column": "Closed Canopy",
           "shortCode": "ccp"
         },
         {
           "id": "open_grown",
           "label": "Open Grown",
-          "column": "OpenGrown",
+          "column": "Open Grown",
           "shortCode": "ogn"
         }
       ]
@@ -84,27 +84,27 @@
               "title": "Woodpecker breeding cavities",
               "filters": [
                 {
-                  "id": "medium_woodpecker_nest",
-                  "label": "Medium Woodpecker Nesthole",
-                  "column": "MediumWoodpeckerNesthole",
-                  "shortCode": "mwn"
-                },
-                {
                   "id": "small_woodpecker_nest",
                   "label": "Small Woodpecker Nesthole",
-                  "column": "SmallWoodpeckerNesthole",
+                  "column": "1 Small woodpecker breeding cavity",
                   "shortCode": "swn"
+                },
+                {
+                  "id": "medium_woodpecker_nest",
+                  "label": "Medium Woodpecker Nesthole",
+                  "column": "2 Medium-sized woodpecker breeding cavity",
+                  "shortCode": "mwn"
                 },
                 {
                   "id": "large_woodpecker_nest",
                   "label": "Large Woodpecker Nesthole",
-                  "column": "LargeWoodpeckerNesthole",
+                  "column": "3 Large woodpecker breeding cavity",
                   "shortCode": "lwn"
                 },
                 {
                   "id": "woodpecker_flute",
                   "label": "Woodpecker Flute",
-                  "column": "Woodpecker Flute",
+                  "column": "4 Woodpecker “flute”",
                   "shortCode": "wfl"
                 }
               ]
@@ -115,37 +115,37 @@
                 {
                   "id": "trunk_base_rot",
                   "label": "Trunk-base Rot Hole",
-                  "column": "Trunk-baseRotHole",
+                  "column": "5 Trunk-base rot-hole (ground contact)",
                   "shortCode": "tbr"
                 },
                 {
                   "id": "trunk_rot",
                   "label": "Trunk Rot Hole",
-                  "column": "TrunkRotHole",
+                  "column": "6 Trunk rot-hole (no ground contact)",
                   "shortCode": "trh"
                 },
                 {
                   "id": "semi_open_rot",
                   "label": "Semi-open Rot Hole",
-                  "column": "SemiOpenRotHole",
+                  "column": "7 Semi-open trunk rot-hole",
                   "shortCode": "sor"
                 },
                 {
                   "id": "chimney_trunk_base_rot",
                   "label": "Chimney Trunk-base Rot Hole",
-                  "column": "ChimneyTrunk-baseRotHole",
+                  "column": "8 Chimney trunk-base rot-hole (ground contact)",
                   "shortCode": "ctb"
                 },
                 {
                   "id": "chimney_trunk_rot",
                   "label": "Chimney Trunk Rot Hole",
-                  "column": "ChimneyTrunkRotHole",
+                  "column": "9 Chimney trunk rot-hole (no ground contact)",
                   "shortCode": "ctr"
                 },
                 {
                   "id": "hollow_branch",
                   "label": "Hollow Branch",
-                  "column": "HollowBranch",
+                  "column": "10 Hollow branch",
                   "shortCode": "hbr"
                 }
               ]
@@ -156,7 +156,7 @@
                 {
                   "id": "insect_gallery_and_borehole",
                   "label": "Insect Gallery and Borehole",
-                  "column": "InsectGallery andBorehole",
+                  "column": "11 Insect galleries and bore holes",
                   "shortCode": "igb"
                 }
               ]
@@ -167,25 +167,25 @@
                 {
                   "id": "dendrotelm",
                   "label": "Dendrotelm",
-                  "column": "Dendrotelm",
+                  "column": "12 Dendrotelm",
                   "shortCode": "den"
                 },
                 {
                   "id": "woodpecker_foraging",
                   "label": "Woodpecker Foraging",
-                  "column": "WoodpeckerForaging",
+                  "column": "13 Large woodpecker foraging excavation",
                   "shortCode": "wfo"
                 },
                 {
                   "id": "bark_lined_concavity",
                   "label": "Bark-lined Concavity",
-                  "column": "Bark-lined concavity",
+                  "column": "14 Bark-lined trunk concavity",
                   "shortCode": "blc"
                 },
                 {
                   "id": "buttress_root_concavity",
                   "label": "Buttress Root Concavity",
-                  "column": "ButtressRootConcavity",
+                  "column": "15 Buttress-root concavity",
                   "shortCode": "brc"
                 }
               ]
@@ -203,25 +203,25 @@
                 {
                   "id": "bark_loss",
                   "label": "Bark Loss",
-                  "column": "BarkLoss",
+                  "column": "16 Bark loss",
                   "shortCode": "bls"
                 },
                 {
                   "id": "fire_scar",
                   "label": "Fire Scar",
-                  "column": "FireScar",
+                  "column": "17 Fire scar",
                   "shortCode": "fsc"
                 },
                 {
                   "id": "bark_shelter",
                   "label": "Bark Shelter",
-                  "column": "BarkShelter",
+                  "column": "18 Bark shelter",
                   "shortCode": "bsh"
                 },
                 {
                   "id": "bark_pocket",
                   "label": "Bark Pocket",
-                  "column": "BarkPocket",
+                  "column": "19 Bark pocket",
                   "shortCode": "bpk"
                 }
               ]
@@ -232,37 +232,37 @@
                 {
                   "id": "stem_breakage",
                   "label": "Stem Breakage",
-                  "column": "StemBreakage",
+                  "column": "20 Stem breakage",
                   "shortCode": "stb"
                 },
                 {
                   "id": "limb_breakage",
                   "label": "Limb Breakage",
-                  "column": "LimbBreakage",
+                  "column": "21 Limb breakage",
                   "shortCode": "lib"
                 },
                 {
                   "id": "crack",
                   "label": "Crack",
-                  "column": "Crack",
+                  "column": "22 Crack",
                   "shortCode": "crk"
                 },
                 {
                   "id": "lightning_scar",
                   "label": "Lightning Scar",
-                  "column": "LightningScar",
+                  "column": "23 Lightning scar",
                   "shortCode": "lsc"
                 },
                 {
                   "id": "fork_split",
                   "label": "Fork Split",
-                  "column": "ForkSplit",
+                  "column": "24 Fork split at the intersection",
                   "shortCode": "fks"
                 },
                 {
                   "id": "beaver_gnawing",
                   "label": "Beaver Gnawing",
-                  "column": "BeaverGnawing",
+                  "column": "25 Trunk gnawed by beavers",
                   "shortCode": "bgn"
                 }
               ]
@@ -280,19 +280,19 @@
                 {
                   "id": "dead_branches",
                   "label": "Dead Branches",
-                  "column": "DeadBranches",
+                  "column": "26 Dead branches",
                   "shortCode": "dbr"
                 },
                 {
                   "id": "dead_top",
                   "label": "Dead Top",
-                  "column": "DeadTop",
+                  "column": "27 Dead top",
                   "shortCode": "dtp"
                 },
                 {
                   "id": "remnant_broken_limb",
                   "label": "Remnant Broken Limb",
-                  "column": "RemnantBrokenLimb",
+                  "column": "28 Remnants of a broken limb",
                   "shortCode": "rbl"
                 }
               ]
@@ -310,13 +310,13 @@
                 {
                   "id": "witches_broom",
                   "label": "Witches Broom",
-                  "column": "WitchesBroom",
+                  "column": "29 Witches’ broom",
                   "shortCode": "wbr"
                 },
                 {
                   "id": "epicormic",
                   "label": "Epicormic Shoots",
-                  "column": "EpicormicShoots",
+                  "column": "30 Epicormic shoots",
                   "shortCode": "epi"
                 }
               ]
@@ -327,7 +327,7 @@
                 {
                   "id": "galls",
                   "label": "Galls",
-                  "column": "Galls",
+                  "column": "31 Galls",
                   "shortCode": "gal"
                 }
               ]
@@ -338,13 +338,13 @@
                 {
                   "id": "burr",
                   "label": "Burr",
-                  "column": "Burr",
+                  "column": "32 Burr",
                   "shortCode": "bur"
                 },
                 {
                   "id": "canker",
                   "label": "Canker",
-                  "column": "Canker",
+                  "column": "33 Canker",
                   "shortCode": "ckr"
                 }
               ]
@@ -362,7 +362,7 @@
                 {
                   "id": "perennial_polypore",
                   "label": "Perennial Polypore",
-                  "column": "PerennialPolypore",
+                  "column": "34 Perennial polypore",
                   "shortCode": "pep"
                 }
               ]
@@ -373,25 +373,25 @@
                 {
                   "id": "annual_polypore",
                   "label": "Annual Polypore",
-                  "column": "AnnualPolypore",
+                  "column": "35 Annual polypore",
                   "shortCode": "anp"
                 },
                 {
                   "id": "pulpy_agaric",
                   "label": "Pulpy Agaric",
-                  "column": "PulpyAgaric",
+                  "column": "36 Pulpy agaric",
                   "shortCode": "pag"
                 },
                 {
                   "id": "crustose_fungi",
                   "label": "Crustose Fungi",
-                  "column": "CrustoseFungi",
+                  "column": "37 Corticoid fungi (crust fungi)",
                   "shortCode": "crf"
                 },
                 {
                   "id": "pyrenomycetoid",
                   "label": "Pyrenomycetoid",
-                  "column": "Pyrenomycetoid",
+                  "column": "38 Large pyrenomycetoid fungi ",
                   "shortCode": "pyr"
                 }
               ]
@@ -402,7 +402,7 @@
                 {
                   "id": "slime_mould",
                   "label": "Slime Mould",
-                  "column": "SlimeMould",
+                  "column": "39 Myxomycetes or plasmodial slime moulds",
                   "shortCode": "slm"
                 }
               ]
@@ -420,31 +420,31 @@
                 {
                   "id": "bryophyte",
                   "label": "Bryophyte",
-                  "column": "Bryophyte",
+                  "column": "40 Bryophytes ",
                   "shortCode": "bry"
                 },
                 {
                   "id": "lichen",
                   "label": "Lichen",
-                  "column": "Lichen",
+                  "column": "41 Foliose and fruticose lichens",
                   "shortCode": "lic"
                 },
                 {
                   "id": "ivy_and_liana",
                   "label": "Ivy and Liana",
-                  "column": "Ivy&Liana",
+                  "column": "42 Ivy and lianas (woody vines)",
                   "shortCode": "ivl"
                 },
                 {
                   "id": "ferns",
                   "label": "Ferns",
-                  "column": "Ferns",
+                  "column": "43 Ferns",
                   "shortCode": "fer"
                 },
                 {
                   "id": "mistletoe",
                   "label": "Mistletoe",
-                  "column": "Mistletoe",
+                  "column": "44 Mistletoe",
                   "shortCode": "mis"
                 }
               ]
@@ -455,13 +455,13 @@
                 {
                   "id": "vertebrate_nest",
                   "label": "Vertebrate Nest",
-                  "column": "VertebrateNest",
+                  "column": "45 Vertebrate nest",
                   "shortCode": "vrn"
                 },
                 {
                   "id": "invertebrate_nest",
                   "label": "Invertebrate Nest",
-                  "column": "InvertebrateNest",
+                  "column": "46 Invertebrate nest",
                   "shortCode": "inn"
                 }
               ]
@@ -472,19 +472,19 @@
                 {
                   "id": "bark_microsoil",
                   "label": "Bark Microsoil",
-                  "column": "BarkMicrosoil",
+                  "column": "47 Bark microsoil",
                   "shortCode": "bms"
                 },
                 {
                   "id": "inter_bark_microsoil",
                   "label": "Inter-bark Microsoil",
-                  "column": "Inter-barkMicrosoil",
+                  "column": "48 Inter-bark microsoil",
                   "shortCode": "ibm"
                 },
                 {
                   "id": "crown_microsoil",
                   "label": "Crown Microsoil",
-                  "column": "CrownMicrosoil",
+                  "column": "49 Crown microsoil",
                   "shortCode": "cms"
                 }
               ]
@@ -495,7 +495,7 @@
                 {
                   "id": "clay_silt_deposit",
                   "label": "Clay or Silt Deposit",
-                  "column": "Clay or Silt Deposit",
+                  "column": "50 Clay or silt deposit",
                   "shortCode": "csd"
                 }
               ]
@@ -513,13 +513,13 @@
                 {
                   "id": "sap_run",
                   "label": "Sap Run",
-                  "column": "SapRun",
+                  "column": "51 Sap run",
                   "shortCode": "srn"
                 },
                 {
                   "id": "heavy_resinosis",
                   "label": "Heavy Resinosis",
-                  "column": "HeavyResinosis",
+                  "column": "52 Heavy resinosis",
                   "shortCode": "hre"
                 }
               ]

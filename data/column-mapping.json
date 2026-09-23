@@ -1,9 +1,9 @@
 {
   "description": "Tree-related Microhabitats - Filter Hierarchy Configuration",
   "pipeline": {
-    "speciesDataFile": "data/sources/TreM_Explorer_v1_01Jul26.xlsx",
-    "speciesDataSheet": "Full Data",
-    "speciesDataHeaderRow": 6
+    "speciesDataFile": "data/sources/TreM_Explorer_v1_23Sept26.xlsx",
+    "speciesDataSheet": "Data",
+    "speciesDataHeaderRow": 2
   },
   "hierarchy": {
     "level1": {
@@ -11,9 +11,9 @@
       "section": "Woodland Characteristics",
       "title": "Location",
       "filters": [
-        {"id": "england",  "label": "England",  "column": "England",  "shortCode": "eng"},
-        {"id": "scotland", "label": "Scotland", "column": "Scotland", "shortCode": "sco"},
-        {"id": "wales",    "label": "Wales",    "column": "Wales",    "shortCode": "wal"}
+        {"id": "england",  "label": "England",  "column": "Distribution_England",  "shortCode": "eng"},
+        {"id": "scotland", "label": "Scotland", "column": "Distribution_Scotland", "shortCode": "sco"},
+        {"id": "wales",    "label": "Wales",    "column": "Distribution_Wales",    "shortCode": "wal"}
       ]
     },
 
@@ -22,8 +22,8 @@
       "section": "Woodland Characteristics",
       "title": "Woodland Type",
       "filters": [
-        {"id": "closed_canopy", "label": "Closed Canopy", "column": "ClosedCanopy", "shortCode": "ccp"},
-        {"id": "open_grown",    "label": "Open Grown",    "column": "OpenGrown",    "shortCode": "ogn"}
+        {"id": "closed_canopy", "label": "Closed Canopy", "column": "Closed Canopy", "shortCode": "ccp"},
+        {"id": "open_grown",    "label": "Open Grown",    "column": "Open Grown",    "shortCode": "ogn"}
       ]
     },
 
@@ -50,36 +50,36 @@
             {
               "title": "Woodpecker breeding cavities",
               "filters": [
-                {"id": "medium_woodpecker_nest", "label": "Medium Woodpecker Nesthole", "column": "MediumWoodpeckerNesthole", "shortCode": "mwn"},
-                {"id": "small_woodpecker_nest",  "label": "Small Woodpecker Nesthole",  "column": "SmallWoodpeckerNesthole",  "shortCode": "swn"},
-                {"id": "large_woodpecker_nest",  "label": "Large Woodpecker Nesthole",  "column": "LargeWoodpeckerNesthole",  "shortCode": "lwn"},
-                {"id": "woodpecker_flute",        "label": "Woodpecker Flute",             "column": "Woodpecker Flute",            "shortCode": "wfl"}
+                {"id": "small_woodpecker_nest",  "label": "Small Woodpecker Nesthole",  "column": "1 Small woodpecker breeding cavity",  "shortCode": "swn"},
+                {"id": "medium_woodpecker_nest", "label": "Medium Woodpecker Nesthole", "column": "2 Medium-sized woodpecker breeding cavity", "shortCode": "mwn"},
+                {"id": "large_woodpecker_nest",  "label": "Large Woodpecker Nesthole",  "column": "3 Large woodpecker breeding cavity",  "shortCode": "lwn"},
+                {"id": "woodpecker_flute",        "label": "Woodpecker Flute",             "column": "4 Woodpecker “flute”",            "shortCode": "wfl"}
               ]
             },
             {
               "title": "Rot Holes",
               "filters": [
-                {"id": "trunk_base_rot",         "label": "Trunk-base Rot Hole",         "column": "Trunk-baseRotHole",         "shortCode": "tbr"},
-                {"id": "trunk_rot",              "label": "Trunk Rot Hole",              "column": "TrunkRotHole",              "shortCode": "trh"},
-                {"id": "semi_open_rot",          "label": "Semi-open Rot Hole",          "column": "SemiOpenRotHole",           "shortCode": "sor"},
-                {"id": "chimney_trunk_base_rot", "label": "Chimney Trunk-base Rot Hole", "column": "ChimneyTrunk-baseRotHole",  "shortCode": "ctb"},
-                {"id": "chimney_trunk_rot",      "label": "Chimney Trunk Rot Hole",      "column": "ChimneyTrunkRotHole",       "shortCode": "ctr"},
-                {"id": "hollow_branch",          "label": "Hollow Branch",               "column": "HollowBranch",              "shortCode": "hbr"}
+                {"id": "trunk_base_rot",         "label": "Trunk-base Rot Hole",         "column": "5 Trunk-base rot-hole (ground contact)",         "shortCode": "tbr"},
+                {"id": "trunk_rot",              "label": "Trunk Rot Hole",              "column": "6 Trunk rot-hole (no ground contact)",              "shortCode": "trh"},
+                {"id": "semi_open_rot",          "label": "Semi-open Rot Hole",          "column": "7 Semi-open trunk rot-hole",           "shortCode": "sor"},
+                {"id": "chimney_trunk_base_rot", "label": "Chimney Trunk-base Rot Hole", "column": "8 Chimney trunk-base rot-hole (ground contact)",  "shortCode": "ctb"},
+                {"id": "chimney_trunk_rot",      "label": "Chimney Trunk Rot Hole",      "column": "9 Chimney trunk rot-hole (no ground contact)",       "shortCode": "ctr"},
+                {"id": "hollow_branch",          "label": "Hollow Branch",               "column": "10 Hollow branch",              "shortCode": "hbr"}
               ]
             },
             {
               "title": "Insect Galleries",
               "filters": [
-                {"id": "insect_gallery_and_borehole", "label": "Insect Gallery and Borehole", "column": "InsectGallery andBorehole", "shortCode": "igb"}
+                {"id": "insect_gallery_and_borehole", "label": "Insect Gallery and Borehole", "column": "11 Insect galleries and bore holes", "shortCode": "igb"}
               ]
             },
             {
               "title": "Concavities",
               "filters": [
-                {"id": "dendrotelm",              "label": "Dendrotelm",              "column": "Dendrotelm",            "shortCode": "den"},
-                {"id": "woodpecker_foraging",     "label": "Woodpecker Foraging",     "column": "WoodpeckerForaging",    "shortCode": "wfo"},
-                {"id": "bark_lined_concavity",    "label": "Bark-lined Concavity",    "column": "Bark-lined concavity",  "shortCode": "blc"},
-                {"id": "buttress_root_concavity", "label": "Buttress Root Concavity", "column": "ButtressRootConcavity", "shortCode": "brc"}
+                {"id": "dendrotelm",              "label": "Dendrotelm",              "column": "12 Dendrotelm",            "shortCode": "den"},
+                {"id": "woodpecker_foraging",     "label": "Woodpecker Foraging",     "column": "13 Large woodpecker foraging excavation",    "shortCode": "wfo"},
+                {"id": "bark_lined_concavity",    "label": "Bark-lined Concavity",    "column": "14 Bark-lined trunk concavity",  "shortCode": "blc"},
+                {"id": "buttress_root_concavity", "label": "Buttress Root Concavity", "column": "15 Buttress-root concavity", "shortCode": "brc"}
               ]
             }
           ]
@@ -92,21 +92,21 @@
             {
               "title": "Exposed Sapwood only",
               "filters": [
-                {"id": "bark_loss",    "label": "Bark Loss",    "column": "BarkLoss",    "shortCode": "bls"},
-                {"id": "fire_scar",    "label": "Fire Scar",    "column": "FireScar",    "shortCode": "fsc"},
-                {"id": "bark_shelter", "label": "Bark Shelter", "column": "BarkShelter", "shortCode": "bsh"},
-                {"id": "bark_pocket",  "label": "Bark Pocket",  "column": "BarkPocket",  "shortCode": "bpk"}
+                {"id": "bark_loss",    "label": "Bark Loss",    "column": "16 Bark loss",    "shortCode": "bls"},
+                {"id": "fire_scar",    "label": "Fire Scar",    "column": "17 Fire scar",    "shortCode": "fsc"},
+                {"id": "bark_shelter", "label": "Bark Shelter", "column": "18 Bark shelter", "shortCode": "bsh"},
+                {"id": "bark_pocket",  "label": "Bark Pocket",  "column": "19 Bark pocket",  "shortCode": "bpk"}
               ]
             },
             {
               "title": "Exposed Sapwood and Heartwood",
               "filters": [
-                {"id": "stem_breakage",  "label": "Stem Breakage",  "column": "StemBreakage",  "shortCode": "stb"},
-                {"id": "limb_breakage",  "label": "Limb Breakage",  "column": "LimbBreakage",  "shortCode": "lib"},
-                {"id": "crack",          "label": "Crack",          "column": "Crack",         "shortCode": "crk"},
-                {"id": "lightning_scar", "label": "Lightning Scar", "column": "LightningScar", "shortCode": "lsc"},
-                {"id": "fork_split",     "label": "Fork Split",     "column": "ForkSplit",     "shortCode": "fks"},
-                {"id": "beaver_gnawing", "label": "Beaver Gnawing", "column": "BeaverGnawing", "shortCode": "bgn"}
+                {"id": "stem_breakage",  "label": "Stem Breakage",  "column": "20 Stem breakage",  "shortCode": "stb"},
+                {"id": "limb_breakage",  "label": "Limb Breakage",  "column": "21 Limb breakage",  "shortCode": "lib"},
+                {"id": "crack",          "label": "Crack",          "column": "22 Crack",         "shortCode": "crk"},
+                {"id": "lightning_scar", "label": "Lightning Scar", "column": "23 Lightning scar", "shortCode": "lsc"},
+                {"id": "fork_split",     "label": "Fork Split",     "column": "24 Fork split at the intersection",     "shortCode": "fks"},
+                {"id": "beaver_gnawing", "label": "Beaver Gnawing", "column": "25 Trunk gnawed by beavers", "shortCode": "bgn"}
               ]
             }
           ]
@@ -119,9 +119,9 @@
             {
               "title": "Dead Branches",
               "filters": [
-                {"id": "dead_branches",       "label": "Dead Branches",       "column": "DeadBranches",      "shortCode": "dbr"},
-                {"id": "dead_top",            "label": "Dead Top",            "column": "DeadTop",           "shortCode": "dtp"},
-                {"id": "remnant_broken_limb", "label": "Remnant Broken Limb", "column": "RemnantBrokenLimb", "shortCode": "rbl"}
+                {"id": "dead_branches",       "label": "Dead Branches",       "column": "26 Dead branches",      "shortCode": "dbr"},
+                {"id": "dead_top",            "label": "Dead Top",            "column": "27 Dead top",           "shortCode": "dtp"},
+                {"id": "remnant_broken_limb", "label": "Remnant Broken Limb", "column": "28 Remnants of a broken limb", "shortCode": "rbl"}
               ]
             }
           ]
@@ -134,21 +134,21 @@
             {
               "title": "Twig Tangles",
               "filters": [
-                {"id": "witches_broom", "label": "Witches Broom",   "column": "WitchesBroom",    "shortCode": "wbr"},
-                {"id": "epicormic",     "label": "Epicormic Shoots","column": "EpicormicShoots", "shortCode": "epi"}
+                {"id": "witches_broom", "label": "Witches Broom",   "column": "29 Witches’ broom",    "shortCode": "wbr"},
+                {"id": "epicormic",     "label": "Epicormic Shoots","column": "30 Epicormic shoots", "shortCode": "epi"}
               ]
             },
             {
               "title": "Galls",
               "filters": [
-                {"id": "galls", "label": "Galls", "column": "Galls", "shortCode": "gal"}
+                {"id": "galls", "label": "Galls", "column": "31 Galls", "shortCode": "gal"}
               ]
             },
             {
               "title": "Burrs and Cankers",
               "filters": [
-                {"id": "burr",   "label": "Burr",   "column": "Burr",   "shortCode": "bur"},
-                {"id": "canker", "label": "Canker", "column": "Canker", "shortCode": "ckr"}
+                {"id": "burr",   "label": "Burr",   "column": "32 Burr",   "shortCode": "bur"},
+                {"id": "canker", "label": "Canker", "column": "33 Canker", "shortCode": "ckr"}
               ]
             }
           ]
@@ -161,22 +161,22 @@
             {
               "title": "Perennial fungal fruiting bodies",
               "filters": [
-                {"id": "perennial_polypore", "label": "Perennial Polypore", "column": "PerennialPolypore", "shortCode": "pep"}
+                {"id": "perennial_polypore", "label": "Perennial Polypore", "column": "34 Perennial polypore", "shortCode": "pep"}
               ]
             },
             {
               "title": "Ephemeral fungal fruiting bodies",
               "filters": [
-                {"id": "annual_polypore", "label": "Annual Polypore", "column": "AnnualPolypore", "shortCode": "anp"},
-                {"id": "pulpy_agaric",    "label": "Pulpy Agaric",    "column": "PulpyAgaric",    "shortCode": "pag"},
-                {"id": "crustose_fungi",  "label": "Crustose Fungi",  "column": "CrustoseFungi",  "shortCode": "crf"},
-                {"id": "pyrenomycetoid",  "label": "Pyrenomycetoid",  "column": "Pyrenomycetoid", "shortCode": "pyr"}
+                {"id": "annual_polypore", "label": "Annual Polypore", "column": "35 Annual polypore", "shortCode": "anp"},
+                {"id": "pulpy_agaric",    "label": "Pulpy Agaric",    "column": "36 Pulpy agaric",    "shortCode": "pag"},
+                {"id": "crustose_fungi",  "label": "Crustose Fungi",  "column": "37 Corticoid fungi (crust fungi)",  "shortCode": "crf"},
+                {"id": "pyrenomycetoid",  "label": "Pyrenomycetoid",  "column": "38 Large pyrenomycetoid fungi ", "shortCode": "pyr"}
               ]
             },
             {
               "title": "Slime Moulds",
               "filters": [
-                {"id": "slime_mould", "label": "Slime Mould", "column": "SlimeMould", "shortCode": "slm"}
+                {"id": "slime_mould", "label": "Slime Mould", "column": "39 Myxomycetes or plasmodial slime moulds", "shortCode": "slm"}
               ]
             }
           ]
@@ -189,32 +189,32 @@
             {
               "title": "Epiphytes",
               "filters": [
-                {"id": "bryophyte",     "label": "Bryophyte",     "column": "Bryophyte", "shortCode": "bry"},
-                {"id": "lichen",        "label": "Lichen",        "column": "Lichen",    "shortCode": "lic"},
-                {"id": "ivy_and_liana", "label": "Ivy and Liana", "column": "Ivy&Liana", "shortCode": "ivl"},
-                {"id": "ferns",         "label": "Ferns",         "column": "Ferns",     "shortCode": "fer"},
-                {"id": "mistletoe",     "label": "Mistletoe",     "column": "Mistletoe", "shortCode": "mis"}
+                {"id": "bryophyte",     "label": "Bryophyte",     "column": "40 Bryophytes ", "shortCode": "bry"},
+                {"id": "lichen",        "label": "Lichen",        "column": "41 Foliose and fruticose lichens",    "shortCode": "lic"},
+                {"id": "ivy_and_liana", "label": "Ivy and Liana", "column": "42 Ivy and lianas (woody vines)", "shortCode": "ivl"},
+                {"id": "ferns",         "label": "Ferns",         "column": "43 Ferns",     "shortCode": "fer"},
+                {"id": "mistletoe",     "label": "Mistletoe",     "column": "44 Mistletoe", "shortCode": "mis"}
               ]
             },
             {
               "title": "Nests",
               "filters": [
-                {"id": "vertebrate_nest",   "label": "Vertebrate Nest",   "column": "VertebrateNest",   "shortCode": "vrn"},
-                {"id": "invertebrate_nest", "label": "Invertebrate Nest", "column": "InvertebrateNest", "shortCode": "inn"}
+                {"id": "vertebrate_nest",   "label": "Vertebrate Nest",   "column": "45 Vertebrate nest",   "shortCode": "vrn"},
+                {"id": "invertebrate_nest", "label": "Invertebrate Nest", "column": "46 Invertebrate nest", "shortCode": "inn"}
               ]
             },
             {
               "title": "Microsoil",
               "filters": [
-                {"id": "bark_microsoil",       "label": "Bark Microsoil",       "column": "BarkMicrosoil",       "shortCode": "bms"},
-                {"id": "inter_bark_microsoil", "label": "Inter-bark Microsoil", "column": "Inter-barkMicrosoil", "shortCode": "ibm"},
-                {"id": "crown_microsoil",      "label": "Crown Microsoil",      "column": "CrownMicrosoil",      "shortCode": "cms"}
+                {"id": "bark_microsoil",       "label": "Bark Microsoil",       "column": "47 Bark microsoil",       "shortCode": "bms"},
+                {"id": "inter_bark_microsoil", "label": "Inter-bark Microsoil", "column": "48 Inter-bark microsoil", "shortCode": "ibm"},
+                {"id": "crown_microsoil",      "label": "Crown Microsoil",      "column": "49 Crown microsoil",      "shortCode": "cms"}
               ]
             },
             {
               "title": "Alluvial Deposits",
               "filters": [
-                {"id": "clay_silt_deposit", "label": "Clay or Silt Deposit", "column": "Clay or Silt Deposit", "shortCode": "csd"}
+                {"id": "clay_silt_deposit", "label": "Clay or Silt Deposit", "column": "50 Clay or silt deposit", "shortCode": "csd"}
               ]
             }
           ]
@@ -227,8 +227,8 @@
             {
               "title": "",
               "filters": [
-                {"id": "sap_run",         "label": "Sap Run",         "column": "SapRun",         "shortCode": "srn"},
-                {"id": "heavy_resinosis", "label": "Heavy Resinosis", "column": "HeavyResinosis", "shortCode": "hre"}
+                {"id": "sap_run",         "label": "Sap Run",         "column": "51 Sap run",         "shortCode": "srn"},
+                {"id": "heavy_resinosis", "label": "Heavy Resinosis", "column": "52 Heavy resinosis", "shortCode": "hre"}
               ]
             }
           ]
@@ -238,21 +238,21 @@
   },
   
   "speciesMetadataColumns": [
-    {"key": "scientificName",      "column": "Scientific name"},
-    {"key": "commonName",          "column": "Common name"},
-    {"key": "class",                "column": "Taxa for filters"},
-    {"key": "order",                "column": "Taxon:Order"},
-    {"key": "family",               "column": "Taxon:Family"},
-    {"key": "iucnStatus",           "column": "Red List (GB)"},
-    {"key": "distribution",         "column": "GreatBritain"},
-    {"key": "habitatRequirements",  "column": "Description"},
+    {"key": "scientificName",      "column": "ScientificName"},
+    {"key": "commonName",          "column": "Common Name"},
+    {"key": "class",                "column": "Taxon: group1"},
+    {"key": "order",                "column": "Taxon: Order"},
+    {"key": "family",               "column": "Taxon: Family"},
+    {"key": "iucnStatus",           "column": "Red List Status (GB)"},
+    {"key": "distribution",         "column": "Distribution_GB"},
+    {"key": "habitatRequirements",  "column": "Species Notes"},
     {"key": "priorityEngland",      "column": "Priority (England)",         "type": "yes_blank"},
     {"key": "priorityScotland",     "column": "Priority (Scotland)",        "type": "yes_blank"},
-    {"key": "priorityWales",        "column": "Priority_Wales",             "type": "yes_blank"},
-    {"key": "priorityNI",           "column": "Priority_NI",                "type": "yes_blank"},
-    {"key": "priorityEurope",       "column": "Priority_Europe",            "type": "yes_blank"},
-    {"key": "d4",                   "column": "D4",                         "type": "yes_blank"},
-    {"key": "d5",                   "column": "D5",                         "type": "yes_blank"}
+    {"key": "priorityWales",        "column": "Priority (Wales)",             "type": "yes_blank"},
+    {"key": "priorityNI",           "column": "Priority (NI)",                "type": "yes_blank"},
+    {"key": "priorityEurope",       "column": "Priority (Europe)",            "type": "yes_blank"},
+    {"key": "d4",                   "column": "EIF D4 Target",                         "type": "yes_blank"},
+    {"key": "d5",                   "column": "EIF D5 Target",                         "type": "yes_blank"}
   ],
 
   "speciesFilters": [

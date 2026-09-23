@@ -53,8 +53,6 @@
 
 html {
   font-size: 16px;
-  overflow: hidden;
-  height: 100%;
 }
 
 body {
@@ -64,30 +62,61 @@ body {
   background-color: var(--light-grey);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
-  height: 100%;
 }
 
 /* Layout */
 #root {
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
-/* Mobile: Enable scrolling on touchscreens */
-@media (max-width: 1024px) {
+/* Desktop only: pin the whole app to the viewport so the two panels
+   handle their own internal scroll. Kept inside a min-width query so
+   these rules never apply on mobile - if any of overflow:hidden or
+   the fixed heights bleed into mobile, we lose page-level scroll (or
+   Firefox draws a classic scrollbar for an inner container that
+   reserves horizontal space, which is what happens if we merely
+   override with `overflow: visible` further down). */
+@media (min-width: 1025px) {
   html, body {
-    overflow: auto;
-    height: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
+    height: 100%;
   }
 
   #root {
-    overflow: auto;
-    height: auto;
+    overflow: hidden;
+    height: 100vh;
+  }
+}
+
+/* Mobile: only reserve full viewport height on #root so the page
+   fills the screen when content is short. Use 100dvh (dynamic
+   viewport height) so the value tracks the mobile browser's URL
+   bar showing/hiding - 100vh alone uses the LARGE viewport, which
+   leaves a stripe at the top after a scroll gesture when the browser
+   chrome comes back. 100vh stays as a fallback for browsers without
+   dvh support.
+   Firefox on Android draws a classic (space-reserving) scrollbar
+   for viewport-level page scroll; Chrome/Safari draw an OS-level
+   overlay. `scrollbar-width: none` targets the browser-drawn
+   scrollbar (Firefox) but is ignored by OS-drawn overlays on real
+   Chrome/Safari devices, so this should hide Firefox's without
+   affecting the appear-during-scroll behaviour on Chrome/Safari.
+   Note: Chrome DevTools mobile-emulation is desktop Chrome with a
+   mobile viewport, so the scrollbar there IS a CSS scrollbar and
+   will be hidden - that's a simulation artifact, not a real bug. */
+@media (max-width: 1024px) {
+  html, body {
+    scrollbar-width: none;          /* Firefox, modern Chrome/Safari */
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;                  /* older WebKit / Blink */
+  }
+
+  #root {
     min-height: 100vh;
+    min-height: 100dvh;
   }
 }
 
@@ -234,6 +263,11 @@ body {
     overflow: visible;
     height: auto;
     min-height: auto;
+    /* Small horizontal padding so panels don't kiss the screen edge -
+       needs to match .panel-tabs below so the tab strip and the panel
+       under it line up flush on both sides. Zero was too aggressive
+       and made the tabs read as "cut off" rather than "framed." */
+    padding-inline: var(--spacing-sm);
   }
 
   /* Tabs are the only thing showing one panel at a time on mobile.
@@ -258,7 +292,12 @@ body {
   .panel-tabs {
     display: flex;
     gap: 4px;
-    padding: var(--spacing-md) var(--spacing-lg) 0;
+    /* Small top pad = visual gap between header and tabs (they read
+       as "the tabs belong to a section below the title" rather than
+       being fused to the title bar). Horizontal pad matches
+       .app-layout above so the tab strip and the panel below line
+       up flush on both sides. */
+    padding: var(--spacing-sm) var(--spacing-sm) 0;
     max-width: 1800px;
     margin: 0 auto;
     width: 100%;
@@ -1296,6 +1335,19 @@ body {
   background: white;
 }
 
+@media (max-width: 1024px) {
+  /* On narrow screens the native <select> otherwise sizes to fit its
+     widest option ("IUCN severity (most threatened first)"), which
+     overflows the panel and clips against the right edge. Fill the
+     row instead - flex-wrap on .panel-title-actions pushes the view
+     toggle onto its own row, which then fits comfortably. */
+  .species-sort-select {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+  }
+}
+
 /* View toggle in species panel header */
 .view-toggle {
   display: inline-flex;
@@ -1676,11 +1728,10 @@ body {
 }
 
 /* One-per-line list for the Taxon designations and indicators section
-   in the species detail modal. Bulletless, tight spacing. */
+   in the species detail modal. Bullets render at the indent provided
+   by the general .modal-body ul rule (padding-left: 1.5rem). */
 .species-detail-status-list {
   margin: 0;
-  padding-left: 0;
-  list-style: none;
   color: var(--stone-grey);
   line-height: 1.6;
 }

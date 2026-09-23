@@ -6,7 +6,7 @@ served by nginx on the same server that hosts
 database - just files.
 
 `../aws-test/DEPLOYMENT.md` describes a *separate* AWS-based test
-deployment on trems.nicksynes.com and is not used here.
+deployment on trem-explorer.nicksynes.com and is not used here.
 
 ## Setup
 

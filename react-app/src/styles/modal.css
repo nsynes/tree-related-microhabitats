@@ -103,6 +103,12 @@
   /* Safety net: text should always scale to the screen - an image or
      over-wide element should never introduce a horizontal scrollbar. */
   overflow-x: hidden;
+  /* Stop touch/wheel scroll from chaining into the page behind when
+     the modal body reaches either end. Without this, overscrolling
+     inside the modal drives the underlying page (particularly on
+     mobile where <html>/#root are also scrollable), which reads as
+     the modal "letting the page slide behind it". */
+  overscroll-behavior: contain;
   flex: 1;
   color: #2c3e2f;
   line-height: 1.6;

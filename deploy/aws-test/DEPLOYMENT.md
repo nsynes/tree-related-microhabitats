@@ -1,4 +1,4 @@
-# Deployment Guide - trems.nicksynes.com
+# Deployment Guide - trem-explorer.nicksynes.com
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ This will:
 2. Build React app
 3. Create/update CloudFormation stack with:
    - S3 bucket for website hosting
-   - ACM SSL/TLS certificate for trems.nicksynes.com
+   - ACM SSL/TLS certificate for trem-explorer.nicksynes.com
    - CloudFront CDN distribution
    - Route53 DNS record (A record pointing to CloudFront)
 4. Upload built files to S3
@@ -58,7 +58,7 @@ aws acm list-certificates --region us-east-1
 
 # Or watch CloudFormation events
 aws cloudformation describe-stack-events \
-  --stack-name tree-microhabitats-explorer \
+  --stack-name trem-explorer-test \
   --region us-east-1
 ```
 
@@ -69,29 +69,29 @@ Once deployment completes:
 1. **Check CloudFormation outputs:**
    ```bash
    aws cloudformation describe-stacks \
-     --stack-name tree-microhabitats-explorer \
+     --stack-name trem-explorer-test \
      --query 'Stacks[0].Outputs'
    ```
 
 2. **Test the URLs:**
-   - S3 direct: `http://tree-microhabitats-explorer.s3-website-us-east-1.amazonaws.com`
+   - S3 direct: `http://trem-explorer-test.s3-website-us-east-1.amazonaws.com`
    - CloudFront: `https://d1234567890abc.cloudfront.net`
-   - **Custom domain: `https://trems.nicksynes.com`**
+   - **Custom domain: `https://trem-explorer.nicksynes.com`**
 
 3. **DNS propagation:**
    ```bash
    # Check DNS resolution
-   dig trems.nicksynes.com
-   nslookup trems.nicksynes.com
+   dig trem-explorer.nicksynes.com
+   nslookup trem-explorer.nicksynes.com
    ```
 
 ## Deployment Configuration
 
 The `template.yaml` uses these default parameters:
 
-- **DomainName:** `trems.nicksynes.com`
+- **DomainName:** `trem-explorer.nicksynes.com`
 - **HostedZoneName:** `nicksynes.com`
-- **BucketName:** `tree-microhabitats-explorer`
+- **BucketName:** `trem-explorer-test`
 - **UseCustomDomain:** `true`
 
 To change these, edit `template.yaml` or override during deployment:
@@ -100,9 +100,9 @@ To change these, edit `template.yaml` or override during deployment:
 sam deploy \
   --template-file deploy/aws-test/template.yaml \
   --parameter-overrides \
-    DomainName=trems.nicksynes.com \
+    DomainName=trem-explorer.nicksynes.com \
     HostedZoneName=nicksynes.com \
-    BucketName=tree-microhabitats-explorer
+    BucketName=trem-explorer-test
 ```
 
 ## Updating the Site
@@ -118,7 +118,7 @@ After initial deployment, to update content:
 
 # Option 3: Manual update (if you've already built)
 cd react-app && npm run build
-aws s3 sync dist/ s3://tree-microhabitats-explorer/ --delete
+aws s3 sync dist/ s3://trem-explorer-test/ --delete
 ```
 
 ## CloudFront Cache Invalidation
@@ -128,7 +128,7 @@ After uploading new files, you may need to invalidate CloudFront cache:
 ```bash
 # Get distribution ID
 DIST_ID=$(aws cloudformation describe-stacks \
-  --stack-name tree-microhabitats-explorer \
+  --stack-name trem-explorer-test \
   --query 'Stacks[0].Outputs[?OutputKey==`CloudFrontURL`].OutputValue' \
   --output text | cut -d'.' -f1)
 
@@ -154,13 +154,13 @@ After initial deployment:
 Check propagation status:
 ```bash
 # Your local DNS
-nslookup trems.nicksynes.com
+nslookup trem-explorer.nicksynes.com
 
 # Google DNS
-nslookup trems.nicksynes.com 8.8.8.8
+nslookup trem-explorer.nicksynes.com 8.8.8.8
 
 # Cloudflare DNS
-nslookup trems.nicksynes.com 1.1.1.1
+nslookup trem-explorer.nicksynes.com 1.1.1.1
 ```
 
 ## Troubleshooting
@@ -199,7 +199,7 @@ aws cloudfront get-distribution --id <DIST_ID> \
    ```bash
    aws route53 list-resource-record-sets \
      --hosted-zone-id <YOUR_ZONE_ID> \
-     --query "ResourceRecordSets[?Name=='trems.nicksynes.com.']"
+     --query "ResourceRecordSets[?Name=='trem-explorer.nicksynes.com.']"
    ```
 
 2. Check nameservers match Route53:
@@ -213,7 +213,7 @@ If bucket name is taken:
 
 ```bash
 sam deploy \
-  --parameter-overrides BucketName=tree-microhabitats-explorer-unique-suffix
+  --parameter-overrides BucketName=trem-explorer-test-unique-suffix
 ```
 
 ## Stack Deletion
@@ -222,15 +222,15 @@ To remove all resources:
 
 ```bash
 # Delete S3 bucket contents first
-aws s3 rm s3://tree-microhabitats-explorer --recursive
+aws s3 rm s3://trem-explorer-test --recursive
 
 # Delete CloudFormation stack
 aws cloudformation delete-stack \
-  --stack-name tree-microhabitats-explorer
+  --stack-name trem-explorer-test
 
 # Verify deletion
 aws cloudformation describe-stacks \
-  --stack-name tree-microhabitats-explorer
+  --stack-name trem-explorer-test
 ```
 
 **Note:** DNS records and certificates will be automatically removed.
@@ -290,7 +290,7 @@ S3 versioning (optional):
 
 ```bash
 aws s3api put-bucket-versioning \
-  --bucket tree-microhabitats-explorer \
+  --bucket trem-explorer-test \
   --versioning-configuration Status=Enabled
 ```
 
@@ -298,7 +298,7 @@ aws s3api put-bucket-versioning \
 
 After successful deployment:
 
-1. Test site at https://trems.nicksynes.com
+1. Test site at https://trem-explorer.nicksynes.com
 2. Verify SSL certificate (green padlock in browser)
 3. Test all filtering functionality
 4. Share URL with Forest Research team

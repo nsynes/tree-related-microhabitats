@@ -23,16 +23,20 @@ function Modal({ isOpen, onClose, title, children, size = 'default' }) {
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  // Prevent body scroll when modal is open
+  // Prevent page scroll when modal is open. Locks both <html> and
+  // <body> because on mobile they both have overflow:auto (see the
+  // mobile block in theme.css); locking only <body> leaves <html>
+  // scrollable, and touch drags fall through onto the page behind.
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    
+    if (!isOpen) return;
+    const html = document.documentElement;
+    const body = document.body;
+    const prev = { html: html.style.overflow, body: body.style.overflow };
+    html.style.overflow = 'hidden';
+    body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = 'unset';
+      html.style.overflow = prev.html;
+      body.style.overflow = prev.body;
     };
   }, [isOpen]);
 

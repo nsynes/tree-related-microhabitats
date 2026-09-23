@@ -33,7 +33,7 @@ from pathlib import Path
 import requests
 
 API_URL = "https://api.inaturalist.org/v1/taxa"
-USER_AGENT = "tree-related-microhabitats/1.0 (https://trems.nicksynes.com)"
+USER_AGENT = "tree-related-microhabitats/1.0 (https://trem-explorer.org.uk)"
 REQUEST_DELAY_S = 1.0  # iNat asks for <=100/min; 1s/req is well under
 MAX_BACKOFF_S = 60
 TIMEOUT_S = 15

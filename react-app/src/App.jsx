@@ -47,7 +47,7 @@ function App() {
   if (loading) {
     return (
       <div className="loading">
-        <p>🌳 Loading species data...</p>
+        <p>Loading TReM Species data...</p>
       </div>
     );
   }

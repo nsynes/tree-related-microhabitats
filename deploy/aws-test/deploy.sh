@@ -21,7 +21,7 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Configuration
-STACK_NAME="tree-microhabitats-explorer"
+STACK_NAME="trem-explorer-test"
 REGION="${AWS_REGION:-us-east-1}"
 
 # Check prerequisites
@@ -297,7 +297,7 @@ main() {
                 echo "Options:"
                 echo "  --skip-data       Skip data processing step"
                 echo "  --skip-build      Skip React build step"
-                echo "  --stack-name      CloudFormation stack name (default: tree-microhabitats-explorer)"
+                echo "  --stack-name      CloudFormation stack name (default: trem-explorer-test)"
                 echo "  --region          AWS region (default: us-east-1)"
                 echo "  --help            Show this help message"
                 exit 0

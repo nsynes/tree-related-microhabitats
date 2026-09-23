@@ -6,12 +6,12 @@ Parameters:
   BucketName:
     Type: String
     Description: Name for the S3 bucket (must be globally unique)
-    Default: tree-microhabitats-explorer
-  
+    Default: trem-explorer-test
+
   DomainName:
     Type: String
-    Description: Custom domain name (e.g., trems.nicksynes.com)
-    Default: trems.nicksynes.com
+    Description: Custom domain name (e.g., trem-explorer.nicksynes.com)
+    Default: trem-explorer.nicksynes.com
   
   HostedZoneName:
     Type: String

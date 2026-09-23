@@ -17,7 +17,7 @@ import requests
 
 API_URL = "https://api.inaturalist.org/v1/taxa"
 TAXON_URL = "https://api.inaturalist.org/v1/taxa/{id}"
-USER_AGENT = "tree-related-microhabitats/1.0 (https://trems.nicksynes.com)"
+USER_AGENT = "tree-related-microhabitats/1.0 (https://trem-explorer.org.uk)"
 REQUEST_DELAY_S = 1.0
 TIMEOUT_S = 15
 

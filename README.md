@@ -60,8 +60,8 @@ npm run build
 Two separate deployments live under [`deploy/`](deploy/):
 - [`deploy/nginx-prod/`](deploy/nginx-prod/) — the production nginx setup at
   `trem-explorer.org.uk` (see `prod-deployment.md`).
-- [`deploy/aws-test/`](deploy/aws-test/) — a legacy AWS SAM setup used for
-  test at `trems.nicksynes.com` (see `DEPLOYMENT.md` and `deploy.sh`).
+- [`deploy/aws-test/`](deploy/aws-test/) — AWS SAM setup used for test at
+  `trem-explorer.nicksynes.com` (see `DEPLOYMENT.md` and `deploy.sh`).
 
 ## Project Structure
 
