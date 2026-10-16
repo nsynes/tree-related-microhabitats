@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Tree-Related Microhabitats Species Explorer - Static Website Deployment
+Description: Tree-Related Microhabitat Explorer - Static Website Deployment
 
 Parameters:
   BucketName:

@@ -1,4 +1,4 @@
-# Tree-Related Microhabitats Species Explorer
+# Tree-Related Microhabitat Explorer
 
 ## Project Overview
 

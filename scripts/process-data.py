@@ -371,7 +371,7 @@ def main():
     print("\n⚙️  Generating config.json...")
     react_config = {
         'app': {
-            'title': 'Tree-related Microhabitats Species Explorer'
+            'title': 'Tree-related Microhabitat Explorer'
         },
         'filterHierarchy': [
             {'level': i + 1, **level_obj}

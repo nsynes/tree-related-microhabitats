@@ -1,5 +1,5 @@
 #!/bin/bash
-# Deployment script for Tree-Related Microhabitats Species Explorer
+# Deployment script for Tree-Related Microhabitat Explorer
 
 set -e  # Exit on error
 

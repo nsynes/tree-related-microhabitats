@@ -113,7 +113,7 @@ function App() {
           habitat or resource for a wide range of species, including invertebrates, fungi, lichens, and birds.
         </p>
         <p>
-          The Tree-related Microhabitats Species Explorer helps you discover which species 
+          The Tree-related Microhabitat Explorer helps you discover which species
           are associated with specific tree features and habitats.
         </p>
         
