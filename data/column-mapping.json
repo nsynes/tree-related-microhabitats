@@ -41,10 +41,15 @@
       "id": "microhabitats",
       "section": "Tree-related Microhabitats",
       "title": "Tree-related Microhabitats",
+      "description": "For descriptions of each TreM, see the",
+      "descriptionLink": {
+        "label": "Field Guide to Tree-related Microhabitats (Bütler et al. 2024)",
+        "url": "https://www.wsl.ch/en/publications/field-guide-to-tree-related-microhabitats-2nd-ed/"
+      },
       "groups": [
         {
           "id": "cavity",
-          "title": "Cavity",
+          "title": "Cavities",
           "description": "Holes or sheltered spots in the tree, dry or wet, with or without wood mould; located on the trunk, in the crown, or at the root collar.",
           "categories": [
             {
@@ -155,7 +160,7 @@
         },
         {
           "id": "fungal_fruiting",
-          "title": "Fungal fruiting bodies and slime moulds",
+          "title": "Fungal Fruiting Bodies and Slime Moulds",
           "description": "The reproductive structures of saproxylic fungi or slime mould plasmodia, lasting from a few days to at least several weeks. ",
           "categories": [
             {
@@ -183,7 +188,7 @@
         },
         {
           "id": "epixylic",
-          "title": "Epiphytic and epixylic structures",
+          "title": "Epiphytic and Epixylic Structures",
           "description": "Formations or living organisms that use the tree mainly as a physical support.",
           "categories": [
             {
@@ -277,7 +282,7 @@
     },
     {
       "id": "priority",
-      "section": "Taxon designations and indicators",
+      "section": "Taxon designations",
       "sectionId": "tdi",
       "title": "Conservation Priority",
       "badgeFormat": "P-{label}",
@@ -290,17 +295,17 @@
     },
     {
       "id": "eif",
-      "section": "Taxon designations and indicators",
+      "section": "Taxon designations",
       "sectionId": "tdi",
       "title": "Environmental Indicator Frameworks",
       "options": [
-        {"id": "d4",   "label": "D4",   "field": "d4", "tooltip": "D4: Relative abundance and/or distribution of species"},
-        {"id": "d5",   "label": "D5",   "field": "d5", "tooltip": "D5: Conservation status of our native species"}
+        {"id": "d4",   "label": "D4",   "field": "d4", "tooltip": "D4 list: Environmental Indicator Framework"},
+        {"id": "d5",   "label": "D5",   "field": "d5", "tooltip": "D5 list: Environmental Indicator Framework"}
       ]
     },
     {
       "id": "iucn",
-      "section": "Taxon designations and indicators",
+      "section": "Taxon designations",
       "sectionId": "tdi",
       "title": "IUCN Red List Status",
       "field": "iucnStatus",

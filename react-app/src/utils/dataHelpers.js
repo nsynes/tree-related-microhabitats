@@ -171,7 +171,7 @@ export function speciesPassesExtras(species, selectedSpeciesFilters, speciesFilt
   // Groups that share a `section` field are combined together with OR
   // (they appear as one visual bucket in the UI, so users read them as
   // one logical bucket too - e.g. Priority + EIF + IUCN all under
-  // "Taxon designations and indicators"). Between sections it's still
+  // "Taxon designations"). Between sections it's still
   // AND. Groups without a section (like Taxa) fall back to their own id
   // as the section key, so they remain independent AND-groups.
   const bySection = new Map();

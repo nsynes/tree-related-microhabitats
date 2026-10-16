@@ -1,6 +1,6 @@
 # Production deployment - trem-explorer.org.uk
 
-The production build of the TReM Explorer is a static Vite/React bundle
+The production build of the TreM Explorer is a static Vite/React bundle
 served by nginx on the same server that hosts
 [climatematch.org.uk](https://climatematch.org.uk). No backend, no
 database - just files.
@@ -92,7 +92,7 @@ rsync -avz --delete react-app/dist/ \
 ```
 
 Vite content-hashes filenames on build (`index-abc123.js`, etc.), so
-new asset URLs cache-bust on the client for free. The nginx config
+new asset URLs cache-bust in the browser for free. The nginx config
 also sets `Cache-Control: no-cache` on `index.html` so the entry point
 is always fresh.
 

@@ -10,7 +10,7 @@ import { groupBySection } from '../utils/dataHelpers';
  *
  * Consecutive groups that share a `section` are collapsed under a single
  * section heading (e.g. priority/eif/iucn all render together under
- * "Taxon designations and indicators"). Groups without a section still
+ * "Taxon designations"). Groups without a section still
  * render one heading per group via groupBySection's title fallback.
  *
  * Both evaluation modes - boolean fan-out (each option backs its own field)

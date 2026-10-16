@@ -1,4 +1,4 @@
-# Tree-Related Microhabitats Species Explorer
+# Tree-Related Microhabitat Explorer
 
 A web application for exploring species associated with tree-related microhabitats (TreMs). Filter by woodland type, tree characteristics, and specific microhabitats to discover which species use particular habitat features.
 
@@ -32,7 +32,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ## Data Updates
 
-When the client provides updated Excel data:
+When the TreMs data has been updated:
 
 ```bash
 # 1. Place new Excel file in data/ directory
@@ -71,7 +71,6 @@ tree-related-microhabitats/
 │   └── process-data.py          # Data processor (Excel → JSON)
 ├── data/
 │   ├── SpeciesTreMsPaper_v1_18Mar.xlsx
-│   └── archive/
 ├── react-app/                   # React application
 │   ├── src/
 │   │   ├── components/
@@ -80,27 +79,7 @@ tree-related-microhabitats/
 │   │   └── styles/
 │   ├── dist/                   # Production build
 │   └── package.json
-└── archived/                   # Legacy R-Shiny code
 ```
-
-## Features
-
-- **3-Level Hierarchical Filtering**
-  - Woodland Type (5 options)
-  - Tree Characteristics (6 options)
-  - Microhabitats (40 options across 7 categories)
-
-- **678 Species** with detailed information:
-  - Scientific and common names
-  - Taxonomic classification
-  - Conservation status
-  - Distribution
-  - Habitat requirements
-
-- **Smart Filtering**
-  - Real-time results
-  - AND/OR logic across levels
-  - Active filters summary with removable chips
 
 ## Documentation
 
@@ -113,16 +92,3 @@ tree-related-microhabitats/
 - Zustand (state management)
 - Python + Pandas (data processing)
 - AWS S3 (deployment)
-
-## Adding New Filters
-
-1. Client updates Excel with new columns
-2. Update `scripts/process-data.py`:
-   ```python
-   # Add to appropriate level function:
-   def generate_level2_filters():
-       # ... existing filters ...
-       {'id': 'new_filter', 'label': 'New Filter', 'column': 'ExcelColumnName'}
-   ```
-3. Run `python scripts/process-data.py`
-4. Test and deploy

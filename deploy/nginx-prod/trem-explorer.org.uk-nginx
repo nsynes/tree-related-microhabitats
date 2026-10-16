@@ -1,4 +1,4 @@
-# nginx config for trem-explorer.org.uk - TReM Explorer.
+# nginx config for trem-explorer.org.uk - TreM Explorer.
 #
 # This is the INITIAL config (HTTP-only, port 80). Copy it to
 # /etc/nginx/sites-available/trem-explorer.org.uk on the server, then

@@ -75,7 +75,21 @@ function FilterPanel({ config }) {
                     <h3 className="hierarchy-level-title">{level.title}</h3>
                   )}
                   {level.description && (
-                    <p className="hierarchy-level-description">{level.description}</p>
+                    <p className="hierarchy-level-description">
+                      {level.description}
+                      {level.descriptionLink && (
+                        <>
+                          {' '}
+                          <a
+                            href={level.descriptionLink.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {level.descriptionLink.label}&nbsp;↗
+                          </a>
+                        </>
+                      )}
+                    </p>
                   )}
                   <HierarchyLevel level={level} />
                 </div>

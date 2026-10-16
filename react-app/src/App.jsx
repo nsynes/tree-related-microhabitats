@@ -9,6 +9,16 @@ import { useUrlSync } from './hooks/useUrlSync';
 import config from './data/config.json';
 import speciesData from './data/species.json';
 
+// Contributor logos shown at the foot of the About modal. Files live in
+// public/logos/. `height` is per-logo because wide wordmarks and square
+// emblems look mismatched at the same pixel height.
+const CONTRIBUTOR_LOGOS = [
+  { src: '/logos/forest-research.svg', alt: 'Forest Research', height: 44 },
+  { src: '/logos/wsl.png',             alt: 'WSL',             height: 64 },
+  { src: '/logos/inrae.jpg',           alt: 'INRAE',           height: 32 },
+  { src: '/logos/dynafor.jpg',         alt: 'DYNAFOR',         height: 96 },
+];
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
@@ -47,7 +57,7 @@ function App() {
   if (loading) {
     return (
       <div className="loading">
-        <p>Loading TReM Species data...</p>
+        <p>Loading TreM Species data...</p>
       </div>
     );
   }
@@ -122,7 +132,15 @@ function App() {
           This application uses data from the Tree-related Microhabitats species database,
           which includes {speciesData.length} species across multiple taxonomic groups.
         </p>
-        
+        <h3>Disclaimer</h3>
+        <p>
+        This web app is intended to be used to support biodiversity evaluations of trees, based on
+        their TreMs. Information on species' ecology and their use of TreMs was compiled using
+        expert knowledge, quality-controlled websites, peer reviewed literature, published books
+        and grey literature, but the authors accept no responsibility for the accuracy of the
+        information provided. Full details of the methods used are given in <a target="_blank"
+        rel="noopener noreferrer" href="">Baird et al. (in review)</a>.
+        </p>
         <h2>Contact and Credits</h2>
         <p>
           This work was funded by the Forestry Commission Science and Innovation Strategy Research
@@ -134,6 +152,28 @@ function App() {
           web app developed by <a target="_blank" rel="noopener noreferrer"
           href="https://nicksynes.com">Nick Synes</a>.
         </p>
+
+        <p>
+          Full details of how the information in this app was collated and the underlying
+          database containing the data are published here: <a target="_blank"
+          rel="noopener noreferrer" href="">Baird et al. (in review)</a>.
+        </p>
+
+        <p>
+          This web app is under ongoing development - the source code is <a target="_blank" rel="noopener noreferrer"
+              href="https://github.com/nsynes/tree-related-microhabitats">publicly available</a>.
+        </p>
+
+        <div className="modal-logos">
+          {CONTRIBUTOR_LOGOS.map(logo => (
+            <img key={logo.src} src={logo.src} alt={logo.alt} style={{ height: logo.height }} />
+          ))}
+        </div>
+        <br></br>
+        <p>
+          <small>© Crown Copyright 2026</small>
+        </p>
+
         
       </Modal>
 
@@ -156,7 +196,7 @@ function App() {
           A Tree-related Microhabitat (TreM) is “<i>a morphological feature present on a tree,
           which is used by sometimes highly specialised species during at least part of their
           life cycle</i>” (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.wsl.ch/en/publications/field-guide-to-tree-related-microhabitats-2nd-ed/">Bütler et al 2024</a>
+            <a target="_blank" rel="noopener noreferrer" href="https://www.dora.lib4ri.ch/wsl/item/wsl:36432">Bütler et al. 2024</a>
           ). TreMs are used as shelters, breeding sites or a
           source of food. Different species use different TreMs and therefore the greater the
           variety of TreM features on a tree, the greater the variety of species that can be
@@ -165,24 +205,18 @@ function App() {
 
         <h2>How to use the tool</h2>
         <p>
-          This tool aims to provide an indication of some of the species that could be expected
-          to be using a tree, based on TreM features present. It is designed to be used in
-          conjunction with surveys of TreMs described in the Field
-          Guide to Tree-related Microhabitats (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.wsl.ch/en/publications/field-guide-to-tree-related-microhabitats-2nd-ed/">Bütler et al 2024</a>
-          ).
+          This tool aims to show a selection of the species that could be expected to be using a
+          tree, based on TreM features present. It is designed to be used in conjunction with the
+          Field Guide to Tree-related Microhabitats (
+            <a target="_blank" rel="noopener noreferrer" href="https://www.dora.lib4ri.ch/wsl/dload/wsl:36432/PDF/B%C3%BCtler-2024-Field_guide_to_Northern_Tree-related-(published_version).pdf">Bütler et al. 2024</a>
+          ), where descriptions of
+          each TreM are given.
         </p>
         <p>
-          It refers to UK species, with a focus on rare, priority and specialist species. The
-          output lists potential species that could be supported by the tree and
-          should only be used as a guide. Many organisms have specific requirements within
-          each microhabitat e.g. for tree species, humidity, fungal decay type, prey species
-          as well as requirements for resources beyond the tree e.g. water or nectar. Some are
-          also very restricted in range to just one or a few locations in the UK. This
-          information is given, where known, in the descriptions for each species, and should
-          be used to help interpret the outputs. However, where knowledge of the
-          presence/absence of particular species is important, targeted field surveys are
-          always recommended.
+          It refers to species in England, Scotland and Wales, with a focus on rare, priority
+          and specialist species. The output lists potential species that could be supported by
+          the tree and should only be used as a guide. The number of species listed should not
+          be taken as a direct indication of the biodiversity value of the selected TreMs.
         </p>
         <p>
           Recognising the broad scope and complexity of associations, we welcome feedback from
@@ -210,17 +244,17 @@ function App() {
           </dd>
           <dt>Tree Type</dt>
           <dd>
-            Broadleaf or conifer can also be selected to see species associated with these tree types.
+            Broadleaved or conifer can also be selected to see species associated with these tree types.
           </dd>
         </dl>
         
         <h4>Tree-related Microhabitat Filters</h4>
         <p>
           The TreMs are grouped into the seven forms described by <a
-          target="_blank" rel="noopener noreferrer" href="https://www.wsl.ch/en/publications/field-guide-to-tree-related-microhabitats-2nd-ed/">
-            Bütler et al (2024)</a>:
-          Cavities, Injuries, Crown deadwood, Excrescences, Fungal Fruiting bodies,
-          Epiphytic and epixylic structures, Exudates. Selecting any of these will return all
+          target="_blank" rel="noopener noreferrer" href="https://www.dora.lib4ri.ch/wsl/dload/wsl:36432/PDF/B%C3%BCtler-2024-Field_guide_to_Northern_Tree-related-(published_version).pdf">
+            Bütler et al. (2024)</a>:
+          Cavities, Injuries and Exposed Wood, Crown Deadwood, Excrescences, Fungal Fruiting Bodies and
+          Slime Moulds, Epiphytic and Epixylic Structures, Exudates. Selecting any of these will return all
           species associated with the TreM types within each. Individual TreM types can also be selected.
         </p>
 
@@ -229,16 +263,20 @@ function App() {
           As different fields are selected, the species list is filtered accordingly. The
           species appear in the right hand panel. A user can toggle between a simple list and
           species cards. Species cards provide more information about the species. Selecting
-          any of the species will show all of its associated attributes. The list can be further
-          filtered using the <strong>More Filters</strong> button and selecting the fields of interest.
+          any of the species will show all of its associated attributes held in the underlying
+          database. The list can be further filtered using the <strong>More Filters</strong>
+          button and selecting the fields of interest.
         </p>
 
-        <h3>Taxon designation and indicators</h3>
+        <h3>Taxon designations</h3>
         <p>
           These provide information on the conservation status of species. More information on Priority
-          Species and IUCN red list status can be found in Conservation designations for UK taxa 2023
-          (JNCC). D4 and D5 species are those listed in Defra's Environmental Indicator Framework
-          (Wildlife) and refer to England only.
+          Species and IUCN red list status can be found in <a target="_blank" rel="noopener noreferrer"
+          href="https://jncc.gov.uk/our-work/conservation-designations-for-uk-taxa/">
+          Conservation designations for UK taxa 2023 (JNCC)</a>. D4 and D5 species are those listed in
+          Defra's <a target="_blank" rel="noopener noreferrer"
+          href="https://www.gov.uk/government/publications/environmental-indicator-framework-theme-d-wildlife/environmental-indicator-framework-theme-d-wildlife">
+          Environmental Indicator Framework (Wildlife)</a> and refer to England only.
         </p>
 
         

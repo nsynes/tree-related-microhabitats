@@ -311,8 +311,8 @@ const useFilterStore = create((set, get) => ({
     // For each group, build a Set of selectedSpeciesFilters that excludes
     // every selection belonging to a group in the *same section*. This
     // matches the new filter logic: groups sharing a section are OR-combined
-    // (Priority + EIF + IUCN all sit inside "Taxon designations and
-    // indicators"), so the chip count for one option must not be capped by
+    // (Priority + EIF + IUCN all sit inside "Taxon designations"), so
+    // the chip count for one option must not be capped by
     // any of its section-mates. Groups without a section still just strip
     // their own - the fallback in sectionOf() gives them a unique key.
     const sectionOf = (g) => g.section || g.id;

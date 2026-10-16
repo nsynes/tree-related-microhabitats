@@ -48,7 +48,7 @@ const DEFAULT_SORT_KEY = 'name';
  *
  * Species-filter groups sharing a `sectionId` (or, absent that, a
  * `section` display string) collapse into a single URL param - so all
- * chips inside "Taxon designations and indicators" ride under one `tdi`
+ * chips inside "Taxon designations" ride under one `tdi`
  * param rather than separate `priority` / `eif` / `iucn` params. Groups
  * with neither field fall back to their `id` (e.g. Taxa → `?class=…`),
  * so ungrouped groups keep their existing URL shape.

@@ -113,7 +113,7 @@ function SpeciesDetailModal({ config, species, onClose }) {
 
         {conservationStatuses.length > 0 && (
           <section className="species-detail-section">
-            <h3>Taxon designations and indicators</h3>
+            <h3>Taxon designations</h3>
             <ul className="species-detail-status-list">
               {conservationStatuses.map(s => (
                 <li key={s}>{s}</li>

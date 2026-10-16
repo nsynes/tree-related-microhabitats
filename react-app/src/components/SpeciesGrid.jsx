@@ -147,8 +147,8 @@ function SpeciesGrid({ config }) {
             aria-label="Sort species"
             title="Sort species by..."
           >
-            <option value="name">Name (A → Z)</option>
-            <option value="order">Taxon:Order (A → Z)</option>
+            <option value="name">Taxon (Species) (A → Z)</option>
+            <option value="order">Taxon (Order) (A → Z)</option>
             <option value="iucnSeverity">IUCN severity (most threatened first)</option>
           </select>
           <div className="view-toggle" role="group" aria-label="View mode">
