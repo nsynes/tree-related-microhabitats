@@ -20,7 +20,8 @@ export DEPLOY_USER=<ssh-user>
 export DEPLOY_HOST=<server-ip-or-hostname>
 ```
 
-Everything below assumes those are exported.
+Everything below assumes those are exported, and that commands are run
+from the repo root.
 
 ## Server layout
 
@@ -50,13 +51,13 @@ certbot, ssh key access.
 
 ```bash
 # From your laptop - build and ship a first copy of the app files
-cd react-app && npm run build
+(cd react-app && npm run build)
 ssh $DEPLOY_USER@$DEPLOY_HOST "mkdir -p /home/$DEPLOY_USER/trem-explorer"
 rsync -avz --delete react-app/dist/ \
     $DEPLOY_USER@$DEPLOY_HOST:/home/$DEPLOY_USER/trem-explorer/dist/
 
 # Ship the nginx config
-scp ../deploy/nginx-prod/trem-explorer.org.uk-nginx \
+scp deploy/nginx-prod/trem-explorer.org.uk-nginx \
     $DEPLOY_USER@$DEPLOY_HOST:/tmp/trem-explorer.org.uk
 
 # On the server - install and enable the site
@@ -72,8 +73,7 @@ sudo certbot --nginx -d trem-explorer.org.uk
 ```
 
 Certbot rewrites the sites-available file to add the `listen 443 ssl`
-block and a HTTP → HTTPS redirect. Post-Certbot, the file will look
-structurally like `climatematch.org.uk-nginx` in this repo.
+block and a HTTP → HTTPS redirect.
 
 Verify:
 
@@ -86,7 +86,7 @@ curl -I https://trem-explorer.org.uk/           # expect 200 OK
 Just rsync the new build. nginx picks up the changed files immediately.
 
 ```bash
-cd react-app && npm run build
+(cd react-app && npm run build)
 rsync -avz --delete react-app/dist/ \
     $DEPLOY_USER@$DEPLOY_HOST:/home/$DEPLOY_USER/trem-explorer/dist/
 ```
@@ -109,7 +109,7 @@ python scripts/process-data.py
 ```
 
 That reads `data/column-mapping.json` (which points at whichever
-spreadsheet in `data/`), regenerates `react-app/src/data/config.json`
+spreadsheet in `data/sources/`), regenerates `react-app/src/data/config.json`
 and `react-app/src/data/species.json`, then the standard build picks
 them up. See `scripts/process-data.py`'s docstring for details.
 
@@ -120,7 +120,7 @@ To roll back:
 
 ```bash
 git checkout <known-good-sha>
-cd react-app && npm run build
+(cd react-app && npm run build)
 rsync -avz --delete react-app/dist/ \
     $DEPLOY_USER@$DEPLOY_HOST:/home/$DEPLOY_USER/trem-explorer/dist/
 ```
